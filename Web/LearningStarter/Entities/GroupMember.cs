@@ -1,6 +1,6 @@
 ﻿namespace LearningStarter.Entities
 {
-    public class GroupMembers
+    public class GroupMember
     {
         public int Id { get; set; }
         public string RoleId { get; set; }

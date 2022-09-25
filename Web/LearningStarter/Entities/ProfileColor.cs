@@ -1,6 +1,6 @@
 ﻿namespace LearningStarter.Entities
 {
-    public class ProfileColors
+    public class ProfileColor
     {
         public int Id { get; set; }
         public int Colors { get; set; }
