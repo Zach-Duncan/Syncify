@@ -11,20 +11,20 @@ namespace LearningStarter.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<MemberRole> MemberRole { get; set; }
-        public DbSet<GroupMember> GroupMember { get; set; }
-        public DbSet<Group> Group { get; set; }
-        public DbSet<ProfileColor> ProfileColor { get; set; }
-        public DbSet<ToDos> ToDo { get; set; }
-        public DbSet<Events> Event { get; set; }
-        public DbSet<Calendars> Calendar { get; set; }
-        public DbSet<MealTypes> MealType { get; set; }
-        public DbSet<ShoppingLists> ShoppingList { get; set; }
-        public DbSet<Recipes> Recipe { get; set; }
-        public DbSet<ShoppingListRecipeIngredients> ShoppingListRecipeIngredient { get; set; }
-        public DbSet<RecipeIngredients> RecipeIngredient { get; set; }
-        public DbSet<Ingredients> Ingredient { get; set; }
-        public DbSet<Units> Unit { get; set; }
+        public DbSet<MemberRole> MemberRoles { get; set; }
+        public DbSet<GroupMember> GroupMembers { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<ProfileColor> ProfileColors { get; set; }
+        public DbSet<ToDo> ToDos { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Calendar> Calendars { get; set; }
+        public DbSet<MealType> MealTypes { get; set; }
+        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<ShoppingListRecipeIngredient> ShoppingListRecipeIngredients { get; set; }
+        public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
