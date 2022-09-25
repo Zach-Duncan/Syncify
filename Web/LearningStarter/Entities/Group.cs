@@ -1,30 +1,26 @@
 ﻿namespace LearningStarter.Entities
 {
-    public class Ingredient
+    public class Group
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-        public int UnitId  { get; set; }
     }
-    public class IngredientGetDto
+    public class GroupGetDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-        public int UnitId { get; set; }
     }
-    public class IngredientCreateDto
+    public class GroupCreateDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
-        public int UnitId { get; set; }
     }
-    public class IngredientUpdateDto
+    public class GroupUpdateDto
     {
         public string Name { get; set; }
         public string Image { get; set; }
-        public int UnitId { get; set; }
     }
 }
