@@ -11,6 +11,20 @@ namespace LearningStarter.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<MemberRoles> MemberRoles { get; set; }
+        public DbSet<GroupMembers> GroupMembers { get; set; }
+        public DbSet<Groups> Groups { get; set; }
+        public DbSet<ProfileColors> ProfileColors { get; set; }
+        public DbSet<ToDos> ToDosm { get; set; }
+        public DbSet<Events> Events { get; set; }
+        public DbSet<Calendars> Calendars { get; set; }
+        public DbSet<MealTypes> MealTypes { get; set; }
+        public DbSet<ShoppingLists> ShoppingLists { get; set; }
+        public DbSet<Recipes> Recipes { get; set; }
+        public DbSet<ShoppingListRecipeIngredients> ShoppingListRecipeIngredients { get; set; }
+        public DbSet<RecipeIngredients> RecipeIngredients { get; set; }
+        public DbSet<Ingredients> Ingredients { get; set; }
+        public DbSet<Units> Units { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
