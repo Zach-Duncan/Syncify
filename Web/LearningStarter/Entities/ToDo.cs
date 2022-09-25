@@ -2,35 +2,40 @@
 
 namespace LearningStarter.Entities
 {
-    public class Events
+    public class ToDo
     {
         public int Id { get; set; }
         public int CalendarId { get; set; }
-        public string Name { get; set; }
-        public string EventDetails { get; set; }
+        public string TaskTitle { get; set; }
+        public string TaskDescription { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
     }
-    public class EventsGetDto
+    public class ToDoGetDto
     {
         public int Id { get; set; }
         public int CalendarId { get; set; }
-        public string Name { get; set; }
-        public string EventDetails { get; set; }
+        public string TaskTitle { get; set; }
+        public string TaskDescription { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
+
+
     }
-    public class EventsCreateDto
+    public class ToDoCreateDto
     {
         public int Id { get; set; }
         public int CalendarId { get; set; }
-        public string Name { get; set; }
-        public string EventDetails { get; set; }
+        public string TaskTitle { get; set; }
+        public string TaskDescription { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
+
     }
-    public class EventsUpdateDto
+    public class ToDoUpdateDto
     {
         public int CalendarId { get; set; }
-        public string Name { get; set; }
-        public string EventDetails { get; set; }
+        public string TaskTitle { get; set; }
+        public string TaskDescription { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
+
     }
+
 }

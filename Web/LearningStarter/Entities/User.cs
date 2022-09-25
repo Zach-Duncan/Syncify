@@ -2,7 +2,7 @@
 
 namespace LearningStarter.Entities
 {
-    public class UsersGetDto
+    public class UserGetDto
     {
         public int Id { get; set; }
         public int ProfileColorId { get; set; }
