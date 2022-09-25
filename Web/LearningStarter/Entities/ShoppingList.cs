@@ -3,7 +3,7 @@ using System;
 
 namespace LearningStarter.Entities
 {
-    public class ShoppingLists
+    public class ShoppingList
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,18 +11,18 @@ namespace LearningStarter.Entities
         
     }
 
-    public class ShopppingListsGetDto
+    public class ShoppingListGetDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public int UserId { get; set; }
     }
-    public class ShoppingListsCreateDto
+    public class ShoppingListCreateDto
     {
         public string Name { get; set; }
         public int UserId { get; set; }
     }
-    public class ShoppingListsUpdateDto
+    public class ShoppingListUpdateDto
     {
         public string Name { get; set; }
         public int UserId { get; set; }

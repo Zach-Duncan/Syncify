@@ -1,28 +1,28 @@
 ﻿namespace LearningStarter.Entities
 {
-    public class ShoppingListRecipeIngredients
+    public class ShoppingListRecipeIngredient
     {
         public int Id { get; set; }
         public int RecipeIngredientId { get; set; }
-        public RecipeIngredients RecipeIngredients { get; set; }
+        public RecipeIngredient RecipeIngredients { get; set; }
         public int ShoppingListId { get; set; }
-        public ShoppingLists ShoppingList { get; set; }
+        public ShoppingList ShoppingList { get; set; }
         public double Quantity { get; set; }
     }
-    public class ShoopingListRecipeIngredientsGetDto
+    public class ShoppingListRecipeIngredientGetDto
     {  
         public int Id { get; set; }
         public int RecipeIngredientId { get; set; }
         public int ShoppingListId { get; set; }
         public double Quantity { get; set; }
     }
-    public class ShoopingListRecipeIngredientsCreateDto
+    public class ShoppingListRecipeIngredientCreateDto
     {
         public int RecipeIngredientId { get; set; }
         public int ShoppingListId { get; set; }
         public double Quantity { get; set; }
     }
-    public class ShoppingListRecipeIngredientsUpdateDto
+    public class ShoppingListRecipeIngredientUpdateDto
     {
         public int RecipeIngredientId { get; set; }
         public int ShoppingListId { get; set; }
