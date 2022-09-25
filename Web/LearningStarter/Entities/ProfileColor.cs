@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public int Colors { get; set; }
     }
-    public class ProfileColorsGetDto
+    public class ProfileColorGetDto
     {
         public int Id { get; set; }
         public int Colors { get; set; }
