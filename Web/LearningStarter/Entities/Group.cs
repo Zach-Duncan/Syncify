@@ -1,24 +1,24 @@
 ﻿namespace LearningStarter.Entities
 {
-    public class Groups
+    public class Group
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
     }
-    public class GroupsGetDto
+    public class GroupGetDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
     }
-    public class GroupsCreateDto
+    public class GroupCreateDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
     }
-    public class GroupsUpdateDto
+    public class GroupUpdateDto
     {
         public string Name { get; set; }
         public string Image { get; set; }
