@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using LearningStarter.Data;
 using LearningStarter.Entities;
@@ -92,7 +93,7 @@ namespace LearningStarter
         {
             dataContext.Database.EnsureDeleted();
             dataContext.Database.EnsureCreated();
-            
+
             app.UseHsts();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -133,22 +134,62 @@ namespace LearningStarter
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:3001");
                 }
             });
+            SeedUsers(dataContext);
+            SeedMealTypes(dataContext);
+            //SeedRecipes(dataContext);
+            
+        }
 
-            var numUsers = dataContext.Users.Count();
-
-            if (numUsers == 0)
+        private void SeedMealTypes(DataContext dataContext)
+        {
+            if (!dataContext.MealTypes.Any())
             {
-                var seededUser = new User
+                var seededMealType = new MealType
                 {
-                    FirstName = "Seeded",
-                    LastName = "User",
-                    Username = "admin",
-                    Password = "password"
+                    Name = "Dinner"
                 };
-                
-                dataContext.Users.Add(seededUser);
+
+                dataContext.MealTypes.Add(seededMealType);
                 dataContext.SaveChanges();
             }
         }
+
+        //private void SeedRecipes(DataContext dataContext)
+        //{
+        //    if(!dataContext.Recipes.Any())
+        //    {
+        //        var seededRecipe = new Recipe
+        //        {
+        //            Name = "Hamburger",
+        //            Image = "ImageURL",
+        //            Servings = 1,
+
+        //        };
+
+        //        dataContext.Recipes.Add(seededRecipe);
+        //        dataContext.SaveChanges();
+
+        //    }
+        //}
+
+        public void SeedUsers(DataContext dataContext)
+            {
+                var numUsers = dataContext.Users.Count();
+
+                if (numUsers == 0)
+                {
+                    var seededUser = new User
+                    {
+                        FirstName = "Seeded",
+                        LastName = "User",
+                        Username = "admin",
+                        Password = "password"
+                    };
+
+                    dataContext.Users.Add(seededUser);
+                    dataContext.SaveChanges();
+                }
+            }
+        
     }
 }

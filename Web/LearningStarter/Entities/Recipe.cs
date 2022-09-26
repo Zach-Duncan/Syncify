@@ -9,8 +9,11 @@ namespace LearningStarter.Entities
         public string Image { get; set; }
         public int Servings { get; set; }
         public int UnitId { get; set; }
+        public Unit Unit { get; set; }
         public int MealTypeId { get; set; }
+        public MealType MealType { get; set; }
         public int CalendarId { get; set; }
+        public Calendar Calendar { get; set; }
 
 
     }

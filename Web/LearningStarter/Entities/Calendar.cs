@@ -1,10 +1,11 @@
-﻿namespace LearningStarter.Entities
+﻿using System.Collections.Generic;
+
+namespace LearningStarter.Entities
 {
     public class Calendar
     {
         public int Id { get; set; }
         public int GroupId { get; set; }
-
     }
     public class CalendarGetDto
     {
