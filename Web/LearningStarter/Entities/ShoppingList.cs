@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Collections.Generic;
 
 namespace LearningStarter.Entities
 {
@@ -8,6 +9,9 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public int UserId { get; set; }
+        public User User { get; set; }
+
+        public List<ShoppingListRecipeIngredient> ShoppingListsRecipeIngredients { get; set; } = new List<ShoppingListRecipeIngredient>();
         
     }
 

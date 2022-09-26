@@ -1,4 +1,6 @@
-﻿namespace LearningStarter.Entities
+﻿using System.Collections.Generic;
+
+namespace LearningStarter.Entities
 {
     public class Ingredient
     {
@@ -6,6 +8,9 @@
         public string Name { get; set; }
         public string Image { get; set; }
         public int UnitId  { get; set; }
+        public Unit Unit { get; set; }
+        public List<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
+
     }
     public class IngredientGetDto
     {
