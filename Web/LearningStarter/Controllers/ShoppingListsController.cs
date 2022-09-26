@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 
 namespace LearningStarter.Controllers
+    
 {
     [ApiController]
     [Route("api/shopping-lists")]
@@ -42,6 +43,7 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
+
             if (id <= 0 )
             { response.AddError("id", "Cannot be less than or equal to zero."); }
 
@@ -60,6 +62,7 @@ namespace LearningStarter.Controllers
                 return NotFound(response);
                 //404 response, no data
             }
+
 
             var shoppingListToReturn = new ShoppingListGetDto
             {
@@ -97,11 +100,12 @@ namespace LearningStarter.Controllers
             {
                 return BadRequest(response);
             }
-            
+
+
             var shoppingListToCreate = new ShoppingList()
             {
-                Name = shoppingListCreateDto.Name
-
+                Name = shoppingListCreateDto.Name,
+                UserId = shoppingListCreateDto.UserId,
             };
 
             _dataContext.ShoppingLists.Add(shoppingListToCreate);
@@ -112,7 +116,7 @@ namespace LearningStarter.Controllers
                 Id = shoppingListToCreate.Id,
                 Name = shoppingListToCreate.Name
             };
-            
+
             //returns 201 Code, which means created
             return Created("api/shopping-lists/" + shoppingListToCreate.Id,
                 shoppingListToReturn);
