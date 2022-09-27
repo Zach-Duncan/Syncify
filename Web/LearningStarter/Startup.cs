@@ -136,8 +136,43 @@ namespace LearningStarter
             });
             SeedUsers(dataContext);
             SeedMealTypes(dataContext);
+            SeedUnits(dataContext);
+            SeedIngredients(dataContext);
             //SeedRecipes(dataContext);
             
+        }
+
+        private void SeedUnits(DataContext dataContext)
+        {
+            if (!dataContext.Units.Any())
+            {
+                var seededUnit = new Unit
+                {
+                    Name = "Cup",
+                    Abbreviation = "C"
+                };
+
+                dataContext.Units.Add(seededUnit);
+                dataContext.SaveChanges();
+            }
+        }
+
+        private void SeedIngredients(DataContext dataContext)
+        {
+            if (!dataContext.Ingredients.Any())
+            {
+                var unit = dataContext.Units.First();
+
+                var seededIngredient = new Ingredient
+                {
+                    Name = "",
+                    Image = "ImageURL",
+                    Unit = unit,
+                };
+
+                dataContext.Ingredients.Add(seededIngredient);
+                dataContext.SaveChanges();
+            }
         }
 
         private void SeedMealTypes(DataContext dataContext)
