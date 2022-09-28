@@ -20,7 +20,6 @@ namespace LearningStarter.Entities
     }
     public class EventCreateDto
     {
-        public int Id { get; set; }
         public int CalendarId { get; set; }
         public string Name { get; set; }
         public string EventDetails { get; set; }
