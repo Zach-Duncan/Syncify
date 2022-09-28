@@ -10,5 +10,9 @@
         public int Id { get; set; }
         public int Colors { get; set; }
     }
+    public class ProfileUpdateDto
+    {
+        public int Colors { get; set; }
+    }
 }
   
