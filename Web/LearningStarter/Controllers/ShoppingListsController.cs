@@ -31,7 +31,7 @@ namespace LearningStarter.Controllers
                     Id = x.Id,
                     Name = x.Name,
                 })
-                .FirstOrDefault();
+                .ToList();
 
             response.Data = shoppingListsToReturn;
 
@@ -45,7 +45,9 @@ namespace LearningStarter.Controllers
 
 
             if (id <= 0 )
-            { response.AddError("id", "Cannot be less than or equal to zero."); }
+            { 
+                response.AddError("id", "Cannot be less than or equal to zero.");
+            }
 
             if (response.HasErrors)
             {
@@ -94,7 +96,7 @@ namespace LearningStarter.Controllers
 
             if (shoppingListAlreadyExistsInDatabase)
             {
-                response.AddError("name", "Already exists in databse.");
+                response.AddError("name", "Already exists in ShoppingList.");
             }
             if (response.HasErrors)
             {
@@ -105,12 +107,12 @@ namespace LearningStarter.Controllers
             var shoppingListToCreate = new ShoppingList()
             {
                 Name = shoppingListCreateDto.Name,
-                UserId = shoppingListCreateDto.UserId,
+               // User = shoppingListCreateDto.User,
             };
 
             _dataContext.ShoppingLists.Add(shoppingListToCreate);
             _dataContext.SaveChanges();
-            
+
             var shoppingListToReturn = new ShoppingListGetDto
             {
                 Id = shoppingListToCreate.Id,
@@ -120,6 +122,26 @@ namespace LearningStarter.Controllers
             //returns 201 Code, which means created
             return Created("api/shopping-lists/" + shoppingListToCreate.Id,
                 shoppingListToReturn);
+        }
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            var response = new Response();
+
+            var shoppingListToDelete = _dataContext
+                .ShoppingLists
+                .FirstOrDefault(shoppingList => shoppingList.Id == id);
+            if (shoppingListToDelete == null)
+            {
+                response.AddError("id", "Shopping List Item not found.");
+                return BadRequest(response);
+            }
+
+            _dataContext.Remove(shoppingListToDelete);
+            _dataContext.SaveChanges();
+
+            response.Data = true;
+            return Ok(response);
         }
     }
 }
