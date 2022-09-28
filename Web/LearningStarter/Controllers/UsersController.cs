@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LearningStarter.Common;
 using LearningStarter.Data;
 using LearningStarter.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LearningStarter.Controllers
@@ -11,6 +13,8 @@ namespace LearningStarter.Controllers
     public class UsersController : ControllerBase
     {
         private readonly DataContext _context;
+
+        public object userCreateDto { get; private set; }
 
         public UsersController(DataContext context)
         {
@@ -30,8 +34,10 @@ namespace LearningStarter.Controllers
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Username = x.Username,
+
                     PhoneNumber = x.PhoneNumber,
                     Email = x.Email,
+
                 })
                 .ToList();
 
@@ -57,7 +63,11 @@ namespace LearningStarter.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.Username
+                Username = user.Username,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email
+                
+                
             };
 
             response.Data = userGetDto;
@@ -109,7 +119,9 @@ namespace LearningStarter.Controllers
                 FirstName = userCreateDto.FirstName,
                 LastName = userCreateDto.LastName,
                 Username = userCreateDto.Username,
+
                 Password = userCreateDto.Password,
+
                 Email = userCreateDto.Email,
                 PhoneNumber = userCreateDto.PhoneNumber,
             };
@@ -122,7 +134,11 @@ namespace LearningStarter.Controllers
                 Id = userToCreate.Id,
                 FirstName = userToCreate.FirstName,
                 LastName = userToCreate.LastName,
-                Username = userToCreate.Username
+                Username = userToCreate.Username,
+                Email = userCreateDto.Email,
+                PhoneNumber = userCreateDto.PhoneNumber,
+                BirthDay = DateTimeOffset.Now,
+
             };
 
             response.Data = userGetDto;
@@ -142,7 +158,7 @@ namespace LearningStarter.Controllers
                 response.AddError("id", "There was a problem editing the user.");
                 return NotFound(response);
             }
-            
+
             var userToEdit = _context.Users.FirstOrDefault(x => x.Id == id);
 
             if (userToEdit == null)
@@ -170,7 +186,19 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("password", "Password cannot be empty.");
             }
+            if (user.Email == null || user.Email == "")
+            {
+                response.AddError("email", "Email cannot be empty.");
+            }
 
+            if (user.PhoneNumber.Length <= 10 )
+            {
+                response.AddError("phone number", "Phone number must be 10 digits or more.");
+            } 
+            if(user.PhoneNumber == "")
+            { 
+                response.AddError("phoneNumber", "PhoneNumber cannot be empty.");
+            }
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -180,6 +208,9 @@ namespace LearningStarter.Controllers
             userToEdit.LastName = user.LastName;
             userToEdit.Username = user.Username;
             userToEdit.Password = user.Password;
+            userToEdit.PhoneNumber = user.PhoneNumber;
+            userToEdit.Email = user.Email;
+
 
             _context.SaveChanges();
 
