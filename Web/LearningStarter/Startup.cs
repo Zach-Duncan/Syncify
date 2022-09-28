@@ -138,10 +138,11 @@ namespace LearningStarter
             SeedUsers(dataContext);
             SeedMealTypes(dataContext);
             SeedUnits(dataContext);
+            SeedGroups(dataContext);
+            SeedCalendars(dataContext);
             SeedIngredients(dataContext);
-            SeedShoppingList(dataContext);
-            //SeedRecipes(dataContext);
-
+            SeedRecipes(dataContext);
+            ShoppingList(dataContext);
         }
         public void SeedUsers(DataContext dataContext)
         {
@@ -180,6 +181,37 @@ namespace LearningStarter
             dataContext.SaveChanges();
         }
 
+
+        private void SeedCalendars(DataContext dataContext)
+        {
+            if (!dataContext.Ingredients.Any())
+            {
+                var group = dataContext.Groups.First();
+
+                var seededCalendar = new Calendar
+                {
+                    Group = group
+                };
+
+                dataContext.Calendars.Add(seededCalendar);
+                dataContext.SaveChanges();
+            }
+        }
+
+        private void SeedGroups(DataContext dataContext)
+        {
+            if (!dataContext.Groups.Any())
+            {
+                var seededGroup = new Group
+                {
+                    Name = "Group A",
+                    Image = "ImageURL"                   
+                };
+
+                dataContext.Groups.Add(seededGroup);
+                dataContext.SaveChanges();
+            }
+        }
 
         private void SeedUnits(DataContext dataContext)
         {
@@ -228,23 +260,29 @@ namespace LearningStarter
             }
         }
 
-        //private void SeedRecipes(DataContext dataContext)
-        //{
-        //    if(!dataContext.Recipes.Any())
-        //    {
-        //        var seededRecipe = new Recipe
-        //        {
-        //            Name = "Hamburger",
-        //            Image = "ImageURL",
-        //            Servings = 1,
+        private void SeedRecipes(DataContext dataContext)
+        {
+            if (!dataContext.Recipes.Any())
+            {
+                var unit = dataContext.Units.First();
+                var mealType = dataContext.MealTypes.First();
+                var calendar = dataContext.Calendars.First();
 
-        //        };
+                var seededRecipe = new Recipe
+                {
+                    Name = "Hamburger",
+                    Image = "ImageURL",
+                    Servings = 1,
+                    Unit = unit,
+                    MealType = mealType,
+                    Calendar = calendar
+                };
 
-        //        dataContext.Recipes.Add(seededRecipe);
-        //        dataContext.SaveChanges();
+                dataContext.Recipes.Add(seededRecipe);
+                dataContext.SaveChanges();
 
-        //    }
-        //}
+            }
+        }
 
         private void SeedShoppingList(DataContext dataContext)
         {
