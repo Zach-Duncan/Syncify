@@ -2,6 +2,7 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace LearningStarter.Controllers
@@ -70,6 +71,8 @@ namespace LearningStarter.Controllers
             {
                 Id = eventFromDatabase.Id,
                 Name = eventFromDatabase.Name,
+                EventDetails = eventFromDatabase.EventDetails,
+                CreatedDate = eventFromDatabase.CreatedDate,
             };
 
             response.Data = eventToReturn;
@@ -89,9 +92,10 @@ namespace LearningStarter.Controllers
             }
 
 
-            if (eventCreateDto.Name == null)
-            {
-                response.AddError("name", "Name cannot be empty.");
+
+            if (eventCreateDto.Name == null) 
+             {
+                response.AddError("name", "Event name cannot be empty.");
                 return BadRequest(response);
             }
 
@@ -110,50 +114,16 @@ namespace LearningStarter.Controllers
             var eventToCreate = new Event
             {
                 Name = eventCreateDto.Name,
-                CreatedDate = eventCreateDto.CreatedDate,
                 EventDetails = eventCreateDto.EventDetails,
+                CreatedDate = eventCreateDto.CreatedDate,
             };
 
             _dataContext.Events.Add(eventToCreate);
             _dataContext.SaveChanges();
 
-            return Created("api/product-types/" + eventToCreate.Id,
+            return Created("api/events/" + eventToCreate.Id,
                 eventToReturn);
         }
-
-        [HttpPut("{id}")]
-
-        public IActionResult Update(
-            [FromRoute] int id,
-            [FromBody] EventUpdateDto eventUpdateDto)
-        {
-            var response = new Response();
-
-            var eventToUpdate = _dataContext
-                .Events
-                .FirstOrDefault(unit => unit.Id == id);
-
-            if (eventToUpdate == null)
-            {
-                response.AddError("id", "Task not found.");
-                return BadRequest(response);
-            }
-
-            eventToUpdate.Name = eventUpdateDto.Name;
-            _dataContext.SaveChanges();
-
-            var toDoToReturn = new ToDoGetDto
-            {
-                Id = eventToUpdate.Id,
-                Name = eventToUpdate.Name,
-                EventDetails = eventToUpdate.EventDetails,
-                CreatedDate = eventToUpdate.CreatedDate
-            };
-
-            response.Data = toDoToReturn;
-            return Ok(response);
-        }
-
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
@@ -174,6 +144,7 @@ namespace LearningStarter.Controllers
             return Ok(response);
         }
 
+        
 
     }
 }
