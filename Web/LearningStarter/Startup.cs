@@ -142,7 +142,7 @@ namespace LearningStarter
             SeedCalendars(dataContext);
             SeedIngredients(dataContext);
             SeedRecipes(dataContext);
-            ShoppingList(dataContext);
+            SeedShoppingList(dataContext);
         }
         public void SeedUsers(DataContext dataContext)
         {

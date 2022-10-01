@@ -82,15 +82,15 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            if(eventCreateDto == null)
+            if (eventCreateDto == null)
             {
                 response.AddError("", "Critical error.");
                 return BadRequest(response);
             }
 
 
-            if (eventCreateDto.Name == null) 
-             {
+            if (eventCreateDto.Name == null)
+            {
                 response.AddError("name", "Name cannot be empty.");
                 return BadRequest(response);
             }
@@ -106,7 +106,7 @@ namespace LearningStarter.Controllers
             {
                 return BadRequest(response);
             }
- 
+
             var eventToCreate = new Event
             {
                 Name = eventCreateDto.Name,
@@ -120,5 +120,60 @@ namespace LearningStarter.Controllers
             return Created("api/product-types/" + eventToCreate.Id,
                 eventToReturn);
         }
+
+        [HttpPut("{id}")]
+
+        public IActionResult Update(
+            [FromRoute] int id,
+            [FromBody] EventUpdateDto eventUpdateDto)
+        {
+            var response = new Response();
+
+            var eventToUpdate = _dataContext
+                .Events
+                .FirstOrDefault(unit => unit.Id == id);
+
+            if (eventToUpdate == null)
+            {
+                response.AddError("id", "Task not found.");
+                return BadRequest(response);
+            }
+
+            eventToUpdate.Name = eventUpdateDto.Name;
+            _dataContext.SaveChanges();
+
+            var toDoToReturn = new ToDoGetDto
+            {
+                Id = eventToUpdate.Id,
+                Name = eventToUpdate.Name,
+                EventDetails = eventToUpdate.EventDetails,
+                CreatedDate = eventToUpdate.CreatedDate
+            };
+
+            response.Data = toDoToReturn;
+            return Ok(response);
+        }
+
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var response = new Response();
+
+            var events = _dataContext.Events.FirstOrDefault(x => x.Id == id);
+
+            if (events == null)
+            {
+                response.AddError("id", "There was a problem deleting the event.");
+                return NotFound(response);
+            }
+
+            _dataContext.Events.Remove(events);
+            _dataContext.SaveChanges();
+
+            return Ok(response);
+        }
+
+
     }
 }
