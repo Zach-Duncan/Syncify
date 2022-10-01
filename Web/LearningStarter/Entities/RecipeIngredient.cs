@@ -13,9 +13,9 @@ namespace LearningStarter.Entities
        public double Quantity { get; set; }
        public int UnitId { get; set; }
        public Unit Unit { get; set; }
-
+       
        public List<ShoppingListRecipeIngredient> ShoppingListsRecipeIngredients { get; set; } = new List<ShoppingListRecipeIngredient>();
-
+       
     }
     public class RecipeIngredientGetDto
     {

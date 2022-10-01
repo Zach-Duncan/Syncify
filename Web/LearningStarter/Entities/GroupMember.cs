@@ -3,13 +3,14 @@
     public class GroupMember
     {
         public int Id { get; set; }
-        public string RoleId { get; set; }
-        public int UserId { get; set; } 
-        public int GroupId { get; set; }
+        public MemberRole RoleId { get; set; }
+        public User UserId { get; set; } 
+        public Group GroupId { get; set; }
     }
-    public class GroupMemeberGetDto {      
+    public class GroupMemberGetDto {      
         public int Id { get; set; }    
-        public int UserId { get; set; } 
-        public string RoleId { get; set; }  
+        public User UserId { get; set; } 
+        public MemberRole RoleId { get; set; } 
+        public Group GroupId { get; internal set; }
     } 
 } 

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -7,16 +8,21 @@ namespace LearningStarter.Entities
 {
     public class User
     {
+
         [JsonIgnore]
         public int Id { get; set; }
         public int ProfileColorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public DateTimeOffset BirthDay { get; set; }
+       // public string BirthDay { get; set; }
+        public string BirthDay { get; set; }
+        public string DateInput { get; set; }
+
+
 
     }
 
@@ -24,10 +30,16 @@ namespace LearningStarter.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string DayOfMonth { get; set; }
+        public string Month { get; set; }
+        //public string BirthYear { get; set; }
+        public string BirthDay { get; set; }
+        //public string DateInput { get; set; }
+
     }
 
     public class UserUpdateDto
@@ -35,10 +47,11 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        
     }
 
     public class UserGetDto
@@ -47,10 +60,11 @@ namespace LearningStarter.Entities
         public int ProfileColorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public DateTimeOffset BirthDay { get; set; }
+        public string BirthDay { get; set; }
+        
     }
 }
 

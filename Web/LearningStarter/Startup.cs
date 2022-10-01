@@ -143,8 +143,57 @@ namespace LearningStarter
             SeedCalendars(dataContext);
             SeedIngredients(dataContext);
             SeedRecipes(dataContext);
-            
+            SeedShoppingList(dataContext);
+            SeedEvents(dataContext);
         }
+        public void SeedUsers(DataContext dataContext)
+        {
+            var numUsers = dataContext.Users.Count();
+
+            if (dataContext.Users.Any())
+            {
+                return;
+            }
+
+            var seededUser = new List<User>
+                {
+                    new User
+                    {
+                    FirstName = "Seeded",
+                    LastName = "User",
+                    Username = "admin",
+                    Email = "owner@mail.com",
+                    PhoneNumber = "1112235678",
+                    Password = "password",
+                    BirthDay = "01/01/2001",
+                },
+                new User
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Username = "JDough",
+                    Email = "Jdougie23@mail.com",
+                    PhoneNumber = "9824454747",
+                    Password = "T0pSecR3t",
+                    BirthDay = "12/25/1998",
+                },
+                new User
+                {
+                    FirstName = "Mike",
+                    LastName = "Hunt",
+                    Username = "HuntHertz",
+                    Email = "mikehunthertz@gmail.com",
+                    PhoneNumber = "985-867-5309",
+                    Password = "TimmyTutoneLover69",
+                    BirthDay = "09/30/2002",
+
+                }
+            };
+
+            dataContext.Users.AddRange(seededUser);
+            dataContext.SaveChanges();
+        }
+
 
         private void SeedCalendars(DataContext dataContext)
         {
@@ -390,24 +439,53 @@ namespace LearningStarter
             }
         }
 
-        public void SeedUsers(DataContext dataContext)
+        private void SeedShoppingList(DataContext dataContext)
+        {
+
+            var numShoppinglist = dataContext.ShoppingLists.Count();
+
+            if (dataContext.ShoppingLists.Any())
             {
-                var numUsers = dataContext.Users.Count();
-
-                if (numUsers == 0)
-                {
-                    var seededUser = new User
-                    {
-                        FirstName = "Seeded",
-                        LastName = "User",
-                        Username = "admin",
-                        Password = "password"
-                    };
-
-                    dataContext.Users.Add(seededUser);
-                    dataContext.SaveChanges();
-                }
+                return;
             }
-        
+
+            var seededShoppingList = new List<ShoppingList>
+            {
+                new ShoppingList
+                {
+                    Name = "Bread",
+                },
+                new ShoppingList
+                {
+                    Name = "Bananas",
+                },
+                new ShoppingList
+                {
+                    Name = "Peanut Butter",
+                }
+            };
+
+            
+            dataContext.ShoppingLists.AddRange(seededShoppingList);
+            dataContext.SaveChanges();
+
+        }
+        private void SeedEvents(DataContext dataContext)
+        {
+            if (!dataContext.Events.Any())
+            {
+                var seededEvents = new Event
+                {
+                    Name = "Cole's Birthday Bash!",
+                    EventDetails = "Chillin at the Blue Moon, 10:00pm",
+                    CreatedDate = DateTime.Now,
+                };
+
+                dataContext.Events.AddRange(seededEvents);
+                dataContext.SaveChanges();
+            }
+        }
     }
 }
+
+    
