@@ -2,6 +2,7 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace LearningStarter.Controllers
@@ -70,6 +71,8 @@ namespace LearningStarter.Controllers
             {
                 Id = eventFromDatabase.Id,
                 Name = eventFromDatabase.Name,
+                EventDetails = eventFromDatabase.EventDetails,
+                CreatedDate = eventFromDatabase.CreatedDate,
             };
 
             response.Data = eventToReturn;
@@ -91,7 +94,7 @@ namespace LearningStarter.Controllers
 
             if (eventCreateDto.Name == null) 
              {
-                response.AddError("name", "Name cannot be empty.");
+                response.AddError("name", "Event name cannot be empty.");
                 return BadRequest(response);
             }
 
@@ -106,19 +109,39 @@ namespace LearningStarter.Controllers
             {
                 return BadRequest(response);
             }
- 
+
             var eventToCreate = new Event
             {
                 Name = eventCreateDto.Name,
-                CreatedDate = eventCreateDto.CreatedDate,
                 EventDetails = eventCreateDto.EventDetails,
+                CreatedDate = eventCreateDto.CreatedDate,
             };
 
             _dataContext.Events.Add(eventToCreate);
             _dataContext.SaveChanges();
 
-            return Created("api/product-types/" + eventToCreate.Id,
+            return Created("api/events/" + eventToCreate.Id,
                 eventToReturn);
         }
+        
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var response = new Response();
+
+            var events = _dataContext.Events.FirstOrDefault(x => x.Id == id);
+
+            if (events == null)
+            {
+                response.AddError("id", "There was a problem deleting the event.");
+                return NotFound(response);
+            }
+
+            _dataContext.Events.Remove(events);
+            _dataContext.SaveChanges();
+
+            return Ok(response);
+        }
+        
     }
 }

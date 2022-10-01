@@ -34,9 +34,9 @@ namespace LearningStarter.Controllers
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Username = x.Username,
-
                     PhoneNumber = x.PhoneNumber,
                     Email = x.Email,
+                    BirthDay = x.BirthDay,
 
                 })
                 .ToList();
@@ -104,10 +104,11 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("email","Email cannot be empty.");
             }
-            if (userCreateDto.PhoneNumber == null) ;
+            if (userCreateDto.PhoneNumber == null || userCreateDto.PhoneNumber == "")
             {
-                response.AddError("phone number", "Phone number must be entered.");
+                response.AddError("email", "Email cannot be empty.");
             }
+           // if (userCreateDto.BirthDay)
 
             if (response.HasErrors)
             {
@@ -121,7 +122,7 @@ namespace LearningStarter.Controllers
                 Username = userCreateDto.Username,
 
                 Password = userCreateDto.Password,
-
+                BirthDay = userCreateDto.BirthDay,
                 Email = userCreateDto.Email,
                 PhoneNumber = userCreateDto.PhoneNumber,
             };
@@ -137,7 +138,7 @@ namespace LearningStarter.Controllers
                 Username = userToCreate.Username,
                 Email = userCreateDto.Email,
                 PhoneNumber = userCreateDto.PhoneNumber,
-                BirthDay = DateTimeOffset.Now,
+                BirthDay = userCreateDto.BirthDay
 
             };
 
