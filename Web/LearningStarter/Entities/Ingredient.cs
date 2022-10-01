@@ -17,6 +17,7 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
+        public int UnitId { get; set; }
         public UnitGetDto Unit { get; set; }
     }
 
@@ -24,13 +25,16 @@ namespace LearningStarter.Entities
     {
         public string Name { get; set; }
         public string Image { get; set; }
-        public int UnitId { get; set; }
+        public int UnitId { get; set ; }
+        public UnitCreateDto Unit { get; set; }
     }
 
     public class IngredientUpdateDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public int UnitId { get; set; }
+        public UnitUpdateDto Unit { get; set; }
     }
 }
