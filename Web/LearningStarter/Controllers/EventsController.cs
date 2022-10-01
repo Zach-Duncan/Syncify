@@ -85,11 +85,12 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            if(eventCreateDto == null)
+            if (eventCreateDto == null)
             {
                 response.AddError("", "Critical error.");
                 return BadRequest(response);
             }
+
 
 
             if (eventCreateDto.Name == null) 
@@ -123,7 +124,7 @@ namespace LearningStarter.Controllers
             return Created("api/events/" + eventToCreate.Id,
                 eventToReturn);
         }
-        
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -142,6 +143,8 @@ namespace LearningStarter.Controllers
 
             return Ok(response);
         }
+
         
+
     }
 }
