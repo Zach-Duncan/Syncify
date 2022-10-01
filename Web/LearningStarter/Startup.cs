@@ -137,6 +137,8 @@ namespace LearningStarter
                 }
             });
             SeedUsers(dataContext);
+            SeedMemberRoles(dataContext);
+            SeedProfileColors(dataContext);
             SeedMealTypes(dataContext);
             SeedUnits(dataContext);
             SeedGroups(dataContext);
@@ -145,7 +147,70 @@ namespace LearningStarter
             SeedRecipes(dataContext);
             SeedShoppingList(dataContext);
             SeedEvents(dataContext);
+            
         }
+
+        private void SeedMemberRoles(DataContext dataContext)
+        {
+            if (!dataContext.MemberRoles.Any())
+            {
+                var seededMemberRoles = new List<MemberRole>
+                {
+                    new MemberRole
+                    {
+                        Name = StringEnums.MemberRoles.Administrator
+                    },
+                    new MemberRole
+                    {
+                        Name = StringEnums.MemberRoles.GroupLeader
+                    },
+                    new MemberRole
+                    {
+                        Name = StringEnums.MemberRoles.Member
+                    },
+                    new MemberRole
+                    {
+                        Name = StringEnums.MemberRoles.Unassigned
+                    }
+                };
+                dataContext.MemberRoles.AddRange(seededMemberRoles);
+                dataContext.SaveChanges();
+            }
+        }
+
+        private void SeedProfileColors(DataContext dataContext)
+        {
+            if (!dataContext.ProfileColors.Any())
+            {
+                var seededProfileColors = new List<ProfileColor>
+                {
+                    new ProfileColor
+                    {
+                        Colors = StringEnums.ProfileColors.Red
+                    },
+                    new ProfileColor
+                    {
+                        Colors = StringEnums.ProfileColors.Blue
+                    },
+                    new ProfileColor
+                    {
+                        Colors = StringEnums.ProfileColors.Green
+                    },
+                    new ProfileColor
+                    {
+                        Colors = StringEnums.ProfileColors.Yellow
+                    },
+                    new ProfileColor
+                    {
+                        Colors = StringEnums.ProfileColors.Pink
+                    }
+                };
+
+                dataContext.ProfileColors.AddRange(seededProfileColors);
+                dataContext.SaveChanges();
+            }
+        }
+
         public void SeedUsers(DataContext dataContext)
         {
             var numUsers = dataContext.Users.Count();

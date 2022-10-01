@@ -17,9 +17,7 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
-        public string TaskTitle { get; internal set; }
-        public string TaskDescription { get; internal set; }
-        public DateTimeOffset CreatedDate { get; internal set; }
+       
     }
 
     public class UnitCreateDto
