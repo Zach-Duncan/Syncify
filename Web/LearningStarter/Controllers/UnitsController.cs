@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Linq;
 
 namespace LearningStarter.Controllers
-{ 
+{
     [ApiController]
     [Route("api/units")]
 
@@ -27,7 +27,7 @@ namespace LearningStarter.Controllers
             {
                 Id = units.Id,
                 Name = units.Name,
-                Abbreviation = units.Abbreviation,  
+                Abbreviation = units.Abbreviation,
             })
             .ToList();
 
@@ -115,12 +115,14 @@ namespace LearningStarter.Controllers
             }
 
             unitToUpdate.Name = unitUpdateDto.Name;
+            unitToUpdate.Abbreviation = unitUpdateDto.Abbreviation;
             _dataContext.SaveChanges();
 
             var unitToReturn = new UnitGetDto
             {
                 Id = unitToUpdate.Id,
-                Name = unitToUpdate.Name
+                Name = unitToUpdate.Name,
+                Abbreviation = unitToUpdate.Abbreviation
             };
 
             response.Data = unitToReturn;

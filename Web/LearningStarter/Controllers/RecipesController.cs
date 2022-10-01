@@ -30,12 +30,6 @@ namespace LearningStarter.Controllers
                     Name = recipes.Name,
                     Image = recipes.Image,
                     Servings = recipes.Servings,
-                    Unit = new UnitGetDto
-                    {
-                        Id = recipes.UnitId,
-                        Name = recipes.Unit.Name,
-                        Abbreviation = recipes.Unit.Abbreviation
-                    },
                     MealType = new MealTypeGetDto
                     {
                         Id = recipes.MealTypeId,
@@ -65,12 +59,6 @@ namespace LearningStarter.Controllers
                     Name = recipes.Name,
                     Image = recipes.Image,
                     Servings = recipes.Servings,
-                    Unit = new UnitGetDto
-                    {
-                        Id = recipes.UnitId,
-                        Name = recipes.Unit.Name,
-                        Abbreviation = recipes.Unit.Abbreviation
-                    },
                     MealType = new MealTypeGetDto
                     {
                         Id = recipes.MealTypeId,
@@ -103,10 +91,6 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("Name", "Name cannot be empty.");
             }
-            if (!_dataContext.Units.Any(unit => unit.Id == recipeCreateDto.UnitId))
-            {
-                response.AddError("UnitId", "Unit does not exist.");
-            }
             if (!_dataContext.MealTypes.Any(mealType => mealType.Id == recipeCreateDto.MealTypeId))
             {
                 response.AddError("MealTypeId", "Meal Type does not exist.");
@@ -123,7 +107,6 @@ namespace LearningStarter.Controllers
             var recipeToAdd = new Recipe
             {
                 Name = recipeCreateDto.Name,
-                UnitId = recipeCreateDto.UnitId,
                 MealTypeId = recipeCreateDto.MealTypeId,
                 CalendarId = recipeCreateDto.CalendarId
 
@@ -164,7 +147,6 @@ namespace LearningStarter.Controllers
             var recipeToUpdateId = new Recipe
             {
                 Name = recipeUpdateDto.Name,
-                UnitId = recipeUpdateDto.UnitId,
                 MealTypeId = recipeUpdateDto.MealTypeId,
                 CalendarId = recipeUpdateDto.CalendarId
             };
