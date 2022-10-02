@@ -34,7 +34,9 @@ namespace LearningStarter.Entities
         public string Image { get; set; }
         public int Servings { get; set; }
         public int MealTypeId { get; set; }
+        public MealTypeCreateDto MealType { get; set; }
         public int CalendarId { get; set; }
+        public CalendarCreateDto Calendar { get; set; }
     }
 
     public class RecipeUpdateDto
@@ -43,7 +45,9 @@ namespace LearningStarter.Entities
         public string Image { get; set; }
         public int Servings { get; set; }
         public int MealTypeId { get; set; }
+        public MealTypeUpdateDto MealType { get; set; }
         public int CalendarId { get; set; }
+        public CalendarUpdateDto Calendar { get; set; }
     }
 
 }
