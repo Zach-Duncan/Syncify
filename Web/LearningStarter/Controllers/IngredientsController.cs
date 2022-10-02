@@ -183,6 +183,7 @@ namespace LearningStarter.Controllers
             var ingredientToDelete = _dataContext
                 .Ingredients
                 .FirstOrDefault(ingredient => ingredient.Id == id);
+
             if (ingredientToDelete == null)
             {
                 response.AddError("id", "Ingredient not found.");

@@ -301,16 +301,35 @@ namespace LearningStarter
 
         private void SeedCalendars(DataContext dataContext)
         {
-            if (!dataContext.Ingredients.Any())
+            if (!dataContext.Calendars.Any())
             {
-                var group = dataContext.Groups.First();
+                var groups = dataContext.Groups.ToList();
 
-                var seededCalendar = new Calendar
+                var seededCalendars = new List<Calendar>
                 {
-                    Group = group
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupA)
+                    },
+
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupB)
+                    },
+
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupC)
+                    },
+
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupD)
+                    },
+
                 };
 
-                dataContext.Calendars.Add(seededCalendar);
+                dataContext.Calendars.AddRange(seededCalendars);
                 dataContext.SaveChanges();
             }
         }
@@ -478,7 +497,8 @@ namespace LearningStarter
             {
                 
                 var mealTypes = dataContext.MealTypes.ToList();
-                var calendar = dataContext.Calendars.First();
+                var calendar = dataContext.Calendars.FirstOrDefault();
+                //var group = dataContext.Groups.First();
 
                 var seededRecipes = new List<Recipe>
                 {
@@ -489,6 +509,8 @@ namespace LearningStarter
                         Servings = 4,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Lunch),
                         Calendar = calendar
+            
+                        
                     },
 
                     new Recipe
@@ -498,6 +520,7 @@ namespace LearningStarter
                         Servings = 6,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Dinner),
                         Calendar = calendar
+
                     },
 
                     new Recipe

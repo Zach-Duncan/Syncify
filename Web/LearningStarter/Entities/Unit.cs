@@ -9,6 +9,7 @@ namespace LearningStarter.Entities
         public string Name { get; set; }
         public string Abbreviation { get; set; }
         public List<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
+        public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
     }
 

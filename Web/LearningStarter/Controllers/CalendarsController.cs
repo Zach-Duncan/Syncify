@@ -2,6 +2,7 @@
 using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -23,13 +24,20 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var calendars = _dataContext.Calendars.Select(calendar => new CalendarGetDto
+            var calendars = _dataContext
+                .Calendars
+                .Select(calendars => new CalendarGetDto
             {
-                Id = calendar.Id,
-                Group = calendar.Group,
-                GroupId = calendar.GroupId,
+                Id = calendars.Id,
+                GroupId = calendars.GroupId,
+                Group = new GroupGetDto
+                {
+                    Id = calendars.Id,
+                    Name = calendars.Group.Name,
+                    Image = calendars.Group.Image
+                }
             })
-                .ToList();
+            .ToList();
 
             response.Data = calendars;
             return Ok(response);
@@ -42,13 +50,19 @@ namespace LearningStarter.Controllers
 
             var calendarToReturn = _dataContext
                 .Calendars
-                .Select(calendar => new CalendarGetDto
+                .Select(calendars => new CalendarGetDto
                 {
-                    Id = calendar.Id,
-                    Group = calendar.Group,
-                    GroupId = calendar.GroupId,
+                    Id = calendars.Id,
+                    GroupId = calendars.GroupId,
+                    Group = new GroupGetDto
+                    {
+                        Id = calendars.GroupId,
+                        Name = calendars.Group.Name,
+                        Image = calendars.Group.Image
+                    }
                 })
-                .FirstOrDefault(calendar => calendar.Id == id);
+                .FirstOrDefault(calendars => calendars.Id == id);
+
             if (calendarToReturn == null)
             {
                 response.AddError("id", "Calendar not found.");
@@ -65,6 +79,10 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
+            if (!_dataContext.Units.Any(group => group.Id == calendarCreateDto.GroupId))
+            {
+                response.AddError("GroupId", "Group does not exist.");
+            }
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -72,16 +90,26 @@ namespace LearningStarter.Controllers
 
             var calendarToAdd = new Calendar
             {
-                Group = calendarCreateDto.Group,
+                GroupId = calendarCreateDto.GroupId,
             };
 
             _dataContext.Calendars.Add(calendarToAdd);
             _dataContext.SaveChanges();
 
+            var calendar = _dataContext
+                .Calendars
+                .Include(x => x.Group)
+                .FirstOrDefault(x => x.Id == calendarToAdd.Id);
+
             var calendarToReturn = new CalendarGetDto
             {
-                GroupId = calendarToAdd.GroupId,
-                Group = calendarToAdd.Group,
+                GroupId = calendar.GroupId,
+                Group = new GroupGetDto
+                {
+                    Id = calendar.GroupId,
+                    Name = calendar.Group.Name,
+                    Image = calendar.Group.Image
+                }
             };
 
             response.Data = calendarToReturn;
@@ -105,13 +133,23 @@ namespace LearningStarter.Controllers
                 response.AddError("id", "Calendar not found.");
                 return BadRequest(response);
             }
-            calendarToUpdate.Group = calendarUpdateDto.Group;
+            calendarToUpdate.GroupId = calendarUpdateDto.GroupId;
             _dataContext.SaveChanges();
+
+            var calendar = _dataContext
+                .Calendars
+                .Include(x => x.Group)
+                .FirstOrDefault(x => x.Id == calendarToUpdate.Id);
 
             var calendarToReturn = new CalendarGetDto
             {
                 GroupId = calendarToUpdate.GroupId,
-                Group = calendarToUpdate.Group
+                Group = new GroupGetDto
+                {
+                    Id = calendar.GroupId,
+                    Name = calendar.Group.Name,
+                    Image = calendar.Group.Image
+                }
             };
 
             response.Data = calendarToReturn;
@@ -134,6 +172,7 @@ namespace LearningStarter.Controllers
             
             _dataContext.Remove(calendarToDelete);
             _dataContext.SaveChanges();
+
             response.Data = true;
             return Ok(response);
         }

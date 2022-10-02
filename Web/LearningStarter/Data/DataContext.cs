@@ -43,6 +43,12 @@ namespace LearningStarter.Data
             modelBuilder.Entity<User>()
                 .Property(x => x.Password)
                 .IsRequired();
+
+            modelBuilder.Entity<RecipeIngredient>()
+                .HasOne(property => property.Unit)
+                .WithMany(unit => unit.RecipeIngredients)
+                .HasForeignKey(fk => fk.UnitId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
