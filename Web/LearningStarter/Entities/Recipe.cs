@@ -24,7 +24,7 @@ namespace LearningStarter.Entities
         public int Servings { get; set; }
         public int MealTypeId { get; set; }
         public MealTypeGetDto MealType { get; set; }
-        public int CalendarID { get; set; }
+        public int CalendarId { get; set; }
         public CalendarGetDto Calendar { get; set; }
     }
 

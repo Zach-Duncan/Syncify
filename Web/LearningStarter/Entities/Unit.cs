@@ -10,7 +10,6 @@ namespace LearningStarter.Entities
         public string Abbreviation { get; set; }
         public List<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
         public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
-
     }
 
     public class UnitGetDto
@@ -21,15 +20,13 @@ namespace LearningStarter.Entities
     }
 
     public class UnitCreateDto
-    {
-       
+    {       
         public string Name { get; set; }
         public string Abbreviation { get; set; }
     }
 
     public class UnitUpdateDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
     }
