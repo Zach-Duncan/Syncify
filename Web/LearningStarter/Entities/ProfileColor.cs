@@ -3,16 +3,17 @@
     public class ProfileColor
     {
         public int Id { get; set; }
-        public int Colors { get; set; }
+        public string Colors { get; set; }
     }
     public class ProfileColorGetDto
     {
         public int Id { get; set; }
-        public int Colors { get; set; }
+        public string Colors { get; set; }
     }
-    public class ProfileUpdateDto
+    public class ProfileColorUpdateDto
     {
-        public int Colors { get; set; }
+        public int Id { get; set; }
+        public string Colors { get; set; }
     }
 }
   

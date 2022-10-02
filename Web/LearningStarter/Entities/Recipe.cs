@@ -9,8 +9,6 @@ namespace LearningStarter.Entities
         public string Name { get; set; }
         public string Image { get; set; }
         public int Servings { get; set; }
-        public Unit Unit { get; set; }
-        public int UnitId { get; set; }
         public MealType MealType { get; set; }
         public int MealTypeId { get; set; }
         public Calendar Calendar { get; set; }
@@ -24,8 +22,9 @@ namespace LearningStarter.Entities
         public string Name { get; set; }
         public string Image { get; set; }
         public int Servings { get; set; }
-        public UnitGetDto Unit { get; set; }
+        public int MealTypeId { get; set; }
         public MealTypeGetDto MealType { get; set; }
+        public int CalendarID { get; set; }
         public CalendarGetDto Calendar { get; set; }
     }
 
@@ -34,7 +33,6 @@ namespace LearningStarter.Entities
         public string Name { get; set; }
         public string Image { get; set; }
         public int Servings { get; set; }
-        public int UnitId { get; set; }
         public int MealTypeId { get; set; }
         public int CalendarId { get; set; }
     }
@@ -44,7 +42,6 @@ namespace LearningStarter.Entities
         public string Name { get; set; }
         public string Image { get; set; }
         public int Servings { get; set; }
-        public int UnitId { get; set; }
         public int MealTypeId { get; set; }
         public int CalendarId { get; set; }
     }

@@ -3,6 +3,9 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers
 {
@@ -21,11 +24,14 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var ingredients = _dataContext.Ingredients.Select(ingredients => new IngredientGetDto
+            var ingredients = _dataContext
+                .Ingredients
+                .Select(ingredients => new IngredientGetDto
             {
                 Id = ingredients.Id,
                 Name = ingredients.Name,
                 Image = ingredients.Image,
+                UnitId = ingredients.UnitId,
                 Unit = new UnitGetDto
                 {
                     Id = ingredients.UnitId,
@@ -51,6 +57,7 @@ namespace LearningStarter.Controllers
                     Id = ingredients.Id,
                     Name = ingredients.Name,
                     Image = ingredients.Image,
+                    UnitId = ingredients.Unit.Id,
                     Unit = new UnitGetDto
                     {
                         Id = ingredients.UnitId,
@@ -92,18 +99,31 @@ namespace LearningStarter.Controllers
             var ingredientToAdd = new Ingredient
             {
                 Name = ingredientCreateDto.Name,
-                UnitId = ingredientCreateDto.UnitId               
-               
+                Image = ingredientCreateDto.Image,
+                UnitId = ingredientCreateDto.UnitId   
+                               
             };
 
             _dataContext.Ingredients.Add(ingredientToAdd);
             _dataContext.SaveChanges();
 
-            var ingredientToReturn = new IngredientGetDto
+            var ingredient = _dataContext
+                .Ingredients
+                .Include(x => x.Unit)
+                .FirstOrDefault(x => x.Id == ingredientToAdd.Id);
+
+            var ingredientToReturn = new IngredientGetDto()
             {
-                Id = ingredientToAdd.Id,
-                Name = ingredientToAdd.Name,
-                Image = ingredientToAdd.Image,                
+                Id = ingredient.Id,
+                Name = ingredient.Name,
+                Image = ingredient.Image,
+                UnitId = ingredient.UnitId,
+                Unit = new UnitGetDto
+                {
+                    Id = ingredient.UnitId,
+                    Name= ingredient.Unit.Name,
+                    Abbreviation = ingredient.Unit.Abbreviation
+                }
             };
 
             response.Data = ingredientToReturn;
@@ -117,7 +137,6 @@ namespace LearningStarter.Controllers
             [FromBody] IngredientUpdateDto ingredientUpdateDto)
         {
             var response = new Response();
-
             var ingredientToUpdate = _dataContext
                 .Ingredients
                 .FirstOrDefault(ingredient => ingredient.Id == id);
@@ -128,21 +147,28 @@ namespace LearningStarter.Controllers
                 return BadRequest(response);
             }
 
-            var ingredientToUpdateId = new Ingredient
-            {
-                Name = ingredientUpdateDto.Name,
-                UnitId = ingredientUpdateDto.UnitId
-            };
-
             ingredientToUpdate.Name = ingredientUpdateDto.Name;
+            ingredientToUpdate.Image = ingredientUpdateDto.Image;
+            ingredientToUpdate.UnitId = ingredientUpdateDto.UnitId;
             _dataContext.SaveChanges();
+
+            var ingredient = _dataContext
+                .Ingredients
+                .Include(x => x.Unit)
+                .FirstOrDefault(x => x.Id == ingredientToUpdate.Id);
 
             var ingredientToReturn = new IngredientGetDto
             {
-                Id = ingredientToUpdate.Id,
-                Name = ingredientToUpdate.Name,
-                Image = ingredientToUpdate.Image,
-                
+                Id = ingredient.Id,
+                Name = ingredient.Name,
+                Image = ingredient.Image,
+                UnitId = ingredient.UnitId,
+                Unit = new UnitGetDto
+                {
+                    Id = ingredient.UnitId,
+                    Name = ingredient.Unit.Name,
+                    Abbreviation = ingredient.Unit.Abbreviation
+                }                
             };
 
             response.Data = ingredientToReturn;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace LearningStarter.Entities
 {
@@ -16,8 +17,6 @@ namespace LearningStarter.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
-        public int GroupId { get; internal set; }
-        public Group Group { get; internal set; }
     }
 
     public class UnitCreateDto
