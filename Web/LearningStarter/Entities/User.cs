@@ -8,7 +8,6 @@ namespace LearningStarter.Entities
 {
     public class User
     {
-
         [JsonIgnore]
         public int Id { get; set; }
         public int ProfileColorId { get; set; }
@@ -18,12 +17,8 @@ namespace LearningStarter.Entities
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-       // public string BirthDay { get; set; }
         public string BirthDay { get; set; }
         public string DateInput { get; set; }
-
-
-
     }
 
     public class UserCreateDto
@@ -39,32 +34,27 @@ namespace LearningStarter.Entities
         //public string BirthYear { get; set; }
         public string BirthDay { get; set; }
         //public string DateInput { get; set; }
-
     }
 
     public class UserUpdateDto
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
-        
+        public string Password { get; set; }        
     }
 
     public class UserGetDto
     {
-        public int Id { get; set; }
         public int ProfileColorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string BirthDay { get; set; }
-        
+        public string BirthDay { get; set; }        
     }
 }
 
