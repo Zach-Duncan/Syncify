@@ -110,7 +110,7 @@ namespace LearningStarter.Controllers
 
             if (unitToUpdate == null)
             {
-                response.AddError("id", "Meal Type not found.");
+                response.AddError("id", "That Unit was not found, try again.");
                 return BadRequest(response);
             }
 
