@@ -507,7 +507,7 @@ namespace LearningStarter
         private void SeedShoppingList(DataContext dataContext)
         {
 
-            var numShoppinglist = dataContext.ShoppingLists.Count();
+            var numShoppinglist = dataContext.ShoppingLists.ToList();
 
             if (dataContext.ShoppingLists.Any())
             {
