@@ -38,6 +38,12 @@ namespace LearningStarter.Controllers
                     Calendar = new CalendarGetDto
                     {
                         Id = recipes.CalendarId,
+                        Group = new GroupGetDto
+                        {
+                            Id = recipes.Calendar.GroupId,
+                            Name = recipes.Calendar.Group.Name,
+                            Image = recipes.Calendar.Group.Image
+                        }
                     }
                 })
             .ToList();
@@ -67,6 +73,12 @@ namespace LearningStarter.Controllers
                     Calendar = new CalendarGetDto
                     {
                         Id = recipes.CalendarId,
+                        Group = new GroupGetDto
+                        {
+                            Id = recipes.Calendar.GroupId,
+                            Name = recipes.Calendar.Group.Name,
+                            Image = recipes.Calendar.Group.Image
+                        }
                     }
                 })
                 .FirstOrDefault(recipes => recipes.Id == id);
@@ -107,19 +119,44 @@ namespace LearningStarter.Controllers
             var recipeToAdd = new Recipe
             {
                 Name = recipeCreateDto.Name,
+                Image = recipeCreateDto.Image,
+                Servings = recipeCreateDto.Servings,
                 MealTypeId = recipeCreateDto.MealTypeId,
                 CalendarId = recipeCreateDto.CalendarId
+                
 
             };
 
             _dataContext.Recipes.Add(recipeToAdd);
             _dataContext.SaveChanges();
 
+            var recipe = _dataContext
+                .Recipes
+                .Include(x => x.MealType)
+                .Include(x => x.Calendar)
+                .FirstOrDefault(x => x.Id == recipeToAdd.Id);
+  
             var recipeToReturn = new RecipeGetDto
             {
-                Id = recipeToAdd.Id,
-                Name = recipeToAdd.Name,
-                Image = recipeToAdd.Image,
+                Id = recipe.Id,
+                Name = recipe.Name,
+                Image = recipe.Image,
+                Servings = recipe.Servings,
+                MealType = new MealTypeGetDto
+                {
+                    Id = recipe.MealTypeId,
+                    Name = recipe.MealType.Name
+                },
+                Calendar = new CalendarGetDto
+                {
+                    Id = recipe.CalendarId,
+                    //Group = new GroupGetDto
+                    //{
+                    //    Id = recipe.Calendar.GroupId,
+                    //    Name = recipe.Calendar.Group.Name,
+                    //    Image = recipe.Calendar.Group.Image
+                    //}
+                }
             };
 
             response.Data = recipeToReturn;

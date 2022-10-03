@@ -114,6 +114,7 @@ namespace LearningStarter.Controllers
             var eventToCreate = new Event
             {
                 Name = eventCreateDto.Name,
+                CalendarId = eventCreateDto.CalendarId,
                 EventDetails = eventCreateDto.EventDetails,
                 CreatedDate = eventCreateDto.CreatedDate,
             };

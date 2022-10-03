@@ -103,6 +103,55 @@ namespace LearningStarter.Common
 
         }
 
+        public static class UserFirstNames
+        {
+            public const string One = "Seeded";
+            public const string Two = "John";
+            public const string Three = "Mike";
+        }
+
+        public static class UserLastNames
+        {
+            public const string One = "User";
+            public const string Two = "Doe";
+            public const string Three = "Smith";
+        }
+
+        public static class UserUserNames
+        {
+            public const string One = "admin";
+            public const string Two = "JDough";
+            public const string Three = "SmithBoy";
+        }
+
+        public static class UserEmails
+        {
+            public const string One = "owner@mail.com";
+            public const string Two = "Jdougie23@mail.com";
+            public const string Three = "mikesmithboy@gmail.com";
+        }
+
+        public static class UserPhoneNumbers
+        {
+            public const string One = "1112235678";
+            public const string Two = "9824454747";
+            public const string Three = "9858675309";
+        }
+
+        public static class UserPasswords
+        {
+            public const string One = "password";
+            public const string Two = "T0pSecR3t";
+            public const string Three = "TimmyTutoneLover69";
+        }
+
+        public static class UserBirthdays
+        {
+            public const string One = "01/01/2001";
+            public const string Two = "12/25/1998";
+            public const string Three = "09/30/2002";
+        }
+
 
 
 

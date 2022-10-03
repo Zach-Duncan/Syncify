@@ -24,7 +24,9 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var ingredients = _dataContext.Ingredients.Select(ingredients => new IngredientGetDto
+            var ingredients = _dataContext
+                .Ingredients
+                .Select(ingredients => new IngredientGetDto
             {
                 Id = ingredients.Id,
                 Name = ingredients.Name,
@@ -145,9 +147,9 @@ namespace LearningStarter.Controllers
                 return BadRequest(response);
             }
 
-            ingredientToUpdate.Id = ingredientUpdateDto.Id;
             ingredientToUpdate.Name = ingredientUpdateDto.Name;
             ingredientToUpdate.Image = ingredientUpdateDto.Image;
+            ingredientToUpdate.UnitId = ingredientUpdateDto.UnitId;
             _dataContext.SaveChanges();
 
             var ingredient = _dataContext
@@ -181,6 +183,7 @@ namespace LearningStarter.Controllers
             var ingredientToDelete = _dataContext
                 .Ingredients
                 .FirstOrDefault(ingredient => ingredient.Id == id);
+
             if (ingredientToDelete == null)
             {
                 response.AddError("id", "Ingredient not found.");

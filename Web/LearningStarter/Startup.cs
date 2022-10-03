@@ -147,7 +147,45 @@ namespace LearningStarter
             SeedRecipes(dataContext);
             SeedShoppingList(dataContext);
             SeedEvents(dataContext);
+            SeedGroupMembers(dataContext);
             
+        }
+
+        private void SeedGroupMembers(DataContext dataContext)
+        {
+            if (!dataContext.GroupMembers.Any())
+            {
+                var memberRoles = dataContext.MemberRoles.ToList();
+                var users = dataContext.Users.ToList();
+                var groups = dataContext.Groups.ToList();
+
+                var seededGroupMembers = new List<GroupMember>
+                {
+                    new GroupMember
+                    {
+                        MemberRole = memberRoles.First(x => x.Name == StringEnums.MemberRoles.GroupLeader),
+                        User = users.FirstOrDefault(),
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupA)
+                    },
+
+                    new GroupMember
+                    {
+                        MemberRole = memberRoles.First(x => x.Name == StringEnums.MemberRoles.Member),
+                        User = users.FirstOrDefault(),
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupB)
+                    },
+
+                    new GroupMember
+                    {
+                        MemberRole = memberRoles.First(x => x.Name == StringEnums.MemberRoles.Unassigned),
+                        User = users.FirstOrDefault(),
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupC)
+                    },
+                };
+
+                dataContext.GroupMembers.AddRange(seededGroupMembers);
+                dataContext.SaveChanges();
+            }
         }
 
         private void SeedMemberRoles(DataContext dataContext)
@@ -224,34 +262,35 @@ namespace LearningStarter
                 {
                     new User
                     {
-                    FirstName = "Seeded",
-                    LastName = "User",
-                    Username = "admin",
-                    Email = "owner@mail.com",
-                    PhoneNumber = "1112235678",
-                    Password = "password",
-                    BirthDay = "01/01/2001",
+                    FirstName = StringEnums.UserFirstNames.One,
+                    LastName = StringEnums.UserLastNames.One,
+                    Username = StringEnums.UserUserNames.One,
+                    Email = StringEnums.UserEmails.One,
+                    PhoneNumber = StringEnums.UserPhoneNumbers.One,
+                    Password = StringEnums.UserPasswords.One,
+                    BirthDay = StringEnums.UserBirthdays.One,
                 },
-                new User
-                {
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Username = "JDough",
-                    Email = "Jdougie23@mail.com",
-                    PhoneNumber = "9824454747",
-                    Password = "T0pSecR3t",
-                    BirthDay = "12/25/1998",
-                },
-                new User
-                {
-                    FirstName = "Mike",
-                    LastName = "Hunt",
-                    Username = "HuntHertz",
-                    Email = "mikehunthertz@gmail.com",
-                    PhoneNumber = "985-867-5309",
-                    Password = "TimmyTutoneLover69",
-                    BirthDay = "09/30/2002",
 
+                new User
+                {
+                    FirstName = StringEnums.UserFirstNames.Two,
+                    LastName = StringEnums.UserLastNames.Two,
+                    Username = StringEnums.UserUserNames.Two,
+                    Email = StringEnums.UserEmails.Two,
+                    PhoneNumber = StringEnums.UserPhoneNumbers.Two,
+                    Password = StringEnums.UserPasswords.Two,
+                    BirthDay = StringEnums.UserBirthdays.Two,
+                },
+
+                new User
+                {
+                    FirstName = StringEnums.UserFirstNames.Three,
+                    LastName = StringEnums.UserLastNames.Three,
+                    Username = StringEnums.UserUserNames.Three,
+                    Email = StringEnums.UserEmails.Three,
+                    PhoneNumber = StringEnums.UserPhoneNumbers.Three,
+                    Password = StringEnums.UserPasswords.Three,
+                    BirthDay = StringEnums.UserBirthdays.Three,
                 }
             };
 
@@ -262,16 +301,35 @@ namespace LearningStarter
 
         private void SeedCalendars(DataContext dataContext)
         {
-            if (!dataContext.Ingredients.Any())
+            if (!dataContext.Calendars.Any())
             {
-                var group = dataContext.Groups.First();
+                var groups = dataContext.Groups.ToList();
 
-                var seededCalendar = new Calendar
+                var seededCalendars = new List<Calendar>
                 {
-                    Group = group
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupA)
+                    },
+
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupB)
+                    },
+
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupC)
+                    },
+
+                    new Calendar
+                    {
+                        Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupD)
+                    },
+
                 };
 
-                dataContext.Calendars.Add(seededCalendar);
+                dataContext.Calendars.AddRange(seededCalendars);
                 dataContext.SaveChanges();
             }
         }
@@ -439,7 +497,8 @@ namespace LearningStarter
             {
                 
                 var mealTypes = dataContext.MealTypes.ToList();
-                var calendar = dataContext.Calendars.First();
+                var calendar = dataContext.Calendars.FirstOrDefault();
+                //var group = dataContext.Groups.First();
 
                 var seededRecipes = new List<Recipe>
                 {
@@ -450,6 +509,8 @@ namespace LearningStarter
                         Servings = 4,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Lunch),
                         Calendar = calendar
+            
+                        
                     },
 
                     new Recipe
@@ -459,6 +520,7 @@ namespace LearningStarter
                         Servings = 6,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Dinner),
                         Calendar = calendar
+
                     },
 
                     new Recipe
