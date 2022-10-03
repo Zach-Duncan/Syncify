@@ -136,17 +136,17 @@ namespace LearningStarter
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:3001");
                 }
             });
-            SeedUsers(dataContext);
+            SeedShoppingList(dataContext);
             SeedMemberRoles(dataContext);
             SeedProfileColors(dataContext);
             SeedMealTypes(dataContext);
             SeedUnits(dataContext);
-            SeedGroups(dataContext);
+            SeedUsers(dataContext);
+            SeedGroups(dataContext);            
             SeedCalendars(dataContext);
+            SeedEvents(dataContext);
             SeedIngredients(dataContext);
             SeedRecipes(dataContext);
-            SeedShoppingList(dataContext);
-            SeedEvents(dataContext);
             SeedGroupMembers(dataContext);
             
         }
@@ -601,8 +601,11 @@ namespace LearningStarter
         {
             if (!dataContext.Events.Any())
             {
+                var calendar = dataContext.Calendars.First();
+
                 var seededEvents = new Event
                 {
+                    Calendar = calendar,
                     Name = "Cole's Birthday Bash!",
                     EventDetails = "Chillin at the Blue Moon, 10:00pm",
                     CreatedDate = DateTime.Now,
