@@ -48,6 +48,7 @@ namespace LearningStarter.Entities
 
     public class UserGetDto
     {
+        public int Id { get; set; }
         public int ProfileColorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
