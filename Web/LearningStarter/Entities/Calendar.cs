@@ -11,19 +11,22 @@ namespace LearningStarter.Entities
     public class CalendarGetDto
     {
         public int Id { get; set; }
-        public GroupGetDto Group{ get; set; }
         public int GroupId { get; set; }
+        public GroupGetDto Group{ get; set; }
+        
     }
 
     public class CalendarCreateDto
     {
-        public GroupCreateDto Group { get; set; }
         public int GroupId { get; set; }
+        public GroupCreateDto Group { get; set; }
+        
     }
 
     public class CalendarUpdateDto
     {
-        public GroupUpdateDto Group { get; set; }
         public int GroupId { get; set; }
+        public GroupUpdateDto Group { get; set; }
+        
     }
 }

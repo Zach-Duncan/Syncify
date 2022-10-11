@@ -497,7 +497,7 @@ namespace LearningStarter
             {
                 
                 var mealTypes = dataContext.MealTypes.ToList();
-                var calendar = dataContext.Calendars.FirstOrDefault();
+                var calendar = dataContext.Calendars.ToList();
                 //var group = dataContext.Groups.First();
 
                 var seededRecipes = new List<Recipe>
@@ -507,8 +507,9 @@ namespace LearningStarter
                         Name = StringEnums.RecipeNames.Hamburger,
                         Image = StringEnums.Images.Image,
                         Servings = 4,
+                        Directions = StringEnums.RecipeDirections.Hamburger,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Lunch),
-                        Calendar = calendar
+                        Calendar = calendar.First(x => x.Group.Name == StringEnums.GroupNames.GroupA)
             
                         
                     },
@@ -518,8 +519,9 @@ namespace LearningStarter
                         Name = StringEnums.RecipeNames.Burritoes,
                         Image = StringEnums.Images.Image,
                         Servings = 6,
+                        Directions = StringEnums.RecipeDirections.Burritoes,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Dinner),
-                        Calendar = calendar
+                        Calendar = calendar.First(x => x.Group.Name == StringEnums.GroupNames.GroupB)
 
                     },
 
@@ -528,8 +530,9 @@ namespace LearningStarter
                         Name = StringEnums.RecipeNames.SloppyJoes,
                         Image = StringEnums.Images.Image,
                         Servings = 4,
+                        Directions = StringEnums.RecipeDirections.SloppyJoes,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Brunch),
-                        Calendar = calendar
+                        Calendar = calendar.First(x => x.Group.Name == StringEnums.GroupNames.GroupC)
                     },
 
                     new Recipe
@@ -537,26 +540,9 @@ namespace LearningStarter
                         Name = StringEnums.RecipeNames.Spaghetti,
                         Image = StringEnums.Images.Image,
                         Servings = 4,
+                        Directions= StringEnums.RecipeDirections.Spaghetti,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Breakfast),
-                        Calendar = calendar
-                    },
-
-                    new Recipe
-                    {
-                        Name = StringEnums.RecipeNames.PeanutButterAndJelly,
-                        Image = StringEnums.Images.Image,
-                        Servings = 1,
-                        MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Snack),
-                        Calendar = calendar
-                    },
-
-                    new Recipe
-                    {
-                        Name = StringEnums.RecipeNames.Toast,
-                        Image = StringEnums.Images.Image,
-                        Servings = 1,
-                        MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Breakfast),
-                        Calendar = calendar
+                        Calendar = calendar.First(x => x.Group.Name == StringEnums.GroupNames.GroupD)
                     }
                 };
 
