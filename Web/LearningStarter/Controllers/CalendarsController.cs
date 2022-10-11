@@ -32,7 +32,7 @@ namespace LearningStarter.Controllers
                 GroupId = calendars.GroupId,
                 Group = new GroupGetDto
                 {
-                    Id = calendars.Id,
+                    Id = calendars.GroupId,
                     Name = calendars.Group.Name,
                     Image = calendars.Group.Image
                 }
