@@ -24,7 +24,7 @@ namespace LearningStarter.Controllers
 
             var recipes = _dataContext
                 .Recipes
-                .Select(recipes => new RecipeGetDto
+                .Select(recipes => new RecipeGetDto 
                 {
                     Id = recipes.Id,
                     Name = recipes.Name,

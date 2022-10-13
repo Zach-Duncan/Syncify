@@ -31,13 +31,6 @@ namespace LearningStarter.Controllers
                 Id = ingredients.Id,
                 Name = ingredients.Name,
                 Image = ingredients.Image,
-                UnitId = ingredients.UnitId,
-                Unit = new UnitGetDto
-                {
-                    Id = ingredients.UnitId,
-                    Name = ingredients.Unit.Name,
-                    Abbreviation = ingredients.Unit.Abbreviation
-                }
             })
             .ToList();
 
@@ -57,13 +50,6 @@ namespace LearningStarter.Controllers
                     Id = ingredients.Id,
                     Name = ingredients.Name,
                     Image = ingredients.Image,
-                    UnitId = ingredients.Unit.Id,
-                    Unit = new UnitGetDto
-                    {
-                        Id = ingredients.UnitId,
-                        Name = ingredients.Unit.Name,
-                        Abbreviation = ingredients.Unit.Abbreviation
-                    }
                 })
                 .FirstOrDefault(ingredients => ingredients.Id == id);
 
@@ -87,11 +73,7 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("Name", "Name cannot be empty.");
             }
-            if (!_dataContext.Units.Any(unit => unit.Id == ingredientCreateDto.UnitId))
-            {
-                response.AddError("UnitId", "Unit does not exist.");
-            }
-                if (response.HasErrors)
+            if (response.HasErrors)
             {
                 return BadRequest(response);
             }
@@ -100,8 +82,6 @@ namespace LearningStarter.Controllers
             {
                 Name = ingredientCreateDto.Name,
                 Image = ingredientCreateDto.Image,
-                UnitId = ingredientCreateDto.UnitId   
-                               
             };
 
             _dataContext.Ingredients.Add(ingredientToAdd);
@@ -109,21 +89,13 @@ namespace LearningStarter.Controllers
 
             var ingredient = _dataContext
                 .Ingredients
-                .Include(x => x.Unit)
                 .FirstOrDefault(x => x.Id == ingredientToAdd.Id);
 
             var ingredientToReturn = new IngredientGetDto()
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Image = ingredient.Image,
-                UnitId = ingredient.UnitId,
-                Unit = new UnitGetDto
-                {
-                    Id = ingredient.UnitId,
-                    Name= ingredient.Unit.Name,
-                    Abbreviation = ingredient.Unit.Abbreviation
-                }
+                Image = ingredient.Image
             };
 
             response.Data = ingredientToReturn;
@@ -149,26 +121,17 @@ namespace LearningStarter.Controllers
 
             ingredientToUpdate.Name = ingredientUpdateDto.Name;
             ingredientToUpdate.Image = ingredientUpdateDto.Image;
-            ingredientToUpdate.UnitId = ingredientUpdateDto.UnitId;
             _dataContext.SaveChanges();
 
             var ingredient = _dataContext
                 .Ingredients
-                .Include(x => x.Unit)
                 .FirstOrDefault(x => x.Id == ingredientToUpdate.Id);
 
             var ingredientToReturn = new IngredientGetDto
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Image = ingredient.Image,
-                UnitId = ingredient.UnitId,
-                Unit = new UnitGetDto
-                {
-                    Id = ingredient.UnitId,
-                    Name = ingredient.Unit.Name,
-                    Abbreviation = ingredient.Unit.Abbreviation
-                }                
+                Image = ingredient.Image            
             };
 
             response.Data = ingredientToReturn;

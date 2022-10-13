@@ -257,11 +257,14 @@ namespace LearningStarter
             {
                 return;
             }
+            var profileColors = dataContext.ProfileColors.ToList();
 
             var seededUser = new List<User>
+            {
+                new User
                 {
-                    new User
-                    {
+                    ProfileColor = profileColors
+                    .First(x => x.Colors == StringEnums.ProfileColors.Red),
                     FirstName = StringEnums.UserFirstNames.One,
                     LastName = StringEnums.UserLastNames.One,
                     Username = StringEnums.UserUserNames.One,
@@ -273,6 +276,8 @@ namespace LearningStarter
 
                 new User
                 {
+                    ProfileColor = profileColors
+                    .First(x => x.Colors == StringEnums.ProfileColors.Pink),
                     FirstName = StringEnums.UserFirstNames.Two,
                     LastName = StringEnums.UserLastNames.Two,
                     Username = StringEnums.UserUserNames.Two,
@@ -284,6 +289,8 @@ namespace LearningStarter
 
                 new User
                 {
+                    ProfileColor = profileColors
+                    .First(x => x.Colors == StringEnums.ProfileColors.Blue),
                     FirstName = StringEnums.UserFirstNames.Three,
                     LastName = StringEnums.UserLastNames.Three,
                     Username = StringEnums.UserUserNames.Three,
