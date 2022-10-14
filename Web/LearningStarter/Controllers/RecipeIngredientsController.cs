@@ -43,15 +43,7 @@ namespace LearningStarter.Controllers
                         Id = recipeIngredients.Ingredient.Id,
                         Name = recipeIngredients.Ingredient.Name,
                         Image = recipeIngredients.Ingredient.Image,
-                        Unit = new UnitGetDto
-                        {
-                            Id = recipeIngredients.Unit.Id,
-                            Name = recipeIngredients.Unit.Name,
-                            Abbreviation = recipeIngredients.Unit.Abbreviation,
-                        }
-
                     },
-
                     Quantity = recipeIngredients.Quantity,
                     Unit = new UnitGetDto
                     {
@@ -96,13 +88,6 @@ namespace LearningStarter.Controllers
                             Id = recipeIngredients.Ingredient.Id,
                             Name = recipeIngredients.Ingredient.Name,
                             Image = recipeIngredients.Ingredient.Image,
-                            Unit = new UnitGetDto
-                            {
-                                Id = recipeIngredients.Unit.Id,
-                                Name = recipeIngredients.Unit.Name,
-                                Abbreviation = recipeIngredients.Unit.Abbreviation,
-                            }
-
                         },
 
                         Quantity = recipeIngredients.Quantity,

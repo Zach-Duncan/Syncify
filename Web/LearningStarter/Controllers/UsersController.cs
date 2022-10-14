@@ -13,13 +13,13 @@ namespace LearningStarter.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext _context;
 
-        public object userCreateDto { get; private set; }
+        //public object userCreateDto { get; private set; }
 
-        public UsersController(DataContext dataContext)
+        public UsersController(DataContext context)
         {
-            _dataContext = dataContext;
+            _context = context;
         }
 
         [HttpGet]
@@ -27,7 +27,7 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            response.Data = _dataContext
+            response.Data = _context
                 .Users
                 .Select(users => new UserGetDto
                 {
@@ -52,42 +52,47 @@ namespace LearningStarter.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult GetById([FromRoute] int id)
+        public IActionResult GetById(
+            [FromRoute] int id)
         {
             var response = new Response();
 
-            var userToReturn = _dataContext
+            var users = _context
                 .Users
-                .Select(users => new UserGetDto
-                {
-                    Id = users.Id,
-                    ProfileColorId = users.ProfileColorId,
-                    ProfileColor = new ProfileColorGetDto
-                    {
-                        Id = users.ProfileColorId,
-                        Colors = users.ProfileColor.Colors
-                    },
-                    FirstName = users.FirstName,
-                    LastName = users.LastName,
-                    Username = users.Username,
-                    PhoneNumber = users.PhoneNumber,
-                    Email = users.Email,
-                    BirthDay = users.BirthDay
-                })
-                .FirstOrDefault(users => users.Id == id);
+                .Include(x => x.ProfileColor)
+                .FirstOrDefault(x => x.Id == id);
 
-            if (userToReturn == null)
+            if (users == null)
             {
                 response.AddError("id", "There was a problem finding the user.");
                 return NotFound(response);
-            }            
+            }
 
-            response.Data = userToReturn;
+            var userGetDto = new UserGetDto
+            {
+                Id = users.Id,
+                ProfileColorId = users.ProfileColorId,
+                ProfileColor = new ProfileColorGetDto
+                {
+                    Id = users.ProfileColorId,
+                    Colors = users.ProfileColor.Colors
+                },
+                FirstName = users.FirstName,
+                LastName = users.LastName,
+                Username = users.Username,
+                PhoneNumber = users.PhoneNumber,
+                Email = users.Email,
+                BirthDay = users.BirthDay
+            };          
+
+            response.Data = userGetDto;
+
             return Ok(response);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] UserCreateDto userCreateDto)
+        public IActionResult Create(
+            [FromBody] UserCreateDto userCreateDto)
         {
             var response = new Response();
 
@@ -124,7 +129,7 @@ namespace LearningStarter.Controllers
                 return BadRequest(response);
             }
 
-            var userToAdd = new User
+            var userToCreate = new User
             {
                 ProfileColorId = userCreateDto.ProfileColorId,
                 FirstName = userCreateDto.FirstName,
@@ -136,33 +141,33 @@ namespace LearningStarter.Controllers
                 PhoneNumber = userCreateDto.PhoneNumber,
             };
 
-            _dataContext.Users.Add(userToAdd);
-            _dataContext.SaveChanges();
+            _context.Users.Add(userToCreate);
+            _context.SaveChanges();
 
-            var users = _dataContext
+            var users = _context
                 .Users
                 .Include(x => x.ProfileColor)
-                .FirstOrDefault(x => x.Id == userToAdd.Id);
+                .FirstOrDefault(x => x.Id == userToCreate.Id);
 
-            var userToReturn = new UserGetDto()
+            var userGetDto = new UserGetDto
             {
-                Id = users.Id,
-                ProfileColorId = users.ProfileColorId,
+                Id = userToCreate.Id,
+                ProfileColorId = userToCreate.ProfileColorId,
                 ProfileColor = new ProfileColorGetDto
                 {
-                    Id = users.ProfileColorId,
-                    Colors = users.ProfileColor.Colors
+                    Id = userToCreate.ProfileColorId,
+                    Colors = userToCreate.ProfileColor.Colors
                 },
-                FirstName = users.FirstName,
-                LastName = users.LastName,
-                Username = users.Username,
-                Email = users.Email,
-                PhoneNumber = users.PhoneNumber,
-                BirthDay = users.BirthDay
+                FirstName = userToCreate.FirstName,
+                LastName = userToCreate.LastName,
+                Username = userToCreate.Username,
+                Email = userToCreate.Email,
+                PhoneNumber = userToCreate.PhoneNumber,
+                BirthDay = userToCreate.BirthDay
 
             };
 
-            response.Data = userToReturn;
+            response.Data = userGetDto;
             return Created("", response);
         }
 
@@ -172,34 +177,58 @@ namespace LearningStarter.Controllers
             [FromBody] UserUpdateDto userUpdateDto)
         {
             var response = new Response();
-            var userToUpdate = _dataContext
+
+            var users = _context
                 .Users
-                .FirstOrDefault(user => user.Id == id);
+                .FirstOrDefault(x => x.Id == id);
+
+            if (users == null)
+            {
+                response.AddError("id", "There was a problem editing the user.");
+                return NotFound(response);
+            }
+
+            var userToUpdate = _context
+                .Users
+                .Include(x => x.ProfileColor)
+                .FirstOrDefault(x => x.Id == id);
 
             if (userToUpdate == null)
             {
-                response.AddError("id", "There was a problem editing the user.");
+                response.AddError("id", "Could not find user to edit.");
+                return NotFound(response);
             }
-            if (userToUpdate.FirstName == null || userToUpdate.FirstName == "")
+
+            if (users.ProfileColor == null)
+            {
+                response.AddError("profileColor", "Profile Color cannot be empty.");
+            }
+
+            if (users.FirstName == null || users.FirstName == "")
             {
                 response.AddError("firstName", "First name cannot be empty.");
             }
-            if (userToUpdate.LastName == null || userToUpdate.LastName == "")
+
+            if (users.LastName == null || users.LastName == "")
             {
                 response.AddError("lastName", "Last name cannot be empty.");
             }
-            if (userToUpdate.Email == null || userToUpdate.Email == "")
+
+            if (users.Email == null || users.Email == "")
             {
                 response.AddError("email", "Email cannot be empty.");
             }
-            if (userToUpdate.PhoneNumber.Length < 10 ) 
+
+            if (users.PhoneNumber.Length < 10 ) 
             {
                 response.AddError("phoneNumber", "Phone number must be 10 or more digitsy.");
             }
-            if (userToUpdate.PhoneNumber == "")
+
+            if (users.PhoneNumber == "")
             {
                 response.AddError("phoneNumber", "Phone number cannot be empty");
             }
+
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -208,11 +237,15 @@ namespace LearningStarter.Controllers
             userToUpdate.ProfileColorId = userUpdateDto.ProfileColorId;
             userToUpdate.FirstName = userUpdateDto.FirstName;
             userToUpdate.LastName = userUpdateDto.LastName;
+            userToUpdate.Username = userUpdateDto.Username;
+            userToUpdate.Password = userUpdateDto.Password;
             userToUpdate.PhoneNumber = userUpdateDto.PhoneNumber;
             userToUpdate.Email = userUpdateDto.Email;
-            _dataContext.SaveChanges();
+            
 
-            var user = _dataContext
+            _context.SaveChanges();
+            
+            var user = _context
                 .Users
                 .Include(x => x.ProfileColor)
                 .FirstOrDefault(x => x.Id == userToUpdate.Id);
@@ -231,11 +264,12 @@ namespace LearningStarter.Controllers
                 Username = user.Username,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
-                BirthDay = user.BirthDay,
+                BirthDay = user.BirthDay
 
             };
 
             response.Data = userToReturn;
+
             return Ok(response);
         }
 
@@ -244,7 +278,7 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var userToDelete = _dataContext
+            var userToDelete = _context
                 .Users
                 .FirstOrDefault(user => user.Id == id);
 
@@ -254,8 +288,8 @@ namespace LearningStarter.Controllers
                 return NotFound(response);
             }
 
-            _dataContext.Remove(userToDelete);
-            _dataContext.SaveChanges();
+            _context.Remove(userToDelete);
+            _context.SaveChanges();
 
             response.Data = true;
             return Ok(response);

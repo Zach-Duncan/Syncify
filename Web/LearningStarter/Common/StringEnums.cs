@@ -131,14 +131,14 @@ namespace LearningStarter.Common
 
         public static class UserFirstNames
         {
-            public const string One = "Seeded";
+            public const string One = "Roza";
             public const string Two = "John";
             public const string Three = "Mike";
         }
 
         public static class UserLastNames
         {
-            public const string One = "User";
+            public const string One = "Coca";
             public const string Two = "Doe";
             public const string Three = "Smith";
         }
@@ -152,16 +152,16 @@ namespace LearningStarter.Common
 
         public static class UserEmails
         {
-            public const string One = "owner@mail.com";
+            public const string One = "Rozacoca@mail.com";
             public const string Two = "Jdougie23@mail.com";
             public const string Three = "mikesmithboy@gmail.com";
         }
 
         public static class UserPhoneNumbers
         {
-            public const string One = "1112235678";
+            public const string One = "9858675309";
             public const string Two = "9824454747";
-            public const string Three = "9858675309";
+            public const string Three = "9855551234";
         }
 
         public static class UserPasswords
@@ -173,7 +173,7 @@ namespace LearningStarter.Common
 
         public static class UserBirthdays
         {
-            public const string One = "01/01/2001";
+            public const string One = "08/23/2022";
             public const string Two = "12/25/1998";
             public const string Three = "09/30/2002";
         }
