@@ -90,6 +90,7 @@ namespace LearningStarter.Controllers
 
             var calendarToAdd = new Calendar
             {
+                Id = calendarCreateDto.GroupId,
                 GroupId = calendarCreateDto.GroupId,
             };
 

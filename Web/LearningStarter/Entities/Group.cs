@@ -22,4 +22,9 @@
         public string Name { get; set; }
         public string Image { get; set; }
     }
+    public class GroupDeleteDto 
+    {
+        public string Name { get; set; }
+        public string Image { get; set; }
+    }
 }

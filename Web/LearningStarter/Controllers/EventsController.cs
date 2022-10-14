@@ -59,7 +59,7 @@ namespace LearningStarter.Controllers
 
             var eventFromDatabase = _dataContext
                 .Events
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(events => events.Id == id);
 
             if (eventFromDatabase == null)
             {
@@ -124,6 +124,39 @@ namespace LearningStarter.Controllers
 
             return Created("api/events/" + eventToCreate.Id,
                 eventToReturn);
+        }
+
+        [HttpPut("{id}")]
+
+        public IActionResult Update(
+            [FromRoute] int id,
+            [FromBody] EventUpdateDto eventUpdateDto)
+        {
+            var response = new Response();
+
+            var eventToUpdate = _dataContext
+                .Events
+                .FirstOrDefault(events => events.Id == id);
+
+            if (eventToUpdate == null)
+            {
+                response.AddError("id", "Task not found.");
+                return BadRequest(response);
+            }
+
+            eventToUpdate.EventDetails = eventUpdateDto.EventDetails;
+            _dataContext.SaveChanges();
+
+            var eventsToReturn = new EventGetDto
+            {
+                Id = eventToUpdate.Id,
+                EventDetails = eventToUpdate.EventDetails,
+                Name = eventToUpdate.Name,
+                CreatedDate = eventToUpdate.CreatedDate
+            };
+
+            response.Data = eventToReturn;
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]

@@ -148,6 +148,7 @@ namespace LearningStarter
             SeedIngredients(dataContext);
             SeedRecipes(dataContext);
             SeedGroupMembers(dataContext);
+            SeedToDos(dataContext);
             
         }
 
@@ -605,6 +606,24 @@ namespace LearningStarter
                 };
 
                 dataContext.Events.AddRange(seededEvents);
+                dataContext.SaveChanges();
+            }
+        }
+        private void SeedToDos(DataContext dataContext) 
+        {
+            if (!dataContext.ToDos.Any()) 
+            {
+                var calendar = dataContext.Calendars.First();
+
+                var seededToDos = new ToDo
+                {
+                    Calendar = calendar,
+                    Title = "Trash day",
+                    Description = "Take out the trash!",
+                    Date = DateTime.Now,
+                };
+
+                dataContext.ToDos.AddRange(seededToDos);
                 dataContext.SaveChanges();
             }
         }
