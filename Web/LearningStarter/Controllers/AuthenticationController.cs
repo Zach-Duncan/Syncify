@@ -61,12 +61,12 @@ namespace LearningStarter.Controllers
             var userGetDto = new UserGetDto
             {
                 Id = user.Id,
-                //ProfileColorId = user.ProfileColorId,
-                //ProfileColor = new ProfileColorGetDto
-                //{
-                //    Id = user.ProfileColorId,
-                //    Colors = user.ProfileColor.Colors
-                //},
+                ProfileColorId = user.ProfileColorId,
+                ProfileColor = new ProfileColorGetDto
+                {
+                    Id = user.ProfileColorId,
+                    Colors = user.ProfileColor.Colors
+                },
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
