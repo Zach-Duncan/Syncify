@@ -13,7 +13,7 @@ namespace LearningStarter.Controllers
     {
         private DataContext _dataContext;
 
-        public object toDoToReturn { get; private set; }
+        public object toDoToReturn { get; set; }
 
         public ToDosController(DataContext dataContext)
         {
@@ -24,18 +24,29 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var toDOsToReturn = _dataContext
+            var toDosToReturn = _dataContext
                 .ToDos
-                .Select(x => new ToDoGetDto
+                .Select(toDo => new ToDoGetDto
                 {
-                    Id = x.Id,
-                    CalendarId = x.CalendarId,
-                    TaskTitle = x.TaskTitle,
-                    TaskDescription = x.TaskDescription,
-                    CreatedDate = x.CreatedDate,
+                    Id = toDo.Id,
+                    CalendarId = toDo.CalendarId,
+                    Calendar = new CalendarGetDto
+                    {
+                        Id = toDo.CalendarId,
+                        GroupId = toDo.Calendar.GroupId,
+                        Group = new GroupGetDto
+                        {
+                            Id = toDo.Calendar.GroupId,
+                            Name = toDo.Calendar.Group.Name,
+                            Image = toDo.Calendar.Group.Image
+                        }
+                    },
+                    Title = toDo.Title,
+                    Description = toDo.Description,
+                    Date = toDo.Date,
                 })
                 .ToList();
-            response.Data = toDoToReturn;
+            response.Data = toDosToReturn;
 
             return Ok(response);
         }
@@ -56,7 +67,7 @@ namespace LearningStarter.Controllers
 
             var toDosFromDatabase = _dataContext
                 .ToDos
-                .FirstOrDefault(x => x.Id == id);
+                .FirstOrDefault(toDo => toDo.Id == id);
 
             if (toDosFromDatabase == null)
             {
@@ -64,10 +75,29 @@ namespace LearningStarter.Controllers
                 return NotFound(response);
             }
 
+            var toDo = _dataContext
+                .ToDos
+                .Include(toDo => toDo.Calendar)
+                .ThenInclude(toDo => toDo.Group)
+                .FirstOrDefault(toDo => toDo.Id == toDosFromDatabase.Id);
+
             var toDoToReturn = new ToDoGetDto
             {
                 Id = toDosFromDatabase.Id,
-                TaskTitle = toDosFromDatabase.TaskTitle,
+                CalendarId = toDosFromDatabase.CalendarId,
+                Calendar = new CalendarGetDto 
+                {
+                    Id = toDo.CalendarId,
+                    GroupId = toDo.Calendar.GroupId,
+                    Group = new GroupGetDto 
+                    {
+                        Id = toDo.Calendar.GroupId,
+                        Name = toDo.Calendar.Group.Name,
+                        Image = toDo.Calendar.Group.Image
+                    }
+                },
+                Title = toDosFromDatabase.Title,
+                Description = toDosFromDatabase.Description
             };
 
             response.Data = toDoToReturn;
@@ -85,12 +115,21 @@ namespace LearningStarter.Controllers
                 response.AddError("", "Critical error.");
                 return BadRequest(response);
             }
-            if (toDoCreateDto.TaskTitle == null || toDoCreateDto.TaskTitle == "")
+            if (!_dataContext.Calendars.Any(calendar => calendar.Id == toDoCreateDto.CalendarId))
             {
-                response.AddError("title", "Task title cannot be empty");
+                response.AddError("CalendarId", "Calendar does not exist.");
+            }
+            if (toDoCreateDto.Title == null || toDoCreateDto.Title == "")
+            {
+                response.AddError("Title", "Task title cannot be empty");
                 return BadRequest(response);
             }
-            var toDoAlreadyExistsInDatabase = _dataContext.ToDos.Any(x => x.TaskTitle == toDoCreateDto.TaskTitle);
+            if (toDoCreateDto.Description == null || toDoCreateDto.Description == "") 
+            {
+                response.AddError("Description", "Task Description cannot be empty");
+                return BadRequest(response);
+            }
+            var toDoAlreadyExistsInDatabase = _dataContext.ToDos.Any(toDo => toDo.Title == toDoCreateDto.Title);
 
             if (toDoAlreadyExistsInDatabase)
             {
@@ -102,21 +141,42 @@ namespace LearningStarter.Controllers
             }
 
 
-            var toDoToCreate = new ToDo()
+            var toDoToCreate = new ToDo
             {
-                TaskTitle = toDoCreateDto.TaskTitle,
-                TaskDescription = toDoCreateDto.TaskDescription,
+                CalendarId = toDoCreateDto.CalendarId, 
+                Title = toDoCreateDto.Title,
+                Description = toDoCreateDto.Description,
+                Date = toDoCreateDto.Date,
                 // User = shoppingListCreateDto.User,
             };
 
             _dataContext.ToDos.Add(toDoToCreate);
             _dataContext.SaveChanges();
 
+            var toDo = _dataContext
+                .ToDos
+                .Include(toDo => toDo.Calendar)
+                .ThenInclude(toDo => toDo.Group)
+                .FirstOrDefault(toDo => toDo.Id == toDoToCreate.Id);
+
             var toDoToReturn = new ToDoGetDto
             {
-                Id = toDoToCreate.Id,
-                TaskTitle = toDoToCreate.TaskTitle,
-                TaskDescription = toDoCreateDto.TaskDescription
+                Id = toDo.Id,
+                CalendarId = toDo.CalendarId,
+                Calendar = new CalendarGetDto 
+                {
+                    Id = toDo.CalendarId,
+                    GroupId = toDo.Calendar.GroupId,
+                    Group = new GroupGetDto 
+                    {
+                        Id = toDo.Calendar.GroupId,
+                        Name = toDo.Calendar.Group.Name,
+                        Image = toDo.Calendar.Group.Image
+                    }
+                },
+                Title = toDoToCreate.Title,
+                Description = toDoCreateDto.Description,
+                Date = toDoCreateDto.Date
             };
 
             //returns 201 Code, which means created
@@ -134,7 +194,7 @@ namespace LearningStarter.Controllers
 
             var toDoToUpdate = _dataContext
                 .ToDos
-                .FirstOrDefault(unit => unit.Id == id);
+                .FirstOrDefault(toDo => toDo.Id == id);
 
             if (toDoToUpdate == null)
             {
@@ -142,15 +202,33 @@ namespace LearningStarter.Controllers
                 return BadRequest(response);
             }
 
-            toDoToUpdate.TaskTitle = toDoUpdateDto.TaskTitle;
+            toDoToUpdate.Title = toDoUpdateDto.Title;
             _dataContext.SaveChanges();
+
+            var toDo = _dataContext
+                .ToDos
+                .Include(toDo => toDo.Calendar)
+                .ThenInclude(toDo => toDo.Group)
+                .FirstOrDefault(toDo => toDo.Id == toDoToUpdate.Id);
 
             var toDoToReturn = new ToDoGetDto
             {
                 Id = toDoToUpdate.Id,
-                TaskTitle = toDoToUpdate.TaskTitle,
-                TaskDescription = toDoToUpdate.TaskDescription,
-                CreatedDate = toDoToUpdate.CreatedDate
+                CalendarId = toDoToUpdate.Calendar.Id,
+                Calendar = new CalendarGetDto 
+                {
+                    Id = toDo.CalendarId,
+                    GroupId = toDo.Calendar.GroupId,
+                    Group = new GroupGetDto
+                    {
+                        Id = toDo.Calendar.GroupId,
+                        Name = toDo.Calendar.Group.Name,
+                        Image = toDo.Calendar.Group.Image
+                    }
+                },
+                Title = toDoToUpdate.Title,
+                Description = toDoToUpdate.Description,
+                Date = toDoToUpdate.Date
             };
 
             response.Data = toDoToReturn;
@@ -179,5 +257,5 @@ namespace LearningStarter.Controllers
         }
 
     }
-        }
+}
     
