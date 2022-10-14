@@ -136,21 +136,23 @@ namespace LearningStarter
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:3001");
                 }
             });
+
             SeedShoppingList(dataContext);
             SeedMemberRoles(dataContext);
             SeedProfileColors(dataContext);
             SeedMealTypes(dataContext);
             SeedUnits(dataContext);
             SeedUsers(dataContext);
-            SeedGroups(dataContext);            
+            SeedGroups(dataContext);
             SeedCalendars(dataContext);
             SeedEvents(dataContext);
             SeedIngredients(dataContext);
             SeedRecipes(dataContext);
             SeedGroupMembers(dataContext);
             SeedToDos(dataContext);
-            
         }
+    
+
 
         private void SeedGroupMembers(DataContext dataContext)
         {
@@ -250,17 +252,16 @@ namespace LearningStarter
             }
         }
 
-        public void SeedUsers(DataContext dataContext)
+        private void SeedUsers(DataContext dataContext)
         {
             var numUsers = dataContext.Users.Count();
 
-            if (dataContext.Users.Any())
+            if (numUsers == 0)
             {
-                return;
-            }
-            var profileColors = dataContext.ProfileColors.ToList();
 
-            var seededUser = new List<User>
+                var profileColors = dataContext.ProfileColors.ToList();
+
+                var seededUser = new List<User>
             {
                 new User
                 {
@@ -272,38 +273,13 @@ namespace LearningStarter
                     Email = StringEnums.UserEmails.One,
                     PhoneNumber = StringEnums.UserPhoneNumbers.One,
                     Password = StringEnums.UserPasswords.One,
-                    BirthDay = StringEnums.UserBirthdays.One,
-                },
-
-                new User
-                {
-                    ProfileColor = profileColors
-                    .First(x => x.Colors == StringEnums.ProfileColors.Pink),
-                    FirstName = StringEnums.UserFirstNames.Two,
-                    LastName = StringEnums.UserLastNames.Two,
-                    Username = StringEnums.UserUserNames.Two,
-                    Email = StringEnums.UserEmails.Two,
-                    PhoneNumber = StringEnums.UserPhoneNumbers.Two,
-                    Password = StringEnums.UserPasswords.Two,
-                    BirthDay = StringEnums.UserBirthdays.Two,
-                },
-
-                new User
-                {
-                    ProfileColor = profileColors
-                    .First(x => x.Colors == StringEnums.ProfileColors.Blue),
-                    FirstName = StringEnums.UserFirstNames.Three,
-                    LastName = StringEnums.UserLastNames.Three,
-                    Username = StringEnums.UserUserNames.Three,
-                    Email = StringEnums.UserEmails.Three,
-                    PhoneNumber = StringEnums.UserPhoneNumbers.Three,
-                    Password = StringEnums.UserPasswords.Three,
-                    BirthDay = StringEnums.UserBirthdays.Three,
+                    BirthDay = StringEnums.UserBirthdays.One
                 }
             };
 
-            dataContext.Users.AddRange(seededUser);
-            dataContext.SaveChanges();
+                dataContext.Users.AddRange(seededUser);
+                dataContext.SaveChanges();
+            }
         }
 
 
@@ -314,7 +290,7 @@ namespace LearningStarter
                 var groups = dataContext.Groups.ToList();
 
                 var seededCalendars = new List<Calendar>
-                {
+            {
                     new Calendar
                     {
                         Group = groups.First(x => x.Name == StringEnums.GroupNames.GroupA)
@@ -337,16 +313,16 @@ namespace LearningStarter
 
                 };
 
-                dataContext.Calendars.AddRange(seededCalendars);
-                dataContext.SaveChanges();
+                    dataContext.Calendars.AddRange(seededCalendars);
+                    dataContext.SaveChanges();
+                }
             }
-        }
 
-        private void SeedGroups(DataContext dataContext)
-        {
-            if (!dataContext.Groups.Any())
+            private void SeedGroups(DataContext dataContext)
             {
-                var seededGroups = new List<Group>
+                if (!dataContext.Groups.Any())
+                {
+                    var seededGroups = new List<Group>
                 {
                     new Group
                     {
@@ -371,19 +347,19 @@ namespace LearningStarter
                         Name = StringEnums.GroupNames.GroupD,
                         Image = StringEnums.Images.Image
                     }
-                                      
+
                 };
 
-                dataContext.Groups.AddRange(seededGroups);
-                dataContext.SaveChanges();
+                    dataContext.Groups.AddRange(seededGroups);
+                    dataContext.SaveChanges();
+                }
             }
-        }
 
-        private void SeedUnits(DataContext dataContext)
-        {
-            if (!dataContext.Units.Any())
+            private void SeedUnits(DataContext dataContext)
             {
-                var seededUnits = new List<Unit>
+                if (!dataContext.Units.Any())
+                {
+                    var seededUnits = new List<Unit>
                 {
                     new Unit
                     {
@@ -422,51 +398,47 @@ namespace LearningStarter
                     },
                 };
 
-                dataContext.Units.AddRange(seededUnits);
-                dataContext.SaveChanges();
+                    dataContext.Units.AddRange(seededUnits);
+                    dataContext.SaveChanges();
+                }
             }
-        }
 
-        private void SeedIngredients(DataContext dataContext)
-        {
-            if (!dataContext.Ingredients.Any())
+            private void SeedIngredients(DataContext dataContext)
             {
-                var units = dataContext.Units.ToList();
+                if (!dataContext.Ingredients.Any())
+                {
 
-                var seededIngredients = new List<Ingredient>
+                    var seededIngredients = new List<Ingredient>
                 {
                     new Ingredient
                     {
                         Name = StringEnums.IngredientNames.HamburgerMeat,
-                        Image = StringEnums.Images.Image,
-                        Unit = units.First(x => x.Abbreviation == StringEnums.UnitAbbreviations.Pounds)
+                        Image = StringEnums.Images.Image
                     },
 
                     new Ingredient
                     {
                         Name = StringEnums.IngredientNames.RanchSeasoningMix,
-                        Image = StringEnums.Images.Image,
-                        Unit = units.First(x => x.Abbreviation == StringEnums.UnitAbbreviations.Packages)
+                        Image = StringEnums.Images.Image
                     },
 
                     new Ingredient
                     {
                         Name = StringEnums.IngredientNames.HamburgerBuns,
-                        Image = StringEnums.Images.Image,
-                        Unit = units.First(x => x.Abbreviation == StringEnums.UnitAbbreviations.Individual)
+                        Image = StringEnums.Images.Image
                     },
                 };
 
-                dataContext.Ingredients.AddRange(seededIngredients);
-                dataContext.SaveChanges();
+                    dataContext.Ingredients.AddRange(seededIngredients);
+                    dataContext.SaveChanges();
+                }
             }
-        }
 
-        private void SeedMealTypes(DataContext dataContext)
-        {
-            if (!dataContext.MealTypes.Any())
+            private void SeedMealTypes(DataContext dataContext)
             {
-                var seededMealTypes = new List<MealType>
+                if (!dataContext.MealTypes.Any())
+                {
+                    var seededMealTypes = new List<MealType>
                 {
                    new MealType
                    {
@@ -494,21 +466,21 @@ namespace LearningStarter
                     },
                 };
 
-                dataContext.MealTypes.AddRange(seededMealTypes);
-                dataContext.SaveChanges();
+                    dataContext.MealTypes.AddRange(seededMealTypes);
+                    dataContext.SaveChanges();
+                }
             }
-        }
 
-        private void SeedRecipes(DataContext dataContext)
-        {
-            if (!dataContext.Recipes.Any())
+            private void SeedRecipes(DataContext dataContext)
             {
-                
-                var mealTypes = dataContext.MealTypes.ToList();
-                var calendar = dataContext.Calendars.ToList();
-                //var group = dataContext.Groups.First();
+                if (!dataContext.Recipes.Any())
+                {
 
-                var seededRecipes = new List<Recipe>
+                    var mealTypes = dataContext.MealTypes.ToList();
+                    var calendar = dataContext.Calendars.ToList();
+                    //var group = dataContext.Groups.First();
+
+                    var seededRecipes = new List<Recipe>
                 {
                     new Recipe
                     {
@@ -518,8 +490,8 @@ namespace LearningStarter
                         Directions = StringEnums.RecipeDirections.Hamburger,
                         MealType = mealTypes.First(x => x.Name == StringEnums.MealTypes.Lunch),
                         Calendar = calendar.First(x => x.Group.Name == StringEnums.GroupNames.GroupA)
-            
-                        
+
+
                     },
 
                     new Recipe
@@ -554,23 +526,23 @@ namespace LearningStarter
                     }
                 };
 
-                dataContext.Recipes.AddRange(seededRecipes);
-                dataContext.SaveChanges();
+                    dataContext.Recipes.AddRange(seededRecipes);
+                    dataContext.SaveChanges();
 
+                }
             }
-        }
 
-        private void SeedShoppingList(DataContext dataContext)
-        {
-
-            var numShoppinglist = dataContext.ShoppingLists.ToList();
-
-            if (dataContext.ShoppingLists.Any())
+            private void SeedShoppingList(DataContext dataContext)
             {
-                return;
-            }
 
-            var seededShoppingList = new List<ShoppingList>
+                var numShoppinglist = dataContext.ShoppingLists.ToList();
+
+                if (dataContext.ShoppingLists.Any())
+                {
+                    return;
+                }
+
+                var seededShoppingList = new List<ShoppingList>
             {
                 new ShoppingList
                 {
@@ -586,27 +558,28 @@ namespace LearningStarter
                 }
             };
 
-            
-            dataContext.ShoppingLists.AddRange(seededShoppingList);
-            dataContext.SaveChanges();
 
-        }
-        private void SeedEvents(DataContext dataContext)
-        {
-            if (!dataContext.Events.Any())
-            {
-                var calendar = dataContext.Calendars.First();
-
-                var seededEvents = new Event
-                {
-                    Calendar = calendar,
-                    Name = "Cole's Birthday Bash!",
-                    EventDetails = "Chillin at the Blue Moon, 10:00pm",
-                    CreatedDate = DateTime.Now,
-                };
-
-                dataContext.Events.AddRange(seededEvents);
+                dataContext.ShoppingLists.AddRange(seededShoppingList);
                 dataContext.SaveChanges();
+
+            }
+            private void SeedEvents(DataContext dataContext)
+            {
+                if (!dataContext.Events.Any())
+                {
+                    var calendar = dataContext.Calendars.First();
+
+                    var seededEvents = new Event
+                    {
+                        Calendar = calendar,
+                        Name = "Cole's Birthday Bash!",
+                        EventDetails = "Chillin at the Blue Moon, 10:00pm",
+                        CreatedDate = DateTime.Now,
+                    };
+
+                    dataContext.Events.AddRange(seededEvents);
+                    dataContext.SaveChanges();
+                }
             }
         }
         private void SeedToDos(DataContext dataContext) 
@@ -628,6 +601,7 @@ namespace LearningStarter
             }
         }
     }
-}
+
+
 
     
