@@ -3,6 +3,7 @@ using LearningStarter.Entities;
 using LearningStarter.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.Xml;
 
 namespace LearningStarter.Controllers
 {
@@ -60,9 +61,19 @@ namespace LearningStarter.Controllers
             var userGetDto = new UserGetDto
             {
                 Id = user.Id,
+                ProfileColorId = user.ProfileColorId,
+                ProfileColor = new ProfileColorGetDto
+                {
+                    Id = user.ProfileColorId,
+                    Colors = user.ProfileColor.Colors
+                },
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Username = user.Username
+                Username = user.Username,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                BirthDay = user.BirthDay
+
             };
 
             response.Data = userGetDto;
