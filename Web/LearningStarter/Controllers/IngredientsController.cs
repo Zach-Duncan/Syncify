@@ -73,6 +73,12 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("Name", "Name cannot be empty.");
             }
+
+            if (string.IsNullOrEmpty(ingredientCreateDto.Image))
+            {
+                response.AddError("Image", "Image cannot be empty.");
+            }
+
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -116,6 +122,20 @@ namespace LearningStarter.Controllers
             if (ingredientToUpdate == null)
             {
                 response.AddError("id", "Ingredient not found.");
+            }
+
+            if (string.IsNullOrEmpty(ingredientUpdateDto.Name))
+            {
+                response.AddError("Name", "Name cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(ingredientUpdateDto.Image))
+            {
+                response.AddError("Image", "Image cannot be empty.");
+            }
+
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
 

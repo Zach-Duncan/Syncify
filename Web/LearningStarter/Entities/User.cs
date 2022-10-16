@@ -19,7 +19,6 @@ namespace LearningStarter.Entities
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string BirthDay { get; set; }
-        public string DateInput { get; set; }
     }
 
     public class UserGetDto

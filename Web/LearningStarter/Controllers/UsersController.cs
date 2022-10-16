@@ -96,6 +96,11 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
+            if (!_context.ProfileColors.Any(profileColor => profileColor.Id == userCreateDto.ProfileColorId))
+            {
+                response.AddError("ProfileColorId", "Profile Colord Id does not exist");
+            } 
+
             if (userCreateDto.FirstName == null || userCreateDto.FirstName == "")
             {
                 response.AddError("firstName", "First name cannot be empty.");
