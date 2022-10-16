@@ -43,7 +43,7 @@ namespace LearningStarter.Common
         public static class RecipeNames
         {
             public const string Hamburger = "Hamburgers";
-            public const string Burritoes = "Burritoes";
+            public const string Burritos = "Burritos";
             public const string SloppyJoes = "Sloppy Joes";
             public const string Spaghetti = "Spaghetti";
             public const string PeanutButterAndJelly = "PB & J";
@@ -64,7 +64,7 @@ namespace LearningStarter.Common
             //"Step 2: Add your seasonings and mix well with browned meat for 10 seconds and then add water.\n " +
             //"Step 3: Bring mixture up to a simmer and let cook for 5 to 10 minutes.\n " +
             //"Step 4: Place mixture in a warmed tortilla and add your favorite toppings. ENJOY!"
-            public const string Burritoes = "Burrito Instructions";
+            public const string Burritos = "Burrito Instructions";
             //Future Sloppy Joe Instructions
             //"Step 1: In a skillet, brown your ground meat and drain the grease.\n " +
             //"Step 2: Add your Sloppy Joe seasoning mix and one 12oz can of tomatoe sauce.\n " +

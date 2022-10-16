@@ -8,7 +8,7 @@ using System.Linq;
 namespace LearningStarter.Controllers
 {
     [ApiController]
-    [Route("api/mealTypes")]
+    [Route("api/meal-types")]
 
     public class MealTypesController : ControllerBase
     {
