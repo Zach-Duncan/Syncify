@@ -31,13 +31,13 @@ namespace LearningStarter.Controllers
                 MemberRoleId = groupMember.MemberRoleId,
                 MemberRole = new MemberRoleGetDto
                 {
-                    Id = groupMember.Id,
+                    Id = groupMember.MemberRoleId,
                     Name = groupMember.MemberRole.Name
                 },
                 UserId = groupMember.UserId,
                 User = new UserGetDto
                 {
-                    Id = groupMember.Id,
+                    Id = groupMember.UserId,
                     ProfileColorId = groupMember.User.ProfileColorId,
                     FirstName = groupMember.User.FirstName,
                     LastName = groupMember.User.LastName,

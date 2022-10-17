@@ -83,8 +83,8 @@ namespace LearningStarter.Controllers
                 PhoneNumber = users.PhoneNumber,
                 Email = users.Email,
                 BirthDay = users.BirthDay
-            };
 
+            };          
             response.Data = userGetDto;
 
             return Ok(response);
@@ -95,6 +95,11 @@ namespace LearningStarter.Controllers
             [FromBody] UserCreateDto userCreateDto)
         {
             var response = new Response();
+
+            if (!_context.ProfileColors.Any(profileColor => profileColor.Id == userCreateDto.ProfileColorId))
+            {
+                response.AddError("ProfileColorId", "Profile Colord Id does not exist");
+            } 
 
             if (userCreateDto.FirstName == null || userCreateDto.FirstName == "")
             {
@@ -173,7 +178,7 @@ namespace LearningStarter.Controllers
 
         [HttpPut("{id}")]
         public IActionResult Edit(
-            [FromRoute] int id,
+            [FromRoute] int id, 
             [FromBody] UserUpdateDto userUpdateDto)
         {
             var response = new Response();
@@ -218,10 +223,10 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("email", "Email cannot be empty.");
             }
-
-            if (users.PhoneNumber.Length < 10)
+            
+            if (users.PhoneNumber.Length < 10 ) 
             {
-                response.AddError("phoneNumber", "Phone number must be 10 or more digitsy.");
+                response.AddError("phoneNumber", "Phone number must be 10 or more digits.");
             }
 
             if (users.PhoneNumber == "")
@@ -242,9 +247,8 @@ namespace LearningStarter.Controllers
             userToUpdate.PhoneNumber = userUpdateDto.PhoneNumber;
             userToUpdate.Email = userUpdateDto.Email;
 
-
             _context.SaveChanges();
-
+            
             var user = _context
                 .Users
                 .Include(x => x.ProfileColor)

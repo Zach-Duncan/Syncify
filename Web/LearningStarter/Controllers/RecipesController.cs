@@ -24,7 +24,7 @@ namespace LearningStarter.Controllers
 
             var recipes = _dataContext
                 .Recipes
-                .Select(recipes => new RecipeGetDto
+                .Select(recipes => new RecipeGetDto 
                 {
                     Id = recipes.Id,
                     Name = recipes.Name,
@@ -111,14 +111,27 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("Name", "Name cannot be empty.");
             }
+
+            if (string.IsNullOrEmpty(recipeCreateDto.Image))
+            {
+                response.AddError("Image", "Image cannot be empty.");
+            }
+
+            if (recipeCreateDto.Servings <= 0)
+            {
+                response.AddError("Servings", "Servings has to be greater than 0.");
+            }
+
             if (!_dataContext.MealTypes.Any(mealType => mealType.Id == recipeCreateDto.MealTypeId))
             {
                 response.AddError("MealTypeId", "Meal Type does not exist.");
             }
+
             if (!_dataContext.Calendars.Any(calendar => calendar.Id == recipeCreateDto.CalendarId))
             {
                 response.AddError("CalendarId", "Calendar does not exist.");
             }
+
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -132,8 +145,6 @@ namespace LearningStarter.Controllers
                 Directions = recipeCreateDto.Directions,
                 MealTypeId = recipeCreateDto.MealTypeId,
                 CalendarId = recipeCreateDto.CalendarId
-
-
             };
 
             _dataContext.Recipes.Add(recipeToAdd);
@@ -191,7 +202,36 @@ namespace LearningStarter.Controllers
 
             if (recipeToUpdate == null)
             {
-                response.AddError("id", "Recipe not found.");
+                response.AddError("id", "Recipe not found.");                
+            }
+            
+            if (string.IsNullOrEmpty(recipeToUpdate.Name))
+            {
+                response.AddError("Name", "Name cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(recipeToUpdate.Image))
+            {
+                response.AddError("Image", "Image cannot be empty.");
+            }
+
+            if (recipeToUpdate.Servings <= 0)
+            {
+                response.AddError("Servings", "Servings has to be greater than 0.");
+            }
+
+            if (!_dataContext.MealTypes.Any(mealType => mealType.Id == recipeToUpdate.MealTypeId))
+            {
+                response.AddError("MealTypeId", "Meal Type does not exist.");
+            }
+
+            if (!_dataContext.Calendars.Any(calendar => calendar.Id == recipeToUpdate.CalendarId))
+            {
+                response.AddError("CalendarId", "Calendar does not exist.");
+            }
+
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
 
@@ -201,7 +241,6 @@ namespace LearningStarter.Controllers
             recipeToUpdate.Directions = recipeUpdateDto.Directions;
             recipeToUpdate.MealTypeId = recipeUpdateDto.MealTypeId;
             recipeToUpdate.CalendarId = recipeUpdateDto.CalendarId;
-
 
             _dataContext.SaveChanges();
 

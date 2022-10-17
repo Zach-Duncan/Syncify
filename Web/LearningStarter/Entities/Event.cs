@@ -10,7 +10,7 @@ namespace LearningStarter.Entities
         public string Name { get; set; }
         public string EventDetails { get; set; }
         public DateTime CreatedDate { get; set; }
-        
+
     }
     public class EventGetDto
     {
@@ -38,3 +38,4 @@ namespace LearningStarter.Entities
         public DateTime CreatedDate { get; set; }
     }
 }
+

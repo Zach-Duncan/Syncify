@@ -55,31 +55,31 @@ namespace LearningStarter.Controllers
             response.Data = ProfileColorToReturn;
             return Ok(response);
         }
-        [HttpPut("{id:int}")]
-        public IActionResult
-    Update([FromRoute] int id,
-    [FromBody] ProfileColorUpdateDto profilecolorUpdateDto)
-        {
-            var response = new Response();
-            var profilecolorToUpdate = _dataContext
-                .ProfileColors
-                .FirstOrDefault(profilecolor => profilecolor.Id == id);
-            if (profilecolorToUpdate == null)
-            {
-                response.AddError("id", "Color Id not found.");
-                return BadRequest(response);
-            }
-            profilecolorToUpdate.Id = profilecolorToUpdate.Id;
-            profilecolorToUpdate.Colors = profilecolorToUpdate.Colors;
-            _dataContext.SaveChanges();
-            var profilecolorToReturn = new ProfileColorGetDto()
-            {
-                Id = profilecolorToUpdate.Id,
-                Colors = profilecolorToUpdate.Colors,
-            };
+    //    [HttpPut("{id:int}")]
+    //    public IActionResult
+    //Update([FromRoute] int id,
+    //[FromBody] ProfileColorUpdateDto profilecolorUpdateDto)
+    //    {
+    //        var response = new Response();
+    //        var profilecolorToUpdate = _dataContext
+    //            .ProfileColors
+    //            .FirstOrDefault(profilecolor => profilecolor.Id == id);
+    //        if (profilecolorToUpdate == null)
+    //        {
+    //            response.AddError("id", "Color Id not found.");
+    //            return BadRequest(response);
+    //        }
+            
+    //        profilecolorToUpdate.Colors = profilecolorUpdateDto.Colors;
+    //        _dataContext.SaveChanges();
+    //        var profilecolorToReturn = new ProfileColorGetDto()
+    //        {
+    //            Id = profilecolorToUpdate.Id,
+    //            Colors = profilecolorToUpdate.Colors,
+    //        };
 
-            response.Data = profilecolorToReturn;
-            return Ok(response);
-        }
+    //        response.Data = profilecolorToReturn;
+    //        return Ok(response);
+    //    }
     }
 }

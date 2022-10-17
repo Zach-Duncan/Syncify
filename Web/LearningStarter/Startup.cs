@@ -213,7 +213,7 @@ namespace LearningStarter
         }
 
         private void SeedGroupMembers(DataContext dataContext)
-        {
+            {
             if (!dataContext.GroupMembers.Any())
             {
                 var memberRoles = dataContext.MemberRoles.ToList();
@@ -681,24 +681,27 @@ namespace LearningStarter
             }
         }
 
-        //private void SeedToDos(DataContext dataContext)
-        //{
-        //    if (!dataContext.ToDos.Any())
-        //    {
-        //        var calendar = dataContext.Calendars.First();
+        private void SeedToDos(DataContext dataContext)
+        {
+            if (!dataContext.ToDos.Any())
+            {
+                var calendar = dataContext.Calendars.First();
 
-        //        var seededToDos = new ToDo
-        //        {
-        //            Calendar = calendar,
-        //            Title = "Trash day",
-        //            Description = "Take out the trash!",
-        //            Date = DateTime.Now,
-        //        };
+                var seededToDos = new ToDo
+                {
+                    Calendar = calendar,
+                    Title = "Trash day",
+                    Description = "Take out the trash!",
+                    Date = DateTime.Now,
+                };
 
-        //        dataContext.ToDos.AddRange(seededToDos);
-        //        dataContext.SaveChanges();
-        //    }
-        //}
+                dataContext.ToDos.AddRange(seededToDos);
+                dataContext.SaveChanges();
+            }
+        }
     }
 }
 
+
+
+    

@@ -67,7 +67,6 @@ namespace LearningStarter.Controllers
                         Id = recipeIngredients.IngredientId,
                         Name = recipeIngredients.Ingredient.Name,
                         Image = recipeIngredients.Ingredient.Image,
-
                     },
                     Quantity = recipeIngredients.Quantity,
                     UnitId = recipeIngredients.UnitId,
@@ -120,6 +119,7 @@ namespace LearningStarter.Controllers
                                 Name = recipeIngredients.Recipe.Calendar.Group.Name,
                                 Image = recipeIngredients.Recipe.Calendar.Group.Image
                             }
+
                         }
                     },
                     IngredientId = recipeIngredients.IngredientId,

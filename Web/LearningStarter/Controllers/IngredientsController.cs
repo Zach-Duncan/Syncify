@@ -73,7 +73,14 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("Name", "Name cannot be empty.");
             }
-                if (response.HasErrors)
+
+
+            if (string.IsNullOrEmpty(ingredientCreateDto.Image))
+            {
+                response.AddError("Image", "Image cannot be empty.");
+            }
+
+            if (response.HasErrors)
             {
                 return BadRequest(response);
             }
@@ -81,8 +88,8 @@ namespace LearningStarter.Controllers
             var ingredientToAdd = new Ingredient
             {
                 Name = ingredientCreateDto.Name,
-                Image = ingredientCreateDto.Image,   
-                               
+
+                Image = ingredientCreateDto.Image,
             };
 
             _dataContext.Ingredients.Add(ingredientToAdd);
@@ -96,7 +103,7 @@ namespace LearningStarter.Controllers
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Image = ingredient.Image,
+                Image = ingredient.Image
             };
 
             response.Data = ingredientToReturn;
@@ -117,6 +124,20 @@ namespace LearningStarter.Controllers
             if (ingredientToUpdate == null)
             {
                 response.AddError("id", "Ingredient not found.");
+            }
+
+            if (string.IsNullOrEmpty(ingredientUpdateDto.Name))
+            {
+                response.AddError("Name", "Name cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(ingredientUpdateDto.Image))
+            {
+                response.AddError("Image", "Image cannot be empty.");
+            }
+
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
 
@@ -132,7 +153,7 @@ namespace LearningStarter.Controllers
             {
                 Id = ingredient.Id,
                 Name = ingredient.Name,
-                Image = ingredient.Image,        
+                Image = ingredient.Image            
             };
 
             response.Data = ingredientToReturn;

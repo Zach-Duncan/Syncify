@@ -18,7 +18,6 @@ namespace LearningStarter.Entities
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string BirthDay { get; set; }
-        public string DateInput { get; set; }
     }
 
     public class UserGetDto
@@ -30,7 +29,7 @@ namespace LearningStarter.Entities
         public string LastName { get; set; }
         public string Username { get; set; }
         public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; }        
         public string BirthDay { get; set; }
     }
 
@@ -43,7 +42,8 @@ namespace LearningStarter.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+
+        public string Email { get; set; }        
         public string BirthDay { get; set; }
     }
 
@@ -56,6 +56,6 @@ namespace LearningStarter.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
-        public string Email { get; set; }
-    }
+        public string Email { get; set; } 
+    }   
 }
