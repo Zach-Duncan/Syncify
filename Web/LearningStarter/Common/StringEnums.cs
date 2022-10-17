@@ -43,11 +43,37 @@ namespace LearningStarter.Common
         public static class RecipeNames
         {
             public const string Hamburger = "Hamburgers";
-            public const string Burritoes = "Burritoes";
+            public const string Burritos = "Burritos";
             public const string SloppyJoes = "Sloppy Joes";
             public const string Spaghetti = "Spaghetti";
             public const string PeanutButterAndJelly = "PB & J";
             public const string Toast = "Toast";
+        }
+
+        public static class RecipeDirections
+        {
+            //Future Hamburger Instructions
+            //"Step 1: Follow your users manual to light and preheat your charcoal/gas grill.\n "  +
+            //"Step 2: Remove ground meat from packaging and place in a bowl and add package of Ranch seasoning mix.\n " +
+            //"Step 3: Mix meat and seasoning together and make 1/4 lb patties.\n " +
+            //"Step 4: Place hamburger patties an inche apart on your preheated grill and cook to an internal temperature of 145 degrees Fahrenheit.\n " +
+            //"Step 5: Assembly your hamburger on a bun with your choice of toppings and ENJOY!"
+            public const string Hamburger = "Hamburger Instructions";
+            //Future Burrito Instructions
+            //"Step 1: In a skillet brown your ground meat and drain the grease.\n " +
+            //"Step 2: Add your seasonings and mix well with browned meat for 10 seconds and then add water.\n " +
+            //"Step 3: Bring mixture up to a simmer and let cook for 5 to 10 minutes.\n " +
+            //"Step 4: Place mixture in a warmed tortilla and add your favorite toppings. ENJOY!"
+            public const string Burritos = "Burrito Instructions";
+            //Future Sloppy Joe Instructions
+            //"Step 1: In a skillet, brown your ground meat and drain the grease.\n " +
+            //"Step 2: Add your Sloppy Joe seasoning mix and one 12oz can of tomatoe sauce.\n " +
+            //"Step 3: Simmer on low for 15 mins, while stirring mixture every 2 to 3 minutes.\n " +
+            //"Step 4: Top a hamburger bun with the mixture, a slice of cheese, and a few sliced dill pickles. ENJOY!"
+            public const string SloppyJoes = "Sloppy Joe Instructions";
+            public const string Spaghetti = "Spaghetti Instructions";
+            public const string PeanutButterAndJelly = "PB & J Instructions";
+            public const string Toast = "Toast Instructions";
         }
 
         public static class MemberRoles
@@ -105,14 +131,14 @@ namespace LearningStarter.Common
 
         public static class UserFirstNames
         {
-            public const string One = "Seeded";
+            public const string One = "Roza";
             public const string Two = "John";
             public const string Three = "Mike";
         }
 
         public static class UserLastNames
         {
-            public const string One = "User";
+            public const string One = "Coca";
             public const string Two = "Doe";
             public const string Three = "Smith";
         }
@@ -126,16 +152,16 @@ namespace LearningStarter.Common
 
         public static class UserEmails
         {
-            public const string One = "owner@mail.com";
+            public const string One = "Rozacoca@mail.com";
             public const string Two = "Jdougie23@mail.com";
             public const string Three = "mikesmithboy@gmail.com";
         }
 
         public static class UserPhoneNumbers
         {
-            public const string One = "1112235678";
+            public const string One = "9858675309";
             public const string Two = "9824454747";
-            public const string Three = "9858675309";
+            public const string Three = "9855551234";
         }
 
         public static class UserPasswords
@@ -147,7 +173,7 @@ namespace LearningStarter.Common
 
         public static class UserBirthdays
         {
-            public const string One = "01/01/2001";
+            public const string One = "08/23/2022";
             public const string Two = "12/25/1998";
             public const string Three = "09/30/2002";
         }

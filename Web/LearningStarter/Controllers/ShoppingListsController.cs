@@ -9,7 +9,7 @@ namespace LearningStarter.Controllers
     
 {
     [ApiController]
-    [Route("api/shopping-lists")]
+    [Route("api/shoppingLists")]
     public class ShoppingListsController : ControllerBase
     {
         private DataContext _dataContext;
@@ -120,9 +120,46 @@ namespace LearningStarter.Controllers
             };
 
             //returns 201 Code, which means created
-            return Created("api/shopping-lists/" + shoppingListToCreate.Id,
+            return Created("api/shoppingLists/" + shoppingListToCreate.Id,
                 shoppingListToReturn);
         }
+        // introduce a HttpPut method
+        [HttpPut("{id:int}")]
+
+        public IActionResult Update(
+            [FromRoute] int id,
+            [FromBody] ShoppingListUpdateDto shoppingListUpdateDto)
+        {
+            var response = new Response();
+
+            var shoppingListToUpdate = _dataContext
+                .ShoppingLists
+                .FirstOrDefault(shoppingList => shoppingList.Id == id);
+
+            if(shoppingListToUpdate == null)
+            {
+                response.AddError("id", "Shopping List Item not found, try another Id");
+            }
+
+            shoppingListToUpdate.Name = shoppingListUpdateDto.Name;
+
+            _dataContext.SaveChanges();
+
+            var shoppingList = _dataContext
+                .ShoppingLists
+                .FirstOrDefault(x => x.Id == shoppingListToUpdate.Id);
+
+            var shoppingListToReturn = new ShoppingListGetDto
+            {
+                Id = shoppingListToUpdate.Id,
+                Name = shoppingListToUpdate.Name,
+            };
+
+            response.Data = shoppingListToReturn;
+            return Ok(response);
+
+        }
+
         [HttpDelete("{id:int}")]
         public IActionResult Delete([FromRoute] int id)
         {

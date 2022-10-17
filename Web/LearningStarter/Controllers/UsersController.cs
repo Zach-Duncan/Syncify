@@ -5,6 +5,7 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Controllers
 {
@@ -14,7 +15,7 @@ namespace LearningStarter.Controllers
     {
         private readonly DataContext _context;
 
-        public object userCreateDto { get; private set; }
+        //public object userCreateDto { get; private set; }
 
         public UsersController(DataContext context)
         {
@@ -28,15 +29,21 @@ namespace LearningStarter.Controllers
 
             response.Data = _context
                 .Users
-                .Select(x => new UserGetDto
+                .Select(users => new UserGetDto
                 {
-                    Id = x.Id,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Username = x.Username,
-                    PhoneNumber = x.PhoneNumber,
-                    Email = x.Email,
-                    BirthDay = x.BirthDay,
+                    Id = users.Id,
+                    ProfileColorId = users.ProfileColorId,
+                    ProfileColor = new ProfileColorGetDto
+                    {
+                        Id = users.ProfileColorId,
+                        Colors = users.ProfileColor.Colors
+                    },
+                    FirstName = users.FirstName,
+                    LastName = users.LastName,
+                    Username = users.Username,
+                    PhoneNumber = users.PhoneNumber,
+                    Email = users.Email,
+                    BirthDay = users.BirthDay,
 
                 })
                 .ToList();
@@ -44,15 +51,18 @@ namespace LearningStarter.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetById(
             [FromRoute] int id)
         {
             var response = new Response();
 
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var users = _context
+                .Users
+                .Include(x => x.ProfileColor)
+                .FirstOrDefault(x => x.Id == id);
 
-            if (user == null)
+            if (users == null)
             {
                 response.AddError("id", "There was a problem finding the user.");
                 return NotFound(response);
@@ -60,14 +70,19 @@ namespace LearningStarter.Controllers
 
             var userGetDto = new UserGetDto
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.Username,
-                PhoneNumber = user.PhoneNumber,
-                Email = user.Email
-                
-                
+                Id = users.Id,
+                ProfileColorId = users.ProfileColorId,
+                ProfileColor = new ProfileColorGetDto
+                {
+                    Id = users.ProfileColorId,
+                    Colors = users.ProfileColor.Colors
+                },
+                FirstName = users.FirstName,
+                LastName = users.LastName,
+                Username = users.Username,
+                PhoneNumber = users.PhoneNumber,
+                Email = users.Email,
+                BirthDay = users.BirthDay
             };
 
             response.Data = userGetDto;
@@ -85,31 +100,30 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("firstName", "First name cannot be empty.");
             }
-
             if (userCreateDto.LastName == null || userCreateDto.LastName == "")
             {
                 response.AddError("lastName", "Last name cannot be empty.");
             }
-
             if (userCreateDto.Username == null || userCreateDto.Username == "")
             {
                 response.AddError("userName", "User name cannot be empty.");
             }
-
             if (userCreateDto.Password == null || userCreateDto.Password == "")
             {
                 response.AddError("password", "Password cannot be empty.");
             }
             if (userCreateDto.Email == null || userCreateDto.Email == "")
             {
-                response.AddError("email","Email cannot be empty.");
+                response.AddError("email", "Email cannot be empty.");
             }
             if (userCreateDto.PhoneNumber == null || userCreateDto.PhoneNumber == "")
             {
-                response.AddError("email", "Email cannot be empty.");
+                response.AddError("phoneNumber", "Phone number cannot be empty.");
             }
-           // if (userCreateDto.BirthDay)
-
+            if (userCreateDto.PhoneNumber.Length < 10)
+            {
+                response.AddError("phoneNumber", "Phone number must be 10 or more digits");
+            }
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -117,10 +131,10 @@ namespace LearningStarter.Controllers
 
             var userToCreate = new User
             {
+                ProfileColorId = userCreateDto.ProfileColorId,
                 FirstName = userCreateDto.FirstName,
                 LastName = userCreateDto.LastName,
                 Username = userCreateDto.Username,
-
                 Password = userCreateDto.Password,
                 BirthDay = userCreateDto.BirthDay,
                 Email = userCreateDto.Email,
@@ -130,100 +144,131 @@ namespace LearningStarter.Controllers
             _context.Users.Add(userToCreate);
             _context.SaveChanges();
 
+            var users = _context
+                .Users
+                .Include(x => x.ProfileColor)
+                .FirstOrDefault(x => x.Id == userToCreate.Id);
+
             var userGetDto = new UserGetDto
             {
                 Id = userToCreate.Id,
+                ProfileColorId = userToCreate.ProfileColorId,
+                ProfileColor = new ProfileColorGetDto
+                {
+                    Id = userToCreate.ProfileColorId,
+                    Colors = userToCreate.ProfileColor.Colors
+                },
                 FirstName = userToCreate.FirstName,
                 LastName = userToCreate.LastName,
                 Username = userToCreate.Username,
-                Email = userCreateDto.Email,
-                PhoneNumber = userCreateDto.PhoneNumber,
-                BirthDay = userCreateDto.BirthDay
+                Email = userToCreate.Email,
+                PhoneNumber = userToCreate.PhoneNumber,
+                BirthDay = userToCreate.BirthDay
 
             };
 
             response.Data = userGetDto;
-
             return Created("", response);
         }
 
         [HttpPut("{id}")]
         public IActionResult Edit(
-            [FromRoute] int id, 
-            [FromBody] UserUpdateDto user)
+            [FromRoute] int id,
+            [FromBody] UserUpdateDto userUpdateDto)
         {
             var response = new Response();
 
-            if (user == null)
+            var users = _context
+                .Users
+                .FirstOrDefault(x => x.Id == id);
+
+            if (users == null)
             {
                 response.AddError("id", "There was a problem editing the user.");
                 return NotFound(response);
             }
 
-            var userToEdit = _context.Users.FirstOrDefault(x => x.Id == id);
+            var userToUpdate = _context
+                .Users
+                .Include(x => x.ProfileColor)
+                .FirstOrDefault(x => x.Id == id);
 
-            if (userToEdit == null)
+            if (userToUpdate == null)
             {
                 response.AddError("id", "Could not find user to edit.");
                 return NotFound(response);
             }
 
-            if (user.FirstName == null || user.FirstName == "")
+            if (users.ProfileColor == null)
+            {
+                response.AddError("profileColor", "Profile Color cannot be empty.");
+            }
+
+            if (users.FirstName == null || users.FirstName == "")
             {
                 response.AddError("firstName", "First name cannot be empty.");
             }
 
-            if (user.LastName == null || user.LastName == "")
+            if (users.LastName == null || users.LastName == "")
             {
-                response.AddError("lirstName", "Last name cannot be empty.");
+                response.AddError("lastName", "Last name cannot be empty.");
             }
 
-            if (user.Username == null || user.Username == "")
-            {
-                response.AddError("userName", "User name cannot be empty.");
-            }
-
-            if (user.Password == null || user.Password == "")
-            {
-                response.AddError("password", "Password cannot be empty.");
-            }
-            if (user.Email == null || user.Email == "")
+            if (users.Email == null || users.Email == "")
             {
                 response.AddError("email", "Email cannot be empty.");
             }
 
-            if (user.PhoneNumber.Length <= 10 )
+            if (users.PhoneNumber.Length < 10)
             {
-                response.AddError("phone number", "Phone number must be 10 digits or more.");
-            } 
-            if(user.PhoneNumber == "")
-            { 
-                response.AddError("phoneNumber", "PhoneNumber cannot be empty.");
+                response.AddError("phoneNumber", "Phone number must be 10 or more digitsy.");
             }
+
+            if (users.PhoneNumber == "")
+            {
+                response.AddError("phoneNumber", "Phone number cannot be empty");
+            }
+
             if (response.HasErrors)
             {
                 return BadRequest(response);
             }
 
-            userToEdit.FirstName = user.FirstName;
-            userToEdit.LastName = user.LastName;
-            userToEdit.Username = user.Username;
-            userToEdit.Password = user.Password;
-            userToEdit.PhoneNumber = user.PhoneNumber;
-            userToEdit.Email = user.Email;
+            userToUpdate.ProfileColorId = userUpdateDto.ProfileColorId;
+            userToUpdate.FirstName = userUpdateDto.FirstName;
+            userToUpdate.LastName = userUpdateDto.LastName;
+            userToUpdate.Username = userUpdateDto.Username;
+            userToUpdate.Password = userUpdateDto.Password;
+            userToUpdate.PhoneNumber = userUpdateDto.PhoneNumber;
+            userToUpdate.Email = userUpdateDto.Email;
 
 
             _context.SaveChanges();
 
-            var userGetDto = new UserGetDto
+            var user = _context
+                .Users
+                .Include(x => x.ProfileColor)
+                .FirstOrDefault(x => x.Id == userToUpdate.Id);
+
+            var userToReturn = new UserGetDto
             {
-                Id = userToEdit.Id,
-                FirstName = userToEdit.FirstName,
-                LastName = userToEdit.LastName,
-                Username = userToEdit.Username
+                Id = user.Id,
+                ProfileColorId = user.ProfileColorId,
+                ProfileColor = new ProfileColorGetDto
+                {
+                    Id = user.ProfileColorId,
+                    Colors = user.ProfileColor.Colors
+                },
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.Username,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                BirthDay = user.BirthDay
+
             };
 
-            response.Data = userGetDto;
+            response.Data = userToReturn;
 
             return Ok(response);
         }
@@ -233,17 +278,20 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+            var userToDelete = _context
+                .Users
+                .FirstOrDefault(user => user.Id == id);
 
-            if (user == null)
+            if (userToDelete == null)
             {
                 response.AddError("id", "There was a problem deleting the user.");
                 return NotFound(response);
             }
 
-            _context.Users.Remove(user);
+            _context.Remove(userToDelete);
             _context.SaveChanges();
 
+            response.Data = true;
             return Ok(response);
         }
     }
