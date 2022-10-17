@@ -149,11 +149,27 @@ namespace LearningStarter
             SeedIngredients(dataContext);
             SeedRecipes(dataContext);
             SeedGroupMembers(dataContext);
-            SeedToDos(dataContext);
+            //SeedToDos(dataContext);
             SeedRecipeIngredients(dataContext);
+            //SeedShoppingListRecipeIngredients(dataContext);
         }
 
+        //private void SeedShoppingListRecipeIngredients(DataContext dataContext)
+        //{
+        //    if (!dataContext.ShoppingListRecipeIngredients.Any())
+        //    {
+        //        var recipeIngredient = dataContext.RecipeIngredients.ToList();
+        //        var shoppingList = dataContext.ShoppingLists.ToList();
 
+        //        var seededShoppingListRecipeIngredients = new List<ShoppingListRecipeIngredient>
+        //        {
+        //            new ShoppingListRecipeIngredient
+        //            {
+        //                RecipeIngredient = recipeIngredient.First(x => x.Name)
+        //            }
+        //        };
+        //    }
+        //}
         private void SeedRecipeIngredients(DataContext dataContext)
         {
 
@@ -621,15 +637,23 @@ namespace LearningStarter
             {
                 new ShoppingList
                 {
-                    Name = "Bread",
+                    Name = "Hamburger Meat",
                 },
                 new ShoppingList
                 {
-                    Name = "Bananas",
+                    Name = "Taco Seasoning Mix",
                 },
                 new ShoppingList
                 {
-                    Name = "Peanut Butter",
+                    Name = "Ground Beef",
+                },
+                 new ShoppingList
+                {
+                    Name = "Spaghetti Noodles",
+                },
+                  new ShoppingList
+                {
+                    Name = "Smooth Peanut Butter",
                 }
             };
 

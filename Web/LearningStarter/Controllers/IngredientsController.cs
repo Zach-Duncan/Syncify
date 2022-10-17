@@ -74,6 +74,7 @@ namespace LearningStarter.Controllers
                 response.AddError("Name", "Name cannot be empty.");
             }
 
+
             if (string.IsNullOrEmpty(ingredientCreateDto.Image))
             {
                 response.AddError("Image", "Image cannot be empty.");
@@ -87,6 +88,7 @@ namespace LearningStarter.Controllers
             var ingredientToAdd = new Ingredient
             {
                 Name = ingredientCreateDto.Name,
+
                 Image = ingredientCreateDto.Image,
             };
 

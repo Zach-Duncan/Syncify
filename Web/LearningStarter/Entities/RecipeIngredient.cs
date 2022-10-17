@@ -6,14 +6,16 @@ namespace LearningStarter.Entities
     public class RecipeIngredient
     {
        public int Id { get; set; }
-       public Recipe Recipe { get; set; }
        public int RecipeId { get; set; }
+       public Recipe Recipe { get; set; }
        public Ingredient Ingredient { get; set; }
        public int IngredientId { get; set; }
        public double Quantity { get; set; }
        public Unit Unit { get; set; }
        public int UnitId { get; set; }
-       public List<ShoppingListRecipeIngredient> ShoppingListsRecipeIngredients { get; set; } = new List<ShoppingListRecipeIngredient>();       
+
+
+        public List<ShoppingListRecipeIngredient> ShoppingListsRecipeIngredients { get; set; } = new List<ShoppingListRecipeIngredient>();       
     }
     public class RecipeIngredientGetDto
     {
@@ -25,6 +27,8 @@ namespace LearningStarter.Entities
         public double Quantity { get; set; }
         public int UnitId { get; set; }
         public UnitGetDto Unit { get; set; }
+
+
     }
     public class RecipeIngredientCreateDto
     {
@@ -35,6 +39,7 @@ namespace LearningStarter.Entities
         public double Quantity { get; set; }
         public int UnitId { get; set; }
         public UnitCreateDto Unit { get; set; }
+
     }
     public class RecipeIngredientUpdateDto
     {
@@ -45,5 +50,6 @@ namespace LearningStarter.Entities
         public double Quantity { get; set; }
         public int UnitId { get; set; }
         public UnitUpdateDto Unit { get; set; }
+
     }
 }

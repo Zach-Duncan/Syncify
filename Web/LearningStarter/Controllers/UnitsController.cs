@@ -70,6 +70,10 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("Name", "Name cannot be empty.");
             }
+            if (string.IsNullOrEmpty(unitCreateDto.Abbreviation))
+            {
+                response.AddError("Abbreviation", "Abbreviation cannot be empty.");
+            }
 
             if (response.HasErrors)
             {
@@ -108,9 +112,20 @@ namespace LearningStarter.Controllers
                 .Units
                 .FirstOrDefault(unit => unit.Id == id);
 
-            if (unitToUpdate == null)
+            if (unitUpdateDto == null)
             {
                 response.AddError("id", "That Unit was not found, try again.");
+            }
+            if (string.IsNullOrEmpty(unitUpdateDto.Name))
+            {
+                response.AddError("Name", "Name cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(unitUpdateDto.Abbreviation))
+            {
+                response.AddError("Abbreviation", "Abbreviation cannot be empty.");
+            }
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
 

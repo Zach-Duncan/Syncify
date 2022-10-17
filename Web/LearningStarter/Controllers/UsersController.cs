@@ -83,8 +83,8 @@ namespace LearningStarter.Controllers
                 PhoneNumber = users.PhoneNumber,
                 Email = users.Email,
                 BirthDay = users.BirthDay
-            };          
 
+            };          
             response.Data = userGetDto;
 
             return Ok(response);
@@ -119,7 +119,7 @@ namespace LearningStarter.Controllers
             }
             if (userCreateDto.Email == null || userCreateDto.Email == "")
             {
-                response.AddError("email","Email cannot be empty.");
+                response.AddError("email", "Email cannot be empty.");
             }
             if (userCreateDto.PhoneNumber == null || userCreateDto.PhoneNumber == "")
             {
@@ -223,10 +223,10 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("email", "Email cannot be empty.");
             }
-
+            
             if (users.PhoneNumber.Length < 10 ) 
             {
-                response.AddError("phoneNumber", "Phone number must be 10 or more digitsy.");
+                response.AddError("phoneNumber", "Phone number must be 10 or more digits.");
             }
 
             if (users.PhoneNumber == "")
@@ -246,7 +246,6 @@ namespace LearningStarter.Controllers
             userToUpdate.Password = userUpdateDto.Password;
             userToUpdate.PhoneNumber = userUpdateDto.PhoneNumber;
             userToUpdate.Email = userUpdateDto.Email;
-            
 
             _context.SaveChanges();
             

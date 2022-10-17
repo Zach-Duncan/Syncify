@@ -14,7 +14,7 @@ namespace LearningStarter.Entities
         public MealType MealType { get; set; }
         public int MealTypeId { get; set; }
         public Calendar Calendar { get; set; }
-        public int CalendarId { get; set; }        
+        public int CalendarId { get; set; }
         public List<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
     }
 

@@ -156,7 +156,7 @@ namespace LearningStarter.Controllers
                 .Include(x => x.Calendar)
                 .ThenInclude(x => x.Group)
                 .FirstOrDefault(x => x.Id == recipeToAdd.Id);
-  
+
             var recipeToReturn = new RecipeGetDto
             {
                 Id = recipe.Id,
@@ -204,7 +204,7 @@ namespace LearningStarter.Controllers
             {
                 response.AddError("id", "Recipe not found.");                
             }
-
+            
             if (string.IsNullOrEmpty(recipeToUpdate.Name))
             {
                 response.AddError("Name", "Name cannot be empty.");
@@ -241,7 +241,7 @@ namespace LearningStarter.Controllers
             recipeToUpdate.Directions = recipeUpdateDto.Directions;
             recipeToUpdate.MealTypeId = recipeUpdateDto.MealTypeId;
             recipeToUpdate.CalendarId = recipeUpdateDto.CalendarId;
-            
+
             _dataContext.SaveChanges();
 
             var recipe = _dataContext
