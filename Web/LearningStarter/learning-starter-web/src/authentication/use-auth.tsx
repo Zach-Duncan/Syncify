@@ -7,14 +7,14 @@ import { useSubscription } from "../hooks/use-subscription";
 import { useProduce } from "../hooks/use-produce";
 import { Error } from "../constants/types";
 import { LoginPage } from "../pages/login-page/login-page";
-import { UserDto } from "../constants/types";
+import { UserGetDto } from "../constants/types";
 import { StatusCodes } from "../constants/status-codes";
 
 const currentUser = "currentUser";
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
 //functions for setting session storage
-const setUserItem = (user: UserDto) => {
+const setUserItem = (user: UserGetDto) => {
   sessionStorage.setItem(currentUser, JSON.stringify(mapUser(user)));
 };
 
@@ -23,7 +23,7 @@ const removeUserItem = () => {
 };
 
 type AuthState = {
-  user: UserDto | null;
+  user: UserGetDto | null;
   errors: Error[];
   redirectUrl?: string | null;
 };
@@ -122,10 +122,10 @@ export const AuthProvider = (props: any) => {
   return <AuthContext.Provider value={state} {...props} />;
 };
 
-type GetUserResponse = ApiResponse<UserDto>;
+type GetUserResponse = ApiResponse<UserGetDto>;
 
 //This function is available anywhere wrapped inside of the <AuthProvider>.  See Config.tsx for example.
-export function useUser(): UserDto {
+export function useUser(): UserGetDto {
   const { user } = useContext(AuthContext);
   if (!user) {
     throw new Error(`useUser must be used within an authenticated app`);
@@ -134,9 +134,13 @@ export function useUser(): UserDto {
 }
 
 //This is used to map an object (any type) to a User entity.
-export const mapUser = (user: any): UserDto => ({
+export const mapUser = (user: any): UserGetDto => ({
   id: user.id,
+  profileColorId: user.profileColorId,
   firstName: user.firstName,
   lastName: user.lastName,
   userName: user.userName,
+  phoneNumber: user.phoneNumber,
+  email: user.email,
+  birthday: user.birthday,
 });

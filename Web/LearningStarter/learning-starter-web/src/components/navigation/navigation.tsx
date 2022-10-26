@@ -3,12 +3,12 @@ import React, { useMemo } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
 import { Dropdown, Image, Menu, Icon, SemanticICONS } from "semantic-ui-react";
 import logo from "../../assets/logo.png";
-import { UserDto } from "../../constants/types";
+import { UserGetDto } from "../../constants/types";
 import { logoutUser } from "../../authentication/authentication-services";
 import { routes } from "../../routes/config";
 
 type PrimaryNavigationProps = {
-  user?: UserDto;
+  user?: UserGetDto;
 };
 
 type NavigationItem = {
@@ -45,6 +45,65 @@ const DesktopNavigation = () => {
         nav: {
           to: routes.user,
         },
+      },
+      {
+        text: "Meal Types",
+        children: [
+          {
+            text: "Listing",
+            icon: "list",
+            hide: false,
+            nav: {
+              to: routes.mealTypes.listing,
+            },
+          },
+          {
+            text: "Update",
+            icon: "pencil",
+            hide: false,
+            nav: {
+              to: routes.mealTypes.update,
+            },
+          },
+          {
+            text: "Create",
+            icon: "plus",
+            hide: false,
+            nav: {
+              to: routes.mealTypes.create,
+            },
+          },
+          
+        ],
+      },
+      {
+        text: "Ingredients",
+        children: [
+          {
+            text: "List",
+            icon: "list",
+            hide: false,
+            nav: {
+            to: routes.ingredients.listing,
+            },
+          },
+          {
+            text: "Update",
+            icon: "pencil",
+            hide: false,
+            nav: {
+            to: routes.ingredients.update,
+            },
+          },
+          {
+            text: "Create",
+            icon: "plus",
+            hide: false,
+            nav: {
+            to: routes.ingredients.create,
+            },
+          },
+        ]
       },
     ];
   }, []);

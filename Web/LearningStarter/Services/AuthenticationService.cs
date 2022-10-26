@@ -7,6 +7,7 @@ using LearningStarter.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace LearningStarter.Services
 {
@@ -64,7 +65,7 @@ namespace LearningStarter.Services
 
             var userId = int.Parse(_httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == "Id").Value);
 
-            return _context.Users.SingleOrDefault(x => x.Id == userId);
+            return _context.Users.Include(x => x.ProfileColor).SingleOrDefault(x => x.Id == userId);
         }
 
         // helper methods

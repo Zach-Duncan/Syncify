@@ -15,8 +15,6 @@ namespace LearningStarter.Controllers
     {
         private readonly DataContext _context;
 
-        //public object userCreateDto { get; private set; }
-
         public UsersController(DataContext context)
         {
             _context = context;
