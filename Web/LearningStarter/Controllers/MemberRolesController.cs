@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace LearningStarter.Controllers
 {
     [ApiController]
-    [Route("api/memberRoles")]
+    [Route("api/member-roles")]
     public class MemberRolesController : ControllerBase
     {
         private readonly DataContext _dataContext;

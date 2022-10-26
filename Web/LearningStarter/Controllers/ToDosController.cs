@@ -3,18 +3,16 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace LearningStarter.Controllers
 {
     [ApiController]
-    [Route("api/toDos")]
+    [Route("api/to-dos")]
     public class ToDosController : ControllerBase
     {
-        private DataContext _dataContext;
-
-        public object toDoToReturn { get; set; }
-
+        private readonly DataContext _dataContext;
         public ToDosController(DataContext dataContext)
         {
             _dataContext = dataContext;
@@ -24,84 +22,67 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var toDosToReturn = _dataContext
+            var toDos = _dataContext
                 .ToDos
-                .Select(toDo => new ToDoGetDto
+                .Select(toDos => new ToDoGetDto
                 {
-                    Id = toDo.Id,
-                    CalendarId = toDo.CalendarId,
+                    Id = toDos.Id,
+                    CalendarId = toDos.CalendarId,
                     Calendar = new CalendarGetDto
                     {
-                        Id = toDo.CalendarId,
-                        GroupId = toDo.Calendar.GroupId,
+                        Id = toDos.CalendarId,
+                        GroupId = toDos.Calendar.GroupId,
                         Group = new GroupGetDto
                         {
-                            Id = toDo.Calendar.GroupId,
-                            Name = toDo.Calendar.Group.Name,
-                            Image = toDo.Calendar.Group.Image
+                            Id = toDos.Calendar.GroupId,
+                            Name = toDos.Calendar.Group.Name,
+                            Image = toDos.Calendar.Group.Image
                         }
                     },
-                    Title = toDo.Title,
-                    Description = toDo.Description,
-                    Date = toDo.Date,
+                    Title = toDos.Title,
+                    Description = toDos.Description,
+                    Date = toDos.Date,
                 })
                 .ToList();
-            response.Data = toDosToReturn;
 
+            response.Data = toDos;
             return Ok(response);
         }
+
         [HttpGet("{id:int}")]
         public IActionResult GetById([FromRoute] int id)
         {
             var response = new Response();
 
-            if (id <= 0)
-            {
-                response.AddError("id", "Cannot be less than or equal to zero");
-            }
+            var toDoToReturn = _dataContext
+                .ToDos
+                .Select(toDos => new ToDoGetDto
+                {
+                    Id = toDos.Id,
+                    CalendarId = toDos.CalendarId,
+                    Calendar = new CalendarGetDto 
+                    {
+                        Id = toDos.CalendarId,
+                        GroupId = toDos.Calendar.GroupId,
+                        Group = new GroupGetDto 
+                        {
+                            Id = toDos.Calendar.GroupId,
+                            Name = toDos.Calendar.Group.Name,
+                            Image = toDos.Calendar.Group.Image
+                        }
+                    },
+                    Title = toDos.Title,
+                    Description = toDos.Description
+                })
+                .FirstOrDefault(toDos => toDos.Id == id);
 
-            if (response.HasErrors)
+            if (toDoToReturn == null)
             {
+                response.AddError("id", "To Do not found.");
                 return BadRequest(response);
             }
 
-            var toDosFromDatabase = _dataContext
-                .ToDos
-                .FirstOrDefault(toDo => toDo.Id == id);
-
-            if (toDosFromDatabase == null)
-            {
-                response.AddError("id", "No Task Found");
-                return NotFound(response);
-            }
-
-            var toDo = _dataContext
-                .ToDos
-                .Include(toDo => toDo.Calendar)
-                .ThenInclude(toDo => toDo.Group)
-                .FirstOrDefault(toDo => toDo.Id == toDosFromDatabase.Id);
-
-            var toDoToReturn = new ToDoGetDto
-            {
-                Id = toDosFromDatabase.Id,
-                CalendarId = toDosFromDatabase.CalendarId,
-                Calendar = new CalendarGetDto 
-                {
-                    Id = toDo.CalendarId,
-                    GroupId = toDo.Calendar.GroupId,
-                    Group = new GroupGetDto 
-                    {
-                        Id = toDo.Calendar.GroupId,
-                        Name = toDo.Calendar.Group.Name,
-                        Image = toDo.Calendar.Group.Image
-                    }
-                },
-                Title = toDosFromDatabase.Title,
-                Description = toDosFromDatabase.Description
-            };
-
             response.Data = toDoToReturn;
-
             return Ok(response);
         }
 
@@ -110,54 +91,42 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            if (toDoCreateDto == null)
-            {
-                response.AddError("", "Critical error.");
-                return BadRequest(response);
-            }
             if (!_dataContext.Calendars.Any(calendar => calendar.Id == toDoCreateDto.CalendarId))
             {
-                response.AddError("CalendarId", "Calendar does not exist.");
+                response.AddError("CalendarId", "Calendar Id does not exist.");
             }
-            if (toDoCreateDto.Title == null || toDoCreateDto.Title == "")
-            {
-                response.AddError("Title", "Task title cannot be empty");
-                return BadRequest(response);
-            }
-            if (toDoCreateDto.Description == null || toDoCreateDto.Description == "") 
-            {
-                response.AddError("Description", "Task Description cannot be empty");
-                return BadRequest(response);
-            }
-            var toDoAlreadyExistsInDatabase = _dataContext.ToDos.Any(toDo => toDo.Title == toDoCreateDto.Title);
 
-            if (toDoAlreadyExistsInDatabase)
+            if (string.IsNullOrEmpty(toDoCreateDto.Title))
             {
-                response.AddError("title", "Already exists in ToDo.");
+                response.AddError("Title", "Title cannot be empty.");
             }
+
+            if (string.IsNullOrEmpty(toDoCreateDto.Description))
+            {
+                response.AddError("Description", "Description cannot be empty.");
+            }
+
             if (response.HasErrors)
             {
                 return BadRequest(response);
             }
 
-
-            var toDoToCreate = new ToDo
+            var toDoToAdd = new ToDo
             {
                 CalendarId = toDoCreateDto.CalendarId, 
                 Title = toDoCreateDto.Title,
                 Description = toDoCreateDto.Description,
                 Date = toDoCreateDto.Date,
-                // User = shoppingListCreateDto.User,
             };
 
-            _dataContext.ToDos.Add(toDoToCreate);
+            _dataContext.ToDos.Add(toDoToAdd);
             _dataContext.SaveChanges();
 
             var toDo = _dataContext
                 .ToDos
                 .Include(toDo => toDo.Calendar)
                 .ThenInclude(toDo => toDo.Group)
-                .FirstOrDefault(toDo => toDo.Id == toDoToCreate.Id);
+                .FirstOrDefault(toDo => toDo.Id == toDoToAdd.Id);
 
             var toDoToReturn = new ToDoGetDto
             {
@@ -174,13 +143,14 @@ namespace LearningStarter.Controllers
                         Image = toDo.Calendar.Group.Image
                     }
                 },
-                Title = toDoToCreate.Title,
-                Description = toDoCreateDto.Description,
-                Date = toDoCreateDto.Date
+                Title = toDo.Title,
+                Description = toDo.Description,
+                Date = toDo.Date
             };
 
             //returns 201 Code, which means created
-            return Created("api/to-dos/" + toDoToCreate.Id,
+            response.Data = toDoToReturn;
+            return Created("api/to-dos/" + toDoToAdd.Id,
                 toDoToReturn);
         }
 
@@ -198,11 +168,34 @@ namespace LearningStarter.Controllers
 
             if (toDoToUpdate == null)
             {
-                response.AddError("id", "Task not found.");
+                response.AddError("id", "Task not found.");                
+            }
+
+            if (!_dataContext.Calendars.Any(calendar => calendar.Id == toDoUpdateDto.CalendarId))
+            {
+                response.AddError("CalendarId", "Calendar Id does not exist.");
+            }
+
+            if (string.IsNullOrEmpty(toDoUpdateDto.Title))
+            {
+                response.AddError("Title", "Title cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(toDoUpdateDto.Description))
+            {
+                response.AddError("Description", "Description cannot be empty.");
+            }
+
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
 
+            toDoToUpdate.CalendarId = toDoUpdateDto.CalendarId;
             toDoToUpdate.Title = toDoUpdateDto.Title;
+            toDoToUpdate.Description = toDoUpdateDto.Description;
+            toDoToUpdate.Date = toDoUpdateDto.CreatedDate;
+
             _dataContext.SaveChanges();
 
             var toDo = _dataContext
@@ -213,8 +206,8 @@ namespace LearningStarter.Controllers
 
             var toDoToReturn = new ToDoGetDto
             {
-                Id = toDoToUpdate.Id,
-                CalendarId = toDoToUpdate.Calendar.Id,
+                Id = toDo.Id,
+                CalendarId = toDo.Calendar.Id,
                 Calendar = new CalendarGetDto 
                 {
                     Id = toDo.CalendarId,
@@ -226,9 +219,9 @@ namespace LearningStarter.Controllers
                         Image = toDo.Calendar.Group.Image
                     }
                 },
-                Title = toDoToUpdate.Title,
-                Description = toDoToUpdate.Description,
-                Date = toDoToUpdate.Date
+                Title = toDo.Title,
+                Description = toDo.Description,
+                Date = toDo.Date
             };
 
             response.Data = toDoToReturn;

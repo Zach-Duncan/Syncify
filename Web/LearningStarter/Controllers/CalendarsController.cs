@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace LearningStarter.Controllers
 {
@@ -79,10 +80,11 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            if (!_dataContext.Units.Any(group => group.Id == calendarCreateDto.GroupId))
+            if (!_dataContext.Groups.Any(group => group.Id == calendarCreateDto.GroupId))
             {
                 response.AddError("GroupId", "Group does not exist.");
             }
+
             if (response.HasErrors)
             {
                 return BadRequest(response);
@@ -90,7 +92,6 @@ namespace LearningStarter.Controllers
 
             var calendarToAdd = new Calendar
             {
-                Id = calendarCreateDto.GroupId,
                 GroupId = calendarCreateDto.GroupId,
             };
 
@@ -104,6 +105,7 @@ namespace LearningStarter.Controllers
 
             var calendarToReturn = new CalendarGetDto
             {
+                Id = calendar.Id,
                 GroupId = calendar.GroupId,
                 Group = new GroupGetDto
                 {
@@ -131,10 +133,22 @@ namespace LearningStarter.Controllers
             
             if (calendarToUpdate == null)
             {
-                response.AddError("id", "Calendar not found.");
+                response.AddError("id", "Calendar not found.");                
+            }
+
+            if (!_dataContext.Groups.Any(group => group.Id == calendarUpdateDto.GroupId))
+            {
+                response.AddError("GroupId", "Group Id was not found");
+            }
+
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
+
+
             calendarToUpdate.GroupId = calendarUpdateDto.GroupId;
+
             _dataContext.SaveChanges();
 
             var calendar = _dataContext
@@ -144,7 +158,8 @@ namespace LearningStarter.Controllers
 
             var calendarToReturn = new CalendarGetDto
             {
-                GroupId = calendarToUpdate.GroupId,
+                Id = calendar.Id,
+                GroupId = calendar.GroupId,
                 Group = new GroupGetDto
                 {
                     Id = calendar.GroupId,

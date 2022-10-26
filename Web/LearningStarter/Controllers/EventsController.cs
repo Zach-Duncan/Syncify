@@ -3,7 +3,9 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace LearningStarter.Controllers
 {
@@ -11,10 +13,7 @@ namespace LearningStarter.Controllers
     [Route("api/events")]
     public class EventsController : ControllerBase
     {
-        private DataContext _dataContext;
-
-        public object eventToReturn { get; private set; }
-
+        private readonly DataContext _dataContext;
         public EventsController(DataContext dataContext)
         {
             _dataContext = dataContext;
@@ -25,85 +24,90 @@ namespace LearningStarter.Controllers
         {
             var response = new Response();
 
-            var eventsToReturn = _dataContext
+            var events = _dataContext
                 .Events
-                .Select(x => new EventGetDto
+                .Select(events => new EventGetDto
                 {
-                    Id = x.Id,
-                    CalendarId = x.CalendarId,
-                    Name = x.Name,
-                    EventDetails = x.EventDetails,
-                    CreatedDate = x.CreatedDate,
+                    Id = events.Id,
+                    CalendarId = events.CalendarId,
+                    Calendar = new CalendarGetDto
+                    {
+                        Id = events.CalendarId,
+                        GroupId = events.Calendar.GroupId,
+                        Group = new GroupGetDto
+                        {
+                            Id = events.Calendar.GroupId,
+                            Name = events.Calendar.Group.Name,
+                            Image = events.Calendar.Group.Image,
+                        }
+                    },
+                    Name = events.Name,
+                    EventDetails = events.EventDetails,
+                    CreatedDate = events.CreatedDate,
                 })
                 .ToList();
 
-
-            response.Data = eventsToReturn;
-
+            response.Data = events;
             return Ok(response);
         }
+
         [HttpGet("{id:int}")]
         public IActionResult GetById([FromRoute] int id)
         {
             var response = new Response();
 
-            if (id <= 0)
-            {
-                response.AddError("id", "Cannot be less than or equal to zero");
-            }
+            var eventToReturn = _dataContext
+                .Events
+                .Select(events => new EventGetDto
+                {
+                    Id = events.Id,
+                    CalendarId = events.CalendarId,
+                    Calendar = new CalendarGetDto
+                    {
+                        Id = events.CalendarId,
+                        GroupId = events.Calendar.GroupId,
+                        Group = new GroupGetDto
+                        {
+                            Id = events.Calendar.GroupId,
+                            Name = events.Calendar.Group.Name,
+                            Image = events.Calendar.Group.Image,
+                        }
+                    },
+                    Name = events.Name,
+                    EventDetails = events.EventDetails,
+                    CreatedDate = events.CreatedDate,
+                })
+                .FirstOrDefault(events => events.Id == id);
 
-            if (response.HasErrors)
+            if (eventToReturn == null)
             {
+                response.AddError("id", "Event not found.");
                 return BadRequest(response);
             }
 
-            var eventFromDatabase = _dataContext
-                .Events
-                .FirstOrDefault(events => events.Id == id);
-
-            if (eventFromDatabase == null)
-            {
-                response.AddError("id", "No Event Found");
-                return NotFound(response);
-            }
-
-            var eventToReturn = new EventGetDto
-            {
-                Id = eventFromDatabase.Id,
-                Name = eventFromDatabase.Name,
-                EventDetails = eventFromDatabase.EventDetails,
-                CreatedDate = eventFromDatabase.CreatedDate,
-            };
-
             response.Data = eventToReturn;
-
             return Ok(response);
         }
+
 
         [HttpPost]
         public IActionResult Create([FromBody] EventCreateDto eventCreateDto)
         {
             var response = new Response();
 
-            if (eventCreateDto == null)
+            if (!_dataContext.Calendars.Any(calendars => calendars.Id == eventCreateDto.CalendarId))
             {
-                response.AddError("", "Critical error.");
-                return BadRequest(response);
+                response.AddError("CalendarId", "Calendar Id does not exist.");
             }
 
-
-
-            if (eventCreateDto.Name == null) 
-             {
-                response.AddError("name", "Event name cannot be empty.");
-                return BadRequest(response);
+            if (eventCreateDto.Name == null || eventCreateDto.Name == "")
+            {
+                response.AddError("Name", "Event name cannot be empty.");
             }
 
-            var eventAlreadyExistsInDatabase = _dataContext.Events.Any(x => x.Name == eventCreateDto.Name);
-
-            if (eventAlreadyExistsInDatabase)
+            if (eventCreateDto.EventDetails == null || eventCreateDto.EventDetails == "")
             {
-                response.AddError("name", "Event already exists in database");
+                response.AddError("EventDetails", "Event details cannot be empty.");
             }
 
             if (response.HasErrors)
@@ -113,17 +117,43 @@ namespace LearningStarter.Controllers
 
             var eventToCreate = new Event
             {
-                Name = eventCreateDto.Name,
                 CalendarId = eventCreateDto.CalendarId,
+                Name = eventCreateDto.Name,
                 EventDetails = eventCreateDto.EventDetails,
-                CreatedDate = eventCreateDto.CreatedDate,
+                CreatedDate = eventCreateDto.CreatedDate
             };
 
             _dataContext.Events.Add(eventToCreate);
             _dataContext.SaveChanges();
 
-            return Created("api/events/" + eventToCreate.Id,
-                eventToReturn);
+            var events = _dataContext
+                .Events
+                .Include(x => x.Calendar)
+                .ThenInclude(x => x.Group)
+                .FirstOrDefault(x => x.Id == eventToCreate.Id);
+
+            var eventToReturn = new EventGetDto
+                {
+                    Id = events.Id,
+                    CalendarId = events.CalendarId,
+                    Calendar = new CalendarGetDto
+                    {
+                        Id = events.CalendarId,
+                        GroupId = events.Calendar.GroupId,
+                        Group = new GroupGetDto
+                        {
+                            Id = events.Calendar.GroupId,
+                            Name = events.Calendar.Group.Name,
+                            Image = events.Calendar.Group.Image,
+                        }
+                    },
+                    Name = events.Name,
+                    EventDetails = events.EventDetails,
+                    CreatedDate = events.CreatedDate
+                };
+
+            response.Data = eventToReturn;
+            return Created("", response);    
         }
 
         [HttpPut("{id}")]
@@ -140,45 +170,87 @@ namespace LearningStarter.Controllers
 
             if (eventToUpdate == null)
             {
-                response.AddError("id", "Task not found.");
+                response.AddError("id", "Task not found.");                
+            }
+
+            if (!_dataContext.Calendars.Any(calendars => calendars.Id == eventUpdateDto.CalendarId))
+            {
+                response.AddError("CalendarId", "Calendar Id does not exist.");
+            }
+
+            if (eventUpdateDto.Name == null || eventUpdateDto.Name == "")
+            {
+                response.AddError("Name", "Event name cannot be empty.");
+            }
+
+            if (eventUpdateDto.EventDetails == null || eventUpdateDto.EventDetails == "")
+            {
+                response.AddError("EventDetails", "Event details cannot be empty.");
+            }
+
+            if (response.HasErrors)
+            {
                 return BadRequest(response);
             }
 
+
+            eventToUpdate.CalendarId = eventUpdateDto.CalendarId;
+            eventToUpdate.Name = eventUpdateDto.Name;
             eventToUpdate.EventDetails = eventUpdateDto.EventDetails;
+            eventToUpdate.CreatedDate = eventUpdateDto.CreatedDate;
+
             _dataContext.SaveChanges();
 
-            var eventsToReturn = new EventGetDto
+            var events = _dataContext
+                .Events
+                .Include(x => x.Calendar)
+                .ThenInclude(x => x.Group)
+                .FirstOrDefault(x => x.Id == eventToUpdate.Id);
+
+            var eventToReturn = new EventGetDto
             {
-                Id = eventToUpdate.Id,
-                EventDetails = eventToUpdate.EventDetails,
-                Name = eventToUpdate.Name,
-                CreatedDate = eventToUpdate.CreatedDate
+                Id = events.Id,
+                CalendarId = events.CalendarId,
+                Calendar = new CalendarGetDto
+                {
+                    Id = events.CalendarId,
+                    GroupId = events.Calendar.GroupId,
+                    Group = new GroupGetDto
+                    {
+                        Id = events.Calendar.GroupId,
+                        Name = events.Calendar.Group.Name,
+                        Image = events.Calendar.Group.Image,
+                    }
+                },
+                Name = events.Name,
+                EventDetails = events.EventDetails,
+                CreatedDate = events.CreatedDate
             };
 
             response.Data = eventToReturn;
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete([FromRoute] int id)
         {
             var response = new Response();
 
-            var events = _dataContext.Events.FirstOrDefault(x => x.Id == id);
-
-            if (events == null)
+            var eventToDelete = _dataContext
+                .Events
+                .FirstOrDefault(x => x.Id == id);
+            if (eventToDelete == null)
             {
-                response.AddError("id", "There was a problem deleting the event.");
-                return NotFound(response);
+                response.AddError("id", "Event not found.");
+                return BadRequest(response);
             }
 
-            _dataContext.Events.Remove(events);
+            _dataContext.Remove(eventToDelete);
             _dataContext.SaveChanges();
 
+            response.Data = true;
             return Ok(response);
         }
-
-        
-
     }
 }
+
