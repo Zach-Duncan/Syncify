@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace LearningStarter.Controllers
 {
     [ApiController]
-    [Route("api/group")]
+    [Route("api/groups")]
     public class GroupController : ControllerBase
     {
         private readonly DataContext _dataContext;

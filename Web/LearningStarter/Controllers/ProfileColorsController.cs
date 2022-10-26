@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace LearningStarter.Controllers
 {
     [ApiController]
-    [Route("api/ProfileColor")]
+    [Route("api/profile-colors")]
     public class ProfileColorsController : ControllerBase
     {
         private readonly DataContext _dataContext;
