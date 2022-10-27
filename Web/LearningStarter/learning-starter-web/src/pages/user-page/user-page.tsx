@@ -20,7 +20,7 @@ export const UserPage = () => {
           <p>{user.lastName}</p>
           <Divider />
           <Header size="small">User Name</Header>
-          <p>{user.userName}</p>
+          <p>{user.username}</p>
           <Divider />
           <Header size="small">Phone Number</Header>
           <p>{user.phoneNumber}</p>
@@ -29,7 +29,7 @@ export const UserPage = () => {
           <p>{user.email}</p>
           <Divider />
           <Header size="small">Birthday</Header>
-          <p>{user.birthday}</p>
+          <p>{user.birthDay}</p>
           <Divider />
         </Container>
       </div>
