@@ -9,7 +9,7 @@ namespace LearningStarter.Controllers
     
 {
     [ApiController]
-    [Route("api/shoppingLists")]
+    [Route("api/shopping-lists")]
     public class ShoppingListsController : ControllerBase
     {
         private DataContext _dataContext;

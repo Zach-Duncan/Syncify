@@ -11,7 +11,10 @@ import { MealTypeUpdatePage } from "../pages/meal-types/update-page/meal-type-up
 import { IngredientListingPage } from "../pages/ingredients/listing-page/ingredient-listing";
 import { IngredientCreatePage } from "../pages/ingredients/create-page/ingredient-create";
 import { IngredientUpdatePage } from "../pages/ingredients/update-page/ingredient-update";
-
+import { ShoppingListListingPage } from "../pages/shopping-lists/listing-page/shopping-lists-listing";
+import { ShoppingListCreatePage } from "../pages/shopping-lists/create-page/shopping-lists-create";
+import { ShoppingListUpdatePage } from "../pages/shopping-lists/update-page/shopping-list-update";
+//import { ShoppingListUpdatePage } from "../pages/shopping-lists/update-page/shopping-list-update";
 //This is where you will declare all of your routes (the ones that show up in the search bar)
 export const routes = {
   root: `/`,
@@ -26,6 +29,11 @@ export const routes = {
     listing: '/ingredients',
     create: "/ingredients/create",
     update: "/ingredients/:id",
+  },
+  shoppingList: {
+    listing: '/shopping-lists',
+    create: "/shopping-lists/create",
+    update: "/shopping-lists/:id",
   },
 };
 
@@ -67,6 +75,15 @@ export const Routes = () => {
           </Route>
           <Route path={routes.ingredients.update} exact>
             <IngredientUpdatePage />
+          </Route>     
+          <Route path={routes.shoppingList.create} exact>
+            <ShoppingListCreatePage />
+          </Route>
+          <Route path={routes.shoppingList.listing} exact>
+            <ShoppingListListingPage />
+          </Route>
+          <Route path={routes.shoppingList.update} exact>
+            <ShoppingListUpdatePage />
           </Route>
           {/* This should always come last.  
             If the path has no match, show page not found */}
