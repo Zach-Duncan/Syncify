@@ -105,6 +105,36 @@ const DesktopNavigation = () => {
           },
         ]
       },
+      {
+      text: "Shopping List",
+        children: [
+          {
+            text: "Listing",
+            icon: "list",
+            hide: false,
+            nav: {
+              to: routes.shoppingList.listing,
+            },
+          },
+          {
+            text: "Update",
+            icon: "pencil",
+            hide: false,
+            nav: {
+              to: routes.shoppingList.update,
+            },
+          },
+          {
+            text: "Create",
+            icon: "plus",
+            hide: false,
+            nav: {
+              to: routes.shoppingList.create,
+            },
+          },
+          
+        ],
+      },
     ];
   }, []);
 
