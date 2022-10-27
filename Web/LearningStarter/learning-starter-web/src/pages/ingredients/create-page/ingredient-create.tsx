@@ -11,7 +11,6 @@ import { useHistory } from "react-router-dom";
 import { routes } from "../../../routes/config";
 import { BaseUrl } from "../../../constants/env-cars";
 import "./ingredient-create.css";
-import { IngredientUpdatePage } from "../update-page/ingredient-update";
 
 const initialValues: IngredientCreateDto = {
     name: "",

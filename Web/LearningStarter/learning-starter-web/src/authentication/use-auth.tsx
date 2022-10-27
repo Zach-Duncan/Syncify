@@ -139,8 +139,8 @@ export const mapUser = (user: any): UserGetDto => ({
   profileColorId: user.profileColorId,
   firstName: user.firstName,
   lastName: user.lastName,
-  userName: user.userName,
+  username: user.userName,
   phoneNumber: user.phoneNumber,
   email: user.email,
-  birthday: user.birthday,
+  birthDay: user.birthDay,
 });
