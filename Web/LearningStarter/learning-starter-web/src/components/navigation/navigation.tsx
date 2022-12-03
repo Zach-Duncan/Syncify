@@ -1,6 +1,7 @@
-import "./navigation.css";
+import "../LandingPageNav/landingpagenav.css";
+//import "./navigation.css";
 import React, { useMemo } from "react";
-import { NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink, NavLinkProps, useHistory } from "react-router-dom";
 import { Dropdown, Image, Menu, Icon, SemanticICONS } from "semantic-ui-react";
 import logo from "../../assets/logo.png";
 import { UserGetDto } from "../../constants/types";
@@ -39,6 +40,14 @@ const DesktopNavigation = () => {
         },
       },
       {
+        text: "Calendar",
+        icon: "calendar alternate outline",
+        hide: false,
+        nav: {
+          to: routes.calendar,
+        },
+      },
+      {
         text: "User",
         icon: "user",
         hide: false,
@@ -47,14 +56,14 @@ const DesktopNavigation = () => {
         },
       },
       {
-        text: "Meal Types",
+        text: "Users",
         children: [
           {
             text: "Listing",
             icon: "list",
             hide: false,
             nav: {
-              to: routes.mealTypes.listing,
+              to: routes.users.listing,
             },
           },
           {
@@ -62,7 +71,7 @@ const DesktopNavigation = () => {
             icon: "pencil",
             hide: false,
             nav: {
-              to: routes.mealTypes.update,
+              to: routes.users.update,
             },
           },
           {
@@ -70,58 +79,20 @@ const DesktopNavigation = () => {
             icon: "plus",
             hide: false,
             nav: {
-              to: routes.mealTypes.create,
+              to: routes.users.create,
             },
           },
-          
         ],
       },
       {
-        text: "Ingredients",
-        children: [
-          {
-            text: "List",
-            icon: "list",
-            hide: false,
-            nav: {
-            to: routes.ingredients.listing,
-            },
-          },
-          {
-            text: "Update",
-            icon: "pencil",
-            hide: false,
-            nav: {
-            to: routes.ingredients.update,
-            },
-          },
-          {
-            text: "Create",
-            icon: "plus",
-            hide: false,
-            nav: {
-            to: routes.ingredients.create,
-            },
-          },
-        ]
-      },
-      {
-      text: "Shopping List",
+        text: "To Dos",
         children: [
           {
             text: "Listing",
             icon: "list",
             hide: false,
             nav: {
-              to: routes.shoppingList.listing,
-            },
-          },
-          {
-            text: "Update",
-            icon: "pencil",
-            hide: false,
-            nav: {
-              to: routes.shoppingList.update,
+              to: routes.toDos.listing,
             },
           },
           {
@@ -129,10 +100,30 @@ const DesktopNavigation = () => {
             icon: "plus",
             hide: false,
             nav: {
-              to: routes.shoppingList.create,
+              to: routes.toDos.create,
             },
           },
-          
+        ],
+      },
+      {
+        text: "Units",
+        children: [
+          {
+            text: "Listing",
+            icon: "list",
+            hide: false,
+            nav: {
+              to: routes.units.listing,
+            },
+          },
+          {
+            text: "Create",
+            icon: "plus",
+            hide: false,
+            nav: {
+              to: routes.units.create,
+            },
+          },
         ],
       },
     ];
@@ -210,7 +201,7 @@ export const PrimaryNavigation: React.FC<PrimaryNavigationProps> = ({
           <Menu.Menu position="right">
             <Dropdown
               item
-              className="user-icon"
+              className="user-logo"
               trigger={
                 <span
                   className="user-icon-initial"

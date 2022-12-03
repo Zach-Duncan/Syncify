@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Teko&display=swap");
+
+.navbar {
+  /* background-color: transparent; */
+  font-family: "Teko", sans-serif;
+  background-color: #1e1014;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+  height: 80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* .container {
+  width: 100%;
+  height: 90px;
+  margin: 0 auto;
+  background-color: #1e1014;
+} */
+
+/*Formatting for "Hamburger" Menu button*/
+.menu-bars {
+  font-size: 34px;
+  color: #7d7b7b;
+  display: inline-block;
+  text-align: center;
+  padding: 16px;
+  list-style: none;
+  margin-left: 0;
+}
+
+.user-logo {
+  width: 100%;
+  color: #000;
+  font-family: "Teko", sans-serif;
+  font-size: 34px;
+  display: inline-block;
+  text-align: center;
+  padding: 16px;
+  list-style: none;
+  margin-left: 0;
+}
+
+.Logo {
+  max-width: 100%;
+  max-height: 100%;
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  /* color: #7d7b7b;
+  font-family: "Teko", sans-serif;
+  font-size: 34px; */
+  /*display: inline-block;*/
+  /*text-align: center;*/
+  /*padding: 20px 0px;*/
+  /*list-style: none;*/
+  /*margin-left: 0;*/
+}
+
+/*Formatting for Background of full unsectioned NavBar*/
+.nav-menu {
+  background-color: #f5eeee;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+}
+
+.nav-menu.active {
+  left: 0;
+  transition: 350ms;
+}
+
+/*Formatting for Background of NavBar Buttons Section*/
+.nav-text {
+  display: flex;
+  background-color: #f5eeee;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+}
+
+/*Formatting for NavBar Text Color*/
+.nav-text a {
+  text-decoration: none;
+  color: #000000;
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+}
+
+/*Formatting for Navbar Selections on hover*/
+.nav-text a:hover {
+  background-color: #5f758e;
+  color: #ffffff;
+  font-size: 15pt;
+}
+
+.nav-menu-items {
+  width: 100%;
+}
+
+/*Formatting for background of closing side bar*/
+.navbar-toggle {
+  background-color: #f5eeee;
+  width: 100%;
+  height: 2.8%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+span {
+  margin-left: 16px;
+}

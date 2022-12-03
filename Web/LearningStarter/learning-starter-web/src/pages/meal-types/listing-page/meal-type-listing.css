@@ -1,5 +1,9 @@
 .meal-type-listing-container {
-    display: flex;
-    padding: .1% 2%;
-    /*justify-content: space-between;*/
+  display: flex;
+  padding: 0.1% 2%;
+  /*justify-content: space-between;*/
+}
+
+.indexing {
+  z-index: -1;
 }

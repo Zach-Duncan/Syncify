@@ -1,0 +1,5 @@
+.events-delete-container {
+  display: flex;
+  padding: 0.1% 2%;
+  /*justify-content: space-between;*/
+}

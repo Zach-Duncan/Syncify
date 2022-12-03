@@ -52,7 +52,7 @@ namespace LearningStarter.Controllers
 
             if (unitToReturn == null)
             {
-                response.AddError("id", "Meal Type not found.");
+                response.AddError("id", "Unit not found.");
                 return BadRequest(response);
             }
 
@@ -162,6 +162,20 @@ namespace LearningStarter.Controllers
             _dataContext.SaveChanges();
 
             response.Data = true;
+            return Ok(response);
+        }
+
+        [HttpGet("options")]
+        public IActionResult GetOptions()
+        {
+            var response = new Response();
+
+            var units = _dataContext.Units
+                .Select(units => new OptionDto(units.Name, units.Id))
+                .ToList();
+
+            response.Data = units;
+
             return Ok(response);
         }
     }

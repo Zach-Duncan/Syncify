@@ -50,7 +50,7 @@ namespace LearningStarter.Controllers
                         PhoneNumber = groupMember.User.PhoneNumber,
                         Email = groupMember.User.Email,
                         Username = groupMember.User.Username,
-                        BirthDay = groupMember.User.BirthDay
+                        Birthday = groupMember.User.Birthday
                     },
                     GroupId = groupMember.GroupId,
                     Group = new GroupGetDto
@@ -97,7 +97,7 @@ namespace LearningStarter.Controllers
                         PhoneNumber = groupMember.User.PhoneNumber,
                         Email = groupMember.User.Email,
                         Username = groupMember.User.Username,
-                        BirthDay = groupMember.User.BirthDay
+                        Birthday = groupMember.User.Birthday
                     },
                     GroupId = groupMember.GroupId,
                     Group = new GroupGetDto
@@ -176,7 +176,7 @@ namespace LearningStarter.Controllers
                     PhoneNumber = groupMember.User.PhoneNumber,
                     Email = groupMember.User.Email,
                     Username = groupMember.User.Username,
-                    BirthDay = groupMember.User.BirthDay
+                    Birthday = groupMember.User.Birthday
                 },
                 MemberRoleId = groupMember.MemberRoleId,
                 MemberRole = new MemberRoleGetDto
@@ -246,7 +246,7 @@ namespace LearningStarter.Controllers
                     PhoneNumber = groupMember.User.PhoneNumber,
                     Email = groupMember.User.Email,
                     Username = groupMember.User.Username,
-                    BirthDay = groupMember.User.BirthDay
+                    Birthday = groupMember.User.Birthday
                 },
                 MemberRoleId = groupMember.MemberRoleId,
                 MemberRole = new MemberRoleGetDto

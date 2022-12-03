@@ -41,7 +41,7 @@ namespace LearningStarter.Controllers
                     Username = users.Username,
                     PhoneNumber = users.PhoneNumber,
                     Email = users.Email,
-                    BirthDay = users.BirthDay,
+                    Birthday = users.Birthday,
 
                 })
                 .ToList();
@@ -80,7 +80,7 @@ namespace LearningStarter.Controllers
                 Username = users.Username,
                 PhoneNumber = users.PhoneNumber,
                 Email = users.Email,
-                BirthDay = users.BirthDay
+                Birthday = users.Birthday
 
             };          
             response.Data = userGetDto;
@@ -139,7 +139,7 @@ namespace LearningStarter.Controllers
                 LastName = userCreateDto.LastName,
                 Username = userCreateDto.Username,
                 Password = userCreateDto.Password,
-                BirthDay = userCreateDto.BirthDay,
+                Birthday = userCreateDto.Birthday,
                 Email = userCreateDto.Email,
                 PhoneNumber = userCreateDto.PhoneNumber,
             };
@@ -166,7 +166,7 @@ namespace LearningStarter.Controllers
                 Username = userToCreate.Username,
                 Email = userToCreate.Email,
                 PhoneNumber = userToCreate.PhoneNumber,
-                BirthDay = userToCreate.BirthDay
+                Birthday = userToCreate.Birthday
 
             };
 
@@ -241,7 +241,6 @@ namespace LearningStarter.Controllers
             userToUpdate.FirstName = userUpdateDto.FirstName;
             userToUpdate.LastName = userUpdateDto.LastName;
             userToUpdate.Username = userUpdateDto.Username;
-            userToUpdate.Password = userUpdateDto.Password;
             userToUpdate.PhoneNumber = userUpdateDto.PhoneNumber;
             userToUpdate.Email = userUpdateDto.Email;
 
@@ -266,7 +265,7 @@ namespace LearningStarter.Controllers
                 Username = user.Username,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
-                BirthDay = user.BirthDay
+                Birthday = user.Birthday
 
             };
 

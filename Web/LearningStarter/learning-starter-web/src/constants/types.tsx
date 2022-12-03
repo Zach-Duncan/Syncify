@@ -25,48 +25,50 @@ export type ProfileColorGetDto = {
 
 export type UserGetDto = {
   id: number;
-  profileColorId: ProfileColorGetDto;
+  profileColor: ProfileColorGetDto;
   firstName: string;
   lastName: string;
   username: string;
   phoneNumber: string;
   email: string;
-  birthDay: string;
+  birthday: string;
 };
 
 export type UserCreateDto = {
-  profileColorId: ProfileColorGetDto;
+  profileColorId: number;
   firstName: string;
   lastName: string;
   username: string;
+  password: string;
   phoneNumber: string;
   email: string;
-  birthDay: string;
+  birthday: string;
 };
 
 export type UserUpdateDto = {
-  profileColorId: ProfileColorGetDto;
+  profileColorId: number;
   firstName: string;
   lastName: string;
   username: string;
+  password: string;
   phoneNumber: string;
   email: string;
 };
 
 export type GroupGetDto = {
   id: number;
-  groupName: string;
-  groupImage: string;
+  name: string;
+  image: string;
 };
 
 export type GroupCreateDto = {
-  groupName: string;
-  groupImage: string;
+  name: string;
+  image: string;
 };
 
 export type GroupUpdateDto = {
-  groupName: string;
-  groupImage: string;
+  name: string;
+  image: string;
 };
 
 export type MemberRoleGetDto = {
@@ -84,78 +86,84 @@ export type MemberRoleUpdateDto = {
 
 export type GroupMemberGetDto = {
   id: number;
-  memberRoleId: MemberRoleGetDto;
-  userId: UserGetDto;
-  groupId: GroupGetDto;
+  memberRole: MemberRoleGetDto;
+  user: UserGetDto;
+  group: GroupGetDto;
 };
 
 export type GroupMemberCreateDto = {
-  memberRoleId: MemberRoleGetDto;
-  userId: UserGetDto;
-  groupId: GroupGetDto;
+  memberRoleId: number;
+  userId: number;
+  groupId: number;
 };
 
 export type GroupMemberUpdateDto = {
-  memberRoleId: MemberRoleGetDto;
-  userId: UserGetDto;
-  groupId: GroupGetDto;
+  memberRoleId: number;
+  userId: number;
+  groupId: number;
 };
 
 export type CalendarGetDto = {
   id: number;
-  groupId: GroupGetDto;
+  group: GroupGetDto;
 };
 
 export type CalendarCreateDto = {
-  groupId: GroupGetDto;
+  groupId: number;
 };
 
 export type CalendarUpdateDto = {
-  groupId: GroupGetDto;
+  groupId: number;
 };
 
 export type ToDoGetDto = {
   id: number;
-  calendarId: number;
+  calendar: CalendarGetDto;
   title: string;
   description: string;
-  date: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export type ToDoCreateDto = {
   calendarId: number;
   title: string;
   description: string;
-  date: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export type ToDoUpdateDto = {
-  calendarId: number;
+  calendar: CalendarGetDto;
   title: string;
   description: string;
-  date: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export type EventGetDto = {
   id: number;
-  calendarId: number;
+  calendar: CalendarGetDto;
   name: string;
   eventDetails: string;
-  createdDate: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export type EventCreateDto = {
   calendarId: number;
   name: string;
   eventDetails: string;
-  createdDate: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export type EventUpdateDto = {
-  calendarId: number;
+  calendar: CalendarGetDto;
   name: string;
   eventDetails: string;
-  createdDate: Date;
+  startDate: Date;
+  endDate: Date;
 };
 
 export type MealTypeGetDto = {
@@ -209,78 +217,82 @@ export type RecipeGetDto = {
   image: string;
   servings: number;
   directions: string;
-  mealTypeId: MealTypeGetDto;
-  calendarId: CalendarGetDto;
+  mealType: MealTypeGetDto;
+  calendar: CalendarGetDto;
 };
 
 export type RecipeCreateDto = {
   name: string;
   image: string;
   servings: number;
-  directions: string;  
-  mealTypeId: MealTypeGetDto;
-  calendarId: CalendarGetDto;
+  directions: string;
+  mealTypeId: number;
+  calendarId: number;
 };
 
 export type RecipeUpdateDto = {
   name: string;
   image: string;
   servings: number;
-  directions: string;  
-  mealTypeId: MealTypeGetDto;
-  calendarId: CalendarGetDto;
+  directions: string;
+  mealType: MealTypeGetDto;
+  calendar: CalendarGetDto;
 };
 
 export type RecipeIngredientGetDto = {
   id: number;
-  recipeId: RecipeGetDto;
-  ingredientId: IngredientGetDto;
+  recipe: RecipeGetDto;
+  ingredient: IngredientGetDto;
   quantity: number;
-  unitId: UnitGetDto;
+  unit: UnitGetDto;
 };
 
 export type RecipeIngredientCreateDto = {
-  recipeId: RecipeGetDto;
-  ingredientId: IngredientGetDto;
+  recipeId: number;
+  ingredientId: number;
   quantity: number;
-  unitId: UnitGetDto;
+  unitId: number;
 };
 
 export type RecipeIngredientUpdateDto = {
-  recipeId: RecipeGetDto;
-  ingredientId: IngredientGetDto;
+  recipe: RecipeGetDto;
+  ingredient: IngredientGetDto;
   quantity: number;
-  unitId: UnitGetDto;
+  unit: UnitGetDto;
 };
 
 export type ShoppingListRecipeIngredientGetDto = {
-  recipeIngredientId: RecipeIngredientGetDto;
-  shoppingListId: ShoppingListGetDto;
+  recipeIngredient: RecipeGetDto;
+  shoppingList: ShoppingListGetDto;
   quantity: number;
 };
 
 export type ShoppingListRecipeIngredientCreateDto = {
-  recipeIngredientId: RecipeIngredientGetDto;
-  shoppingListId: ShoppingListGetDto;
+  recipeIngredientId: number;
+  shoppingListId: number;
   quantity: number;
 };
 
 export type ShoppingListRecipeIngredientUpdateDto = {
-  recipeIngredientId: RecipeIngredientGetDto;
-  shoppingListId: ShoppingListGetDto;
+  recipeIngredient: RecipeGetDto;
+  shoppingList: ShoppingListGetDto;
   quantity: number;
 };
 
 export type ShoppingListGetDto = {
-  id: number;   
-  name: string; 
-}; 
-
-export type ShoppingListCreateDto = {   
-  name:string; 
-}; 
-
-export type ShoppingListUpdateDto = {   
-  name: string; 
+  id: number;
+  name: string;
 };
 
+export type ShoppingListCreateDto = {
+  name: string;
+};
+
+export type ShoppingListUpdateDto = {
+  name: string;
+};
+
+export type OptionDto = {
+  text: string;
+  value: number;
+};

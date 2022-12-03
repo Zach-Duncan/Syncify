@@ -3,9 +3,7 @@ using LearningStarter.Data;
 using LearningStarter.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace LearningStarter.Controllers
 {
@@ -43,7 +41,8 @@ namespace LearningStarter.Controllers
                     },
                     Name = events.Name,
                     EventDetails = events.EventDetails,
-                    CreatedDate = events.CreatedDate,
+                    StartDate = events.StartDate,
+                    EndDate = events.EndDate,
                 })
                 .ToList();
 
@@ -75,7 +74,8 @@ namespace LearningStarter.Controllers
                     },
                     Name = events.Name,
                     EventDetails = events.EventDetails,
-                    CreatedDate = events.CreatedDate,
+                    StartDate = events.StartDate,
+                    EndDate = events.EndDate,
                 })
                 .FirstOrDefault(events => events.Id == id);
 
@@ -120,7 +120,8 @@ namespace LearningStarter.Controllers
                 CalendarId = eventCreateDto.CalendarId,
                 Name = eventCreateDto.Name,
                 EventDetails = eventCreateDto.EventDetails,
-                CreatedDate = eventCreateDto.CreatedDate
+                StartDate = eventCreateDto.StartDate,
+                EndDate = eventCreateDto.EndDate,
             };
 
             _dataContext.Events.Add(eventToCreate);
@@ -133,27 +134,28 @@ namespace LearningStarter.Controllers
                 .FirstOrDefault(x => x.Id == eventToCreate.Id);
 
             var eventToReturn = new EventGetDto
+            {
+                Id = events.Id,
+                CalendarId = events.CalendarId,
+                Calendar = new CalendarGetDto
                 {
-                    Id = events.Id,
-                    CalendarId = events.CalendarId,
-                    Calendar = new CalendarGetDto
+                    Id = events.CalendarId,
+                    GroupId = events.Calendar.GroupId,
+                    Group = new GroupGetDto
                     {
-                        Id = events.CalendarId,
-                        GroupId = events.Calendar.GroupId,
-                        Group = new GroupGetDto
-                        {
-                            Id = events.Calendar.GroupId,
-                            Name = events.Calendar.Group.Name,
-                            Image = events.Calendar.Group.Image,
-                        }
-                    },
-                    Name = events.Name,
-                    EventDetails = events.EventDetails,
-                    CreatedDate = events.CreatedDate
-                };
+                        Id = events.Calendar.GroupId,
+                        Name = events.Calendar.Group.Name,
+                        Image = events.Calendar.Group.Image,
+                    }
+                },
+                Name = events.Name,
+                EventDetails = events.EventDetails,
+                StartDate = events.StartDate,
+                EndDate = events.EndDate,
+            };
 
             response.Data = eventToReturn;
-            return Created("", response);    
+            return Created("", response);
         }
 
         [HttpPut("{id}")]
@@ -170,7 +172,7 @@ namespace LearningStarter.Controllers
 
             if (eventToUpdate == null)
             {
-                response.AddError("id", "Task not found.");                
+                response.AddError("id", "Task not found.");
             }
 
             if (!_dataContext.Calendars.Any(calendars => calendars.Id == eventUpdateDto.CalendarId))
@@ -197,7 +199,8 @@ namespace LearningStarter.Controllers
             eventToUpdate.CalendarId = eventUpdateDto.CalendarId;
             eventToUpdate.Name = eventUpdateDto.Name;
             eventToUpdate.EventDetails = eventUpdateDto.EventDetails;
-            eventToUpdate.CreatedDate = eventUpdateDto.CreatedDate;
+            eventToUpdate.StartDate = eventUpdateDto.StartDate;
+            eventToUpdate.EndDate = eventUpdateDto.EndDate;
 
             _dataContext.SaveChanges();
 
@@ -224,7 +227,8 @@ namespace LearningStarter.Controllers
                 },
                 Name = events.Name,
                 EventDetails = events.EventDetails,
-                CreatedDate = events.CreatedDate
+                StartDate = events.StartDate,
+                EndDate = events.EndDate,
             };
 
             response.Data = eventToReturn;

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
 namespace LearningStarter.Controllers
@@ -193,7 +194,21 @@ namespace LearningStarter.Controllers
             return Ok(response);
         }
 
+        [HttpGet("options")]
+        public IActionResult GetOptions()
+        {
+            var response = new Response();
+
+            var calendar = _dataContext.Calendars
+                .Select(calendar => new OptionDto(calendar.Group.Name, calendar.Id))
+                .ToList();
+
+            response.Data = calendar;
+
+            return Ok(response);
+        }
+
     }
-    }
+}
     
 

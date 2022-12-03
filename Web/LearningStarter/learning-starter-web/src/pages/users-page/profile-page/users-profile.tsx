@@ -1,17 +1,21 @@
 import React from "react";
-import { useUser } from "../../authentication/use-auth";
+import { useUser } from "../../../authentication/use-auth";
 import { Header, Container, Divider } from "semantic-ui-react";
-import "./user-page.css";
+import "./users-profle.css";
 
-export const UserPage = () => {
+export const UsersProfilePage = () => {
   const user = useUser();
+  const color = user.profileColor.colors;
   return (
-    <div className="user-page-container">
-      <div>
-        <Header>User Information</Header>
+    <div>
+      <div color={color}>
         <Container textAlign="left">
+          <Container textAlign="center">
+            <Header size="huge">User Information</Header>
+          </Container>
+
           <Header size="small">Profile Color Name</Header>
-          <p>{user.profileColorId}</p>
+          <p>{user.profileColor.colors}</p>
           <Divider />
           <Header size="small">First Name</Header>
           <p>{user.firstName}</p>
@@ -29,7 +33,7 @@ export const UserPage = () => {
           <p>{user.email}</p>
           <Divider />
           <Header size="small">Birthday</Header>
-          <p>{user.birthDay}</p>
+          <p>{user.birthday}</p>
           <Divider />
         </Container>
       </div>

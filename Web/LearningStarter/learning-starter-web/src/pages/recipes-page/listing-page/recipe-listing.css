@@ -1,0 +1,13 @@
+.recipe-listing-container {
+  display: flex;
+  padding: 0.1% 2%;
+  /*justify-content: space-between;*/
+}
+
+.indexing {
+  z-index: -1;
+}
+
+.transparency {
+  opacity: 0.9;
+}

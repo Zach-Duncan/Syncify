@@ -143,6 +143,21 @@ namespace LearningStarter.Controllers
             response.Data = true;
             return Ok(response);
         }
+
+
+        [HttpGet("options")]
+        public IActionResult GetOptions()
+        {
+            var response = new Response();
+
+            var mealTypes = _dataContext.MealTypes
+                .Select(mealTypes => new OptionDto(mealTypes.Name, mealTypes.Id))
+                .ToList();
+
+            response.Data = mealTypes;
+
+            return Ok(response);
+        }
     }
 
 }

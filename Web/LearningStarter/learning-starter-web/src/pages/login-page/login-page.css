@@ -7,11 +7,25 @@
 
 .login-form {
   margin-top: 10px;
-  
 }
 
 .button-container-login-page {
   margin-top: 5px;
   display: flex;
   justify-content: center;
+}
+
+.btn-login-color {
+  color: #0080ff;
+}
+
+.btn-register-color {
+  color: #00ffbf;
+}
+
+.center {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+  width: 35%;
 }

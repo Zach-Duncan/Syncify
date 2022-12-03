@@ -11,10 +11,11 @@ namespace LearningStarter.Entities
         public string Image { get; set; }
         public int Servings { get; set; }
         public string Directions { get; set; }
-        public MealType MealType { get; set; }
         public int MealTypeId { get; set; }
-        public Calendar Calendar { get; set; }
+        public MealType MealType { get; set; }
         public int CalendarId { get; set; }
+        public Calendar Calendar { get; set; }
+        
         public List<RecipeIngredient> RecipeIngredients { get; set; } = new List<RecipeIngredient>();
     }
 

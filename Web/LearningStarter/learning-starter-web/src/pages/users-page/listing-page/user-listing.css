@@ -1,0 +1,9 @@
+.user-listing-container {
+  display: flex;
+
+  /*justify-content: space-between;*/
+}
+
+.indexing {
+  z-index: -1;
+}

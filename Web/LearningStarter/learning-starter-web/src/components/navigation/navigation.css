@@ -21,7 +21,7 @@
 }
 
 .top-navigation.ui.secondary.menu .ui.secondary.menu.desktop-navigation {
-  border-bottom-color: #fff !important;
+  border-bottom-color: #b4c5ce !important;
 }
 
 .top-navigation.ui.secondary.menu .ui.secondary.menu.desktop-navigation .item {
@@ -132,6 +132,7 @@
 
 .user-icon-initial {
   display: block;
+  color: #7d7b7b;
   text-align: center;
   padding-left: 1px;
   font-size: 1.5rem;

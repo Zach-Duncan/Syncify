@@ -55,6 +55,22 @@ namespace LearningStarter.Controllers
             response.Data = ProfileColorToReturn;
             return Ok(response);
         }
+
+        [HttpGet("options")]
+        public IActionResult GetOptions()
+        {
+            var response = new Response();
+
+            var profileColors = _dataContext.ProfileColors
+                .Select(profileColor => new OptionDto(profileColor.Colors, profileColor.Id))
+                .ToList();
+
+            response.Data = profileColors;
+
+            return Ok(response);
+        }
+
+
     //    [HttpPut("{id:int}")]
     //    public IActionResult
     //Update([FromRoute] int id,

@@ -9,7 +9,8 @@ namespace LearningStarter.Entities
         public Calendar Calendar { get; set; }
         public string Name { get; set; }
         public string EventDetails { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
     }
     public class EventGetDto
@@ -19,7 +20,8 @@ namespace LearningStarter.Entities
         public CalendarGetDto Calendar { get; set; }
         public string Name { get; set; }
         public string EventDetails { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class EventCreateDto
     {
@@ -27,7 +29,8 @@ namespace LearningStarter.Entities
         public CalendarCreateDto Calendar { get; set; }
         public string Name { get; set; }
         public string EventDetails { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class EventUpdateDto
     {
@@ -35,7 +38,8 @@ namespace LearningStarter.Entities
         public CalendarUpdateDto Calendar { get; set; }
         public string Name { get; set; }
         public string EventDetails { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
 

@@ -10,7 +10,8 @@ namespace LearningStarter.Entities
         public Calendar Calendar { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset Date { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class ToDoGetDto
     {
@@ -19,7 +20,8 @@ namespace LearningStarter.Entities
         public CalendarGetDto Calendar { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset Date { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class ToDoCreateDto
     {
@@ -27,8 +29,8 @@ namespace LearningStarter.Entities
         public CalendarCreateDto Calendar { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset Date { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class ToDoUpdateDto
     {
@@ -36,9 +38,9 @@ namespace LearningStarter.Entities
         public CalendarUpdateDto Calendar { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
-    
     }
 
     public class ToDoDelete 
@@ -47,7 +49,8 @@ namespace LearningStarter.Entities
         public CalendarUpdateDto calendar { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
 }

@@ -146,5 +146,19 @@ namespace LearningStarter.Controllers
             response.Data = true;
             return Ok(response);
         }
+
+        [HttpGet("options")]
+        public IActionResult GetOptions()
+        {
+            var response = new Response();
+
+            var memberRoles = _dataContext.MemberRoles
+                .Select(memberRole => new OptionDto(memberRole.Name, memberRole.Id))
+                .ToList();
+
+            response.Data = memberRoles;
+
+            return Ok(response);
+        }
     }   
 }

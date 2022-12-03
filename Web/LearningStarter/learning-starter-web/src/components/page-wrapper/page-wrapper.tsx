@@ -1,18 +1,19 @@
 import "./page-wrapper.css";
 import React from "react";
-import { User } from "../../constants/types";
-import { PrimaryNavigation } from "../navigation/navigation";
+import { UserGetDto } from "../../constants/types";
+import { PrimaryNavigation } from "../../components/buttons/navigation-buttons";
 
 type PageWrapperProps = {
-  user?: User;
+  user?: UserGetDto;
 };
 
 //This is the wrapper that surrounds every page in the app.  Changes made here will be reflect all over.
+
 export const PageWrapper: React.FC<PageWrapperProps> = ({ user, children }) => {
   return (
-    <div className="content">
+    <div>
       <PrimaryNavigation user={user} />
-      <div className="main-content">{children}</div>
+      <div>{children}</div>
     </div>
   );
 };

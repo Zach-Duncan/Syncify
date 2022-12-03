@@ -41,7 +41,8 @@ namespace LearningStarter.Controllers
                     },
                     Title = toDos.Title,
                     Description = toDos.Description,
-                    Date = toDos.Date,
+                    StartDate = toDos.StartDate,
+                    EndDate = toDos.EndDate,
                 })
                 .ToList();
 
@@ -116,7 +117,8 @@ namespace LearningStarter.Controllers
                 CalendarId = toDoCreateDto.CalendarId, 
                 Title = toDoCreateDto.Title,
                 Description = toDoCreateDto.Description,
-                Date = toDoCreateDto.Date,
+                StartDate = toDoCreateDto.StartDate,
+                EndDate = toDoCreateDto.EndDate,
             };
 
             _dataContext.ToDos.Add(toDoToAdd);
@@ -145,13 +147,13 @@ namespace LearningStarter.Controllers
                 },
                 Title = toDo.Title,
                 Description = toDo.Description,
-                Date = toDo.Date
+                StartDate = toDo.StartDate,
+                EndDate = toDo.EndDate,
             };
 
             //returns 201 Code, which means created
             response.Data = toDoToReturn;
-            return Created("api/to-dos/" + toDoToAdd.Id,
-                toDoToReturn);
+            return Created("", response);
         }
 
         [HttpPut("{id}")]
@@ -194,7 +196,8 @@ namespace LearningStarter.Controllers
             toDoToUpdate.CalendarId = toDoUpdateDto.CalendarId;
             toDoToUpdate.Title = toDoUpdateDto.Title;
             toDoToUpdate.Description = toDoUpdateDto.Description;
-            toDoToUpdate.Date = toDoUpdateDto.CreatedDate;
+            toDoToUpdate.StartDate = toDoUpdateDto.StartDate;
+            toDoToUpdate.EndDate = toDoUpdateDto.EndDate;
 
             _dataContext.SaveChanges();
 
@@ -221,7 +224,8 @@ namespace LearningStarter.Controllers
                 },
                 Title = toDo.Title,
                 Description = toDo.Description,
-                Date = toDo.Date
+                StartDate = toDo.StartDate,
+                EndDate = toDo.EndDate,
             };
 
             response.Data = toDoToReturn;

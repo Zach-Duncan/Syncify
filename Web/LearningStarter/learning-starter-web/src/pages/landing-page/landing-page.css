@@ -1,5 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@1,700&family=Rajdhani&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap");
+
 .home-page-container {
   display: flex;
   justify-content: center;
-  
+  padding: 0.1% 2%;
+}
+.background-color {
+  background: #ece9e6; /* fallback for old browsers */
+  /* background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  Chrome 10-25, Safari 5.1-6
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  z-index: 1;
+  background-position: initial;
+  background-size: 100% 100%;
+}
+.header-title-logo {
+  font-family: "Teko", sans-serif;
+  text-align: center;
+  opacity: 1;
+  -webkit-text-fill-color: #172121;
+  text-shadow: 2px 2px whitesmoke;
+  font-size: 50px;
+}
+.header-title-name {
+  font-family: "Lobster", cursive;
+  opacity: 0.9;
+  -webkit-text-fill-color: #172121;
+  text-shadow: 2px 2px whitesmoke;
+  text-align: center;
+  font-size: 28px;
+}
+.btn-group {
+  color: rgb(255, 255, 255); /* White text */
+  cursor: pointer; /* Pointer/hand icon */
+  border: px 2 px 2 #172121;
+  padding-left: 25px;
+  padding-bottom: 15px;
+  padding-top: 35px;
+  text-align: center;
+}
+.calendar-component {
+  padding-top: 30px;
 }

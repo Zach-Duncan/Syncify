@@ -1,0 +1,4 @@
+.events-listing-container {
+  display: flex;
+  /*justify-content: space-between;*/
+}

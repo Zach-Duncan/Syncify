@@ -1,0 +1,5 @@
+.member-role-create-container {
+    display: flex;
+    padding: .1% 2%;
+    /*justify-content: space-between;*/
+}
